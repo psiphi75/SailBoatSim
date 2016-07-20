@@ -26,9 +26,18 @@
 /*
  * Load the Webserver for the controller and serve static pages
  */
+console.log();
 require('studious-octo-guide/controller-www/WebServer');
-require('studious-octo-guide/proxy/runProxy');
-
+var wrc = require('web-remote-control');
+wrc.createProxy({
+    udp4: true,
+    tcp: true,
+    socketio: true,
+    onlyOneControllerPerChannel: true,
+    onlyOneToyPerChannel: true,
+    allowObservers: true,
+    log: function() {}
+});
 
 /*
  * Load the viewer (which loads CesiumJS)
@@ -38,4 +47,5 @@ require('./runViewer');
 /*
  * Finally run the simulation
  */
+console.log('\n\nRunning simulation:');
 require('./runSimulation');

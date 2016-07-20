@@ -24,7 +24,7 @@
     "cesium": "^1.23.0",
     "mt-latlon": "^0.1.0",
     "node-static": "^0.7.7",
-    "studious-octo-guide": "git://github.com/psiphi75/studious-octo-guide#0b16fca",
+    "studious-octo-guide": "git://github.com/psiphi75/studious-octo-guide",
     "web-remote-control": "^1.8.0"
   }
 }

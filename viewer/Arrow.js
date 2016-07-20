@@ -1,8 +1,8 @@
 /* global Model Cesium */
 
-function Arrow(name) {
+function Arrow(name, colour) {
     'use strict';
-    this.MODEL = 'models/windvane.gltf';
+    this.model = `models/arrow-${colour}.gltf`;
     this.name = name;
 }
 
@@ -20,7 +20,7 @@ Arrow.prototype.render = function (status) {
 
     if (!this.model) {
         // Called only once.
-        this.model = new Model(this.name, this.MODEL, posOrient, false, {
+        this.model = new Model(this.name, this.model, posOrient, false, {
             minimumPixelSize: 100,
             maximumScale: 1000,
             scale: 0.33

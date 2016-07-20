@@ -8,7 +8,7 @@ var toy = wrc.createToy({
     tcp: false,
     socketio: false,
     channel: 'Simulation',
-    // log: function() {}
+    log: function() {}
 });
 toy.on('command', function handleCommand(command) {
     if (command.action === 'move') {

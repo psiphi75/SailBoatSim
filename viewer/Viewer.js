@@ -14,17 +14,17 @@ $( document ).ready(function() {
     //
     // Ask user what they want to do. FIXME: Bad hack
     //
-    var source;
-    do {
-        var question = 'What source data do you want to use:\n';
-        question += '  1) Actual: Load from disk\n';
-        question += '  2) Actual/Simulation: Live via URL\n';
-        var defaultOption = '2';
-        source = parseInt(window.prompt(question, defaultOption));   // eslint-disable-line no-alert
-    } while (!(source >= 1 && source <= 2));
+    var source = 2;
+    // do {
+    //     var question = 'What source data do you want to use:\n';
+    //     question += '  1) Actual: Load from disk\n';
+    //     question += '  2) Actual/Simulation: Live via URL\n';
+    //     var defaultOption = '2';
+    //     source = parseInt(window.prompt(question, defaultOption));   // eslint-disable-line no-alert
+    // } while (!(source >= 1 && source <= 2));
 
-    var windvane = new Arrow('Windvane');
-    var apparentWind = new Arrow('ApparentWind');
+    var windvane = new Arrow('Windvane', 'blue');
+    var apparentWind = new Arrow('ApparentWind', 'red');
     var boat = new Boat(source, REALTIME_URL, function() {
         startCesium(boat, windvane, apparentWind);
     });

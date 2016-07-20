@@ -55,4 +55,4 @@ require('http').createServer(function (request, response) {
         }
     }).resume();
 }).listen(PORT);
-console.log(`Viewer loaded at http://localhost:${PORT}`);
+console.log(`Point your desktop web browser to http://localhost:${PORT}`);

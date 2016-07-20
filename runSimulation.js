@@ -38,7 +38,7 @@ var time = {
     now: new Date().getTime()   // The current time
 };
 
-console.log('Boat\t\t\t\t\t\t\t\t\t\tEnvironment');
+console.log('Boat\t\t\t\t\t\t\t\t\tEnvironment');
 console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
 function doCalcs() {
     var envValues = env.update(time);
