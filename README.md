@@ -26,7 +26,19 @@ Now you should see a two links, one link is for your mobile phone, this can be u
 sailboat.  The other is for the visualisation, you should see a very basic virtual sailboat sailing around in a
 3d environment (this uses [CesiumJS](http://cesiumjs.org/)).
 
-On the mobile phone you must enter the "Simulation" as the channel, tap "Go". 
+On the mobile phone you must enter the "Simulation" as the channel, tap "Go".
+
+## Writing your own AI
+
+
+
+```Text
+{
+    action: 'move',
+    servoSail: [Number: -1.0 to 1.0],
+    servoRudder: [Number: -1.0 to 1.0] -- not currently enabled
+}
+```
 
 ## Reading Material
 

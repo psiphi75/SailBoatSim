@@ -23,29 +23,39 @@
 
 'use strict';
 
-var Player = require('./Player');
-var LatLon = require('mt-latlon');
-var Simulation = new require('./Simulation');
-var sim = new Simulation(100, true, write);
+/**
+ * This will run a static webserver for the controller, and start the web-remote-control proxy.
+ */
 
-sim.addPlayer(new Player('RadioControl'));
+const CONTROLLER_WWW_PORT = 8888;
 
-console.log('Player 1\t\t\t\t\t\t\t\t\tEnvironment');
-console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
+var wrc = require('web-remote-control');
+wrc.createProxy({
+    udp4: true,
+    tcp: true,
+    socketio: true,
+    onlyOneControllerPerChannel: true,
+    onlyOneToyPerChannel: true,
+    allowObservers: true,
+    log: function() {}
+});
 
-sim.run(write);
+const options = {
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+};
 
-function write(players, env) {
-    var boat1 = players[0].boat;
-    var b = boat1.getActualValues();
-    var position = new LatLon(b.gps.latitude, b.gps.longitude);
-    process.stdout.write(b.servos.rudder.toFixed(1) + '\t'
-                         + b.attitude.roll.toFixed(1) + '\t'
-                         + b.velocity.speed.toFixed(1) + '\t'
-                         + b.attitude.heading.toFixed(1) + '\t'
-                         + position.lat('dms', 2) + '\t'
-                         + position.lon('dms', 2) + '\t'
-                         + '\t'
-                         + env.wind.speed.toFixed(2) + '\t'
-                         + env.wind.heading.toFixed(2) + '  \r');
-}
+var staticServer = require('node-static');
+var wwwControllerFiles = new staticServer.Server('./node_modules/studious-octo-guide/controller-www/public/', options);
+
+require('http').createServer(function (request, response) {
+    request.addListener('end', function () {
+        wwwControllerFiles.serve(request, response);
+    }).resume();
+}).listen(CONTROLLER_WWW_PORT);
+
+// TODO:  This prints out "Point your mobile phone to http://[IP THIS COMPUTER]:8888" - we should lookup the IP address, but there may be a few.
+console.log(`\nPoint your mobile phone to http://[IP THIS COMPUTER]:${CONTROLLER_WWW_PORT}`);

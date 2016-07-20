@@ -59,16 +59,9 @@ const DEFAULT_PROPERTIES = {
 
 };
 
-function Boat(player, initialConditions) {
-    this.player = player;
-
+function Boat(initialConditions) {
 
     initialConditions = initialConditions || {};
-
-    if (player.init && player.init.position) {
-        initialConditions.latitude = player.init.position.latitude;
-        initialConditions.longitude = player.init.position.longitude;
-    }
 
     this.roll = util.defaultFor(initialConditions.roll, DEFAULT_PROPERTIES.roll);
     this.pitch = util.defaultFor(initialConditions.pitch, DEFAULT_PROPERTIES.pitch);
@@ -99,9 +92,9 @@ Boat.prototype.simulate = function(time, env) {
     //
     // Do physics calculations
     //
-    var newRoll = boatSimFuncs.applyRoll(time, env, boatValues, this.apparentWind);
-    var newSpeed = boatSimFuncs.applySpeed(time, env, boatValues, this.apparentWind);
-    var headingChange = boatSimFuncs.applyHeadingChange(time, env, boatValues, this.apparentWind);
+    var newRoll = boatSimFuncs.applyRoll(time, env, boatValues);
+    var newSpeed = boatSimFuncs.applySpeed(time, env, boatValues);
+    var headingChange = boatSimFuncs.applyHeadingChange(time, env, boatValues);
     var newHeading = util.wrapDegrees(this.heading + headingChange);
     var drift = {
         heading: -this.apparentWind.heading,
@@ -111,7 +104,7 @@ Boat.prototype.simulate = function(time, env) {
     //
     // Apply the calculations to the boat attitude and position
     //
-    var newPosition = boatUtil.calcNextPosition(boatValues.latitude, boatValues.longitude, newSpeed, newHeading, drift, time);
+    var newPosition = boatUtil.calcNextPosition(boatValues.gps.latitude, boatValues.gps.longitude, newSpeed, newHeading, drift, time);
 
     this.roll = newRoll;
     this.speed = newSpeed;
@@ -122,16 +115,29 @@ Boat.prototype.simulate = function(time, env) {
 
 
 Boat.prototype.getActualValues = function() {
+
     return {
-        rudder: this.rudder,
-        sail: this.sail,
-        roll: this.roll,
-        pitch: this.pitch,
-        heading: this.heading,
-        latitude: this.latitude,
-        longitude: this.longitude,
-        speed: this.speed,
-        direction: this.direction,
+        attitude: {
+            roll: this.roll,
+            pitch: this.pitch,
+            heading: this.heading
+        },
+        gps: {
+            latitude: this.latitude,
+            longitude: this.longitude,
+        },
+        velocity: {
+            speed: this.speed,
+            direction: this.direction,
+        },
+        apparentWind: {
+            speed: this.apparentWind.speed,
+            heading: this.apparentWind.heading
+        },
+        servos: {
+            rudder: this.rudder,
+            sail: this.sail
+        }
     };
 };
 
@@ -168,13 +174,28 @@ Boat.prototype.getValues = function() {
     }
 };
 
-Boat.prototype.runAI = function(env) {
-    var boatValuesForAI = this.getValues();
-    var waypoints = [];
-    // FIXME: This needs to be more robust, the AI could return any value
-    var servos = this.player.ai(boatValuesForAI, env, waypoints);
-    this.rudder = servos.rudder;
-    this.sail = servos.sail;
+Boat.prototype.setRudder = function(val) {
+    if (!util.isNumeric(val)) {
+        console.error(`Boat.setRudder(): Value is not a number.  Val=${val}`);
+        return;
+    }
+    if (val < -1 && val > 1) {
+        console.error(`Boat.setRudder(): Value must be between -1.0 and 1.0.  Val=${val}`);
+        return;
+    }
+    this.rudder = val;
+};
+
+Boat.prototype.setSail = function(val) {
+    if (!util.isNumeric(val)) {
+        console.error(`Boat.setRudder(): Value is not a number.  Val=${val}`);
+        return;
+    }
+    if (val < -1 && val > 1) {
+        console.error(`Boat.setRudder(): Value must be between -1.0 and 1.0.  Val=${val}`);
+        return;
+    }
+    this.sail = val;
 };
 
 module.exports = Boat;

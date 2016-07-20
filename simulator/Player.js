@@ -23,29 +23,44 @@
 
 'use strict';
 
-var Player = require('./Player');
-var LatLon = require('mt-latlon');
-var Simulation = new require('./Simulation');
-var sim = new Simulation(100, true, write);
+var Boat = require('./Boat');
+var util = require('../lib/util');
 
-sim.addPlayer(new Player('RadioControl'));
+function Player(name) {
+    this.playerScope = require('./players/' + name);
+    this.name = this.playerScope.info.name;
+    this.init = this.playerScope.init;
+    this.playerAIFunction = this.playerScope.ai;
 
-console.log('Player 1\t\t\t\t\t\t\t\t\tEnvironment');
-console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
-
-sim.run(write);
-
-function write(players, env) {
-    var boat1 = players[0].boat;
-    var b = boat1.getActualValues();
-    var position = new LatLon(b.gps.latitude, b.gps.longitude);
-    process.stdout.write(b.servos.rudder.toFixed(1) + '\t'
-                         + b.attitude.roll.toFixed(1) + '\t'
-                         + b.velocity.speed.toFixed(1) + '\t'
-                         + b.attitude.heading.toFixed(1) + '\t'
-                         + position.lat('dms', 2) + '\t'
-                         + position.lon('dms', 2) + '\t'
-                         + '\t'
-                         + env.wind.speed.toFixed(2) + '\t'
-                         + env.wind.heading.toFixed(2) + '  \r');
+    var options;
+    if (this.init) {
+        options = this.init;
+    }
+    this.boat = new Boat(options);
 }
+
+Player.prototype.runAI = function(dt, env) {
+
+    var state = {
+        dt: dt,
+        boat: this.boat.getActualValues(),
+        environment: util.clone(env),
+        waypoints: []     // FIXME: We need to determine waypoint structure
+    };
+
+    var command;
+    try {
+        // Need to make sure player can't access other things
+        var aiFunc = this.playerAIFunction.bind(this.playerScope);
+        command = aiFunc(state);
+    } catch (ex) {
+        console.error(`Error running AI for player ${this.name}`);
+        return;
+    }
+    if (command && command.action === 'move') {
+        this.boat.setRudder(command.servoRudder);
+        this.boat.setSail(command.servoSail);
+    }
+};
+
+module.exports = Player;

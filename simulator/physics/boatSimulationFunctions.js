@@ -36,19 +36,19 @@ var RUDDER_TRAVEL_TIME = 0.250; // seconds
 var delayRudder = new Delay(RUDDER_TRAVEL_TIME);
 
 var boatSimFuncs = {
-    applyRoll: function(time, env, boat, apparentWind) {
-        var inertialessRoll = roll.estimate(time, apparentWind.speed, apparentWind.heading, boat.speed);
-        var newRoll = inertialessRoll * (1 - ROLL_INERTIA * time.deltaSec) + boat.roll * ROLL_INERTIA * time.deltaSec;
+    applyRoll: function(time, env, boat) {
+        var inertialessRoll = roll.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.velocity.speed);
+        var newRoll = inertialessRoll * (1 - ROLL_INERTIA * time.deltaSec) + boat.attitude.roll * ROLL_INERTIA * time.deltaSec;
         return newRoll;
     },
-    applySpeed: function(time, env, boat, apparentWind) {
-        var inertialessSpeed = speed.estimate(time, apparentWind.speed, apparentWind.heading, boat.roll);
-        var newSpeed = inertialessSpeed * (1 - SPEED_INERTIA * time.deltaSec) + boat.speed * SPEED_INERTIA * time.deltaSec;
+    applySpeed: function(time, env, boat) {
+        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll);
+        var newSpeed = inertialessSpeed * (1 - SPEED_INERTIA * time.deltaSec) + boat.velocity.speed * SPEED_INERTIA * time.deltaSec;
         return newSpeed;
     },
-    applyHeadingChange: function(time, env, boat, apparentWind) {   // eslint-disable-line no-unused-vars
-        var oldRudderValue = delayRudder.update(time, boat.rudder);
-        var headingChange = deltaHeading.estimate(time, boat.speed, oldRudderValue);
+    applyHeadingChange: function(time, env, boat) {
+        var oldRudderValue = delayRudder.update(time.deltaSec, boat.servos.rudder);
+        var headingChange = deltaHeading.estimate(time.deltaSec, boat.velocity.speed, oldRudderValue);
         return headingChange;
     }
 

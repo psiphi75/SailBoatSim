@@ -5,35 +5,55 @@ var Template = {
         name: 'Template',
     },
     /**
-     * This function is called every step.  boatState object:
+     * This function is called every step.
+     * @param  {object} state       See below:
      * {
-     * 	   dt: change in time (milliseconds)
-     * 	   attitude: {
-     * 	   		roll:      // Roll in degrees (-180 ... 180)
-     * 	   		pitch:     // Pitch in degrees (-180 ... 180)
-     * 	   		heading:   // True heading in degrees from north (-180 ... 180)
-     * 	   },
-     * 	   apparentWind: {
-     * 	   		speed:     // The speed of the apparent wind in m/s.
-     * 	   		heading:   // The heading of the apparent wind in degrees
-     * 	   },
-     * 	   position: {
-     * 	   		latitude:
-     * 	   		longitude:
-     * 	   },
-     * 	   velocity: {
-     * 	   		speed:     // The speed of the boat in m/s
-     * 	   		heading:   // The true heading of the boat in m/s
-     * 	   }
+     * 	   dt: [Number: time elapsed since last simulation step (milliseconds)],
+     * 	   boat: {
+     *            attitude: {
+     *                 roll: [Number: Roll around x-axis in degrees (-180 ... 180), 0 is upright, +ve is to right]
+     *                 pitch: [Number: Pitch around y-axis in degrees (-180 ... 180), 0 is upright, +ve is roll forward]
+     *                 heading: [Number: Heading around z-axis in degrees (-180 ... 180), 0 is true north, +ve is turn right]
+     *             },
+     *             gps: {
+     *                 latitude: [Number: latitude in degrees (-90 ... 90)]
+     *                 longitude: [Number: longitude in degrees (-180 ... 180)]
+     *             },
+     *             velocity: {
+     *                 speed: [Number: The speed of the boat in m/s]
+     *                 direction: [Number: The heading of the boat in degrees from true north]
+     *             },
+     *             apparentWind: {
+     *                 speed: [Number: The speed of the apparent wind in m/s]
+     *                 heading: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
+     *             },
+     *             servos: {
+     *                 rudder: [Number: The last value of the rudder servo (-1.0 ... 1.0)]
+     *                 sail:  [Number: The last value of the sail servo (-1.0 ... 1.0)]
+     *             }
+     *       },
+     *       environment: {
+     *            wind: {
+     *                speed: [Number: The speed of the wind in m/s]
+     *                heading:  [Number: The heading of the source of the wind in degrees from true north]
+     *            }
+     *       },
+     *       waypoints: [ list of waypoints, structure to be determined ]
      * }
-     * @param  {[type]} boatState [description]
-     * @param  {[type]} waypoints [description]
-     * @return {[type]}           [description]
+     *
+     *
+     * @return {object}     The result is the new value of the rudder.  Example:
+     * {
+     *     action: 'move',
+     *     servoRudder: [Number: The value of the rudder (-1.0 to 1.0) - where 1.0 is rudder is pointing 45 degrees to the right (boat will turn right)],
+     *     servoSail: [Number: The value of the sail - CURRENT DISABLED]
+     * }
      */
-    ai: function (boatState, environment, waypoints) {
+    ai: function (state) {
         return {
-            rudder: 0,
-            sail: 0
+            action: 'move',
+            servoRudder: 0,
+            servoSail: 0
         };
     }
 };

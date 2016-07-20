@@ -24,20 +24,9 @@
 'use strict';
 
 /*
- * Load the Webserver for the controller and serve static pages
+ * Load the Webserver for the controller and serve static pages, start the proxy
  */
-console.log();
-require('studious-octo-guide/controller-www/WebServer');
-var wrc = require('web-remote-control');
-wrc.createProxy({
-    udp4: true,
-    tcp: true,
-    socketio: true,
-    onlyOneControllerPerChannel: true,
-    onlyOneToyPerChannel: true,
-    allowObservers: true,
-    log: function() {}
-});
+require('./runProxy');
 
 /*
  * Load the viewer (which loads CesiumJS)
