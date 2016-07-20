@@ -1,4 +1,4 @@
-var util = require('../libs/util.js');
+var util = require('../../lib/util.js');
 var lastRudderValue = 0;
 
 var wrc = require('web-remote-control');

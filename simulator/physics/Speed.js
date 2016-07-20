@@ -21,62 +21,21 @@
  *                                                                   *
  *********************************************************************/
 
-
 'use strict';
-var util = require('./libs/util');
 
-function Environment() {
-    this.wind = {
-        speed: 1.0,
-        heading: util.rand(-180, 180)
-    };
-    this.updateWindSwing();
-}
+module.exports = {
 
-Environment.prototype.update = function(time) {
-    this.updateWindHeading(time);
-    this.updateWindSpeed(time);
-    this.updateWindSwing();
-
-    return this.getValues();
-};
-
-/**
- * Updates the swing of the wind.  The swing determines how qucik the wind changes direction.
- */
-Environment.prototype.updateWindSwing = function() {
-    if (Math.random() < 0.2 || !this.wind.swing) {
-        this.wind.swing = util.rand(-5, 5);
+    /**
+     * Estimate the roll.
+     * @param  {number} apparentWindHeading The apparent wind heading (degrees)
+     * @param  {number} apparentWindSpeed   The apprent wind speed (m/s)
+     * @return {number}                     The estimated roll (degrees)
+     */
+    estimate: function(dt, apparentWindSpeed, apparentWindHeading, roll) {
+        var B = -1.113;
+        var C = 0.0151;
+        // TODO: The speed will change based on a function of the heading of the wind, a wind from back may make the boat go quicker.
+        var estSpeed = Math.abs(Math.sin(apparentWindHeading * Math.PI / 180) * (B * apparentWindSpeed + C) * Math.cos(roll * Math.PI / 180));
+        return estSpeed;
     }
 };
-
-/**
- * Updates the speed of the wind.
- */
-Environment.prototype.updateWindSpeed = function(time) {
-    if (this.wind.speed < 0.5) {
-        this.wind.speed += util.rand(0, 0.25) * time.deltaSec;
-    } else {
-        this.wind.speed += util.rand(-0.25, 0.25) * time.deltaSec;
-    }
-};
-
-/**
- * Updates the heading of the wind.
- */
-Environment.prototype.updateWindHeading = function(time) {
-    this.wind.heading += this.wind.swing * time.deltaSec;
-    if (this.wind.heading < -180) this.wind.heading += 360;
-    if (this.wind.heading > 180) this.wind.heading -= 360;
-};
-
-Environment.prototype.getValues = function() {
-    return {
-        wind: {
-            speed: this.wind.speed,
-            heading: this.wind.heading
-        }
-    };
-};
-
-module.exports = Environment;

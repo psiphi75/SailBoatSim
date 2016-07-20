@@ -27,7 +27,7 @@
 var roll = require('./Roll');
 var speed = require('./Speed');
 var deltaHeading = require('./DeltaHeading');
-var util = require('../libs/util');
+var util = require('../../lib/util');
 
 var ROLL_INERTIA = 0.1;
 var SPEED_INERTIA = 0.3;

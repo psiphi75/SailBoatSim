@@ -1,4 +1,4 @@
-var util = require('../libs/util.js');
+var util = require('../lib/util.js');
 
 var Template = {
     info: {

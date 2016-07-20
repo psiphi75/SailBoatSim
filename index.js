@@ -48,4 +48,4 @@ require('./runViewer');
  * Finally run the simulation
  */
 console.log('\n\nRunning simulation:');
-require('./runSimulation');
+require('./simulator');

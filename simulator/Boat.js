@@ -21,12 +21,11 @@
  *                                                                   *
  *********************************************************************/
 
-
 'use strict';
 
-var util = require('./libs/util');
+var util = require('../lib/util');
+var boatUtil = require('../lib/boatUtil');
 var boatSimFuncs = require('./physics/boatSimulationFunctions');
-var boatUtil = require('./libs/boatUtil');
 
 const DEFAULT_PROPERTIES = {
 
