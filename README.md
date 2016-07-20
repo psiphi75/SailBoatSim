@@ -9,18 +9,24 @@ Viana do Castelo, Portugal.
 
 I run this on a Linux machine.  I have nodejs and npm installed, the versions shouldn't matter.
 
+### 1) Install SailBoatSim
 To install the simulator run the following commands.
 ```sh
 git clone https://github.com/psiphi75/SailBoatSim
 npm install
-npm index
 ```
-
 **You will get compile errors** during `npm install`, this is normal.
+
+### 2) Run the simulator
+```sh
+node index
+```
 
 Now you should see a two links, one link is for your mobile phone, this can be used to remote control the virtual
 sailboat.  The other is for the visualisation, you should see a very basic virtual sailboat sailing around in a
 3d environment (this uses [CesiumJS](http://cesiumjs.org/)).
+
+On the mobile phone you must enter the "Simulation" as the channel, tap "Go". 
 
 ## Reading Material
 
