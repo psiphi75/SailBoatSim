@@ -1,0 +1,30 @@
+{
+  "name": "sailboatsim",
+  "version": "0.0.1",
+  "description": "Sailboat Simulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psiphi75/SailBoatSim.git"
+  },
+  "keywords": [
+    "Sailboat",
+    "Simulator"
+  ],
+  "author": "Simon M. Werner",
+  "license": "APSL-2.0",
+  "bugs": {
+    "url": "https://github.com/psiphi75/SailBoatSim/issues"
+  },
+  "homepage": "https://github.com/psiphi75/SailBoatSim#readme",
+  "dependencies": {
+    "cesium": "^1.23.0",
+    "mt-latlon": "^0.1.0",
+    "node-static": "^0.7.7",
+    "studious-octo-guide": "git://github.com/psiphi75/studious-octo-guide#0b16fca",
+    "web-remote-control": "^1.8.0"
+  }
+}

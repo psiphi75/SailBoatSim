@@ -1,0 +1,252 @@
+{
+    "accessors": {
+        "accessor_index_0": {
+            "bufferView": "bufferView_index",
+            "byteOffset": 0,
+            "byteStride": 0,
+            "componentType": 5123,
+            "count": 270,
+            "type": "SCALAR"
+        },
+        "accessor_position": {
+            "bufferView": "bufferView_vertex",
+            "byteOffset": 0,
+            "byteStride": 24,
+            "componentType": 5126,
+            "count": 172,
+            "min": [
+                -13.670242,
+                -0.812356,
+                -0.203667
+            ],
+            "max": [
+                5e-324,
+                0.817122,
+                0.203784
+            ],
+            "type": "VEC3"
+        },
+        "accessor_normal": {
+            "bufferView": "bufferView_vertex",
+            "byteOffset": 12,
+            "byteStride": 24,
+            "componentType": 5126,
+            "count": 172,
+            "type": "VEC3"
+        }
+    },
+    "asset": {
+        "generator": "OBJ2GLTF",
+        "premultipliedAlpha": true,
+        "profile": {
+            "api": "WebGL",
+            "version": "1.0"
+        },
+        "version": 1
+    },
+    "buffers": {
+        "buffer_windvane": {
+            "byteLength": 4668,
+            "type": "arraybuffer",
+            "uri": "data:application/octet-stream;base64,+ZPXwFg3Tr44ns84HLXePgGoXr9Trm4+IIrKwBssHDs4ns84HLXePgGoXr9Trm4++ZPXwGNEMr74xtA9HLXePgGoXr9Trm4++ZPXwGNEMr74xtA9AACAvwAAAAAAAAAA+ZPXwKHby73LuTQ+AACAvwAAAAAAAAAA+ZPXwBssHDvBrFA+AACAvwAAAAAAAAAA+ZPXwHF01T3LuTQ+AACAvwAAAAAAAAAA+ZPXwIgQNz74xtA9AACAvwAAAAAAAAAA+ZPXwH0DUz44ns84AACAvwAAAAAAAAAA+ZPXwIgQNz4aidC9AACAvwAAAAAAAAAA+ZPXwHF01T0gmzS+AACAvwAAAAAAAAAA+ZPXwBssHDsVjlC+AACAvwAAAAAAAAAA+ZPXwKHby70gmzS+AACAvwAAAAAAAAAA+ZPXwFg3Tr44ns84AACAvwAAAAAAAAAA+ZPXwGNEMr4aidC9AACAvwAAAAAAAAAAIIrKwBssHDs4ns84uq3ePp0AI7+dACM/+ZPXwKHby73LuTQ+uq3ePp0AI7+dACM/+ZPXwGNEMr74xtA9uq3ePp0AI7+dACM/IIrKwBssHDs4ns84jZ3ePr58br42sV4/+ZPXwBssHDvBrFA+jZ3ePr58br42sV4/+ZPXwKHby73LuTQ+jZ3ePr58br42sV4/IIrKwBssHDs4ns842p/ePqSzbj72rF4/+ZPXwHF01T3LuTQ+2p/ePqSzbj72rF4/+ZPXwBssHDvBrFA+2p/ePqSzbj72rF4/IIrKwBssHDs4ns8415vePqoDIz+qAyM/+ZPXwIgQNz74xtA915vePqoDIz+qAyM/+ZPXwHF01T3LuTQ+15vePqoDIz+qAyM/IIrKwBssHDs4ns842p/ePvasXj+ks24++ZPXwH0DUz44ns842p/ePvasXj+ks24++ZPXwIgQNz74xtA92p/ePvasXj+ks24+IIrKwBssHDs4ns84jZ3ePjaxXj++fG6++ZPXwIgQNz4aidC9jZ3ePjaxXj++fG6++ZPXwH0DUz44ns84jZ3ePjaxXj++fG6+Lj1HwVg3Tr61/pY3AAAAAHpFd7+tjoS+yNRGwU8fQb7iXEO9AAAAAHpFd7+tjoS+CtbXwFg3Tr61/pY3AAAAAHpFd7+tjoS+CtbXwGNEMr4aidC9AAAAAHpFd7+tjoS+IIrKwBssHDs4ns84uq3ePp0AIz+dACO/+ZPXwHF01T0gmzS+uq3ePp0AIz+dACO/+ZPXwIgQNz4aidC9uq3ePp0AIz+dACO/ULlawZD2T7+Fl1A+a5blPs7RZL8AAAAAULlawZD2T78VjlC+a5blPs7RZL8AAAAALj1HwVg3Tr61/pY3a5blPs7RZL8AAAAAIIrKwBssHDs4ns84HLXePlOubj4BqF6/+ZPXwBssHDsVjlC+HLXePlOubj4BqF6/+ZPXwHF01T0gmzS+HLXePlOubj4BqF6/fdJGwabVQL6Wzkc9a5blPs7RZL8AAAAAIIrKwBssHDs4ns84xLfePr58br6pql6/+ZPXwKHby70gmzS+xLfePr58br6pql6/+ZPXwBssHDsVjlC+xLfePr58br6pql6/yNRGwU8fQb7iXEO9a5blPs7RZL8AAAAAIIrKwBssHDs4ns84W7jePsz+Ir/M/iK/+ZPXwGNEMr4aidC9W7jePsz+Ir/M/iK/+ZPXwKHby70gmzS+W7jePsz+Ir/M/iK/IIrKwBssHDs4ns84xLfePqmqXr++fG6++ZPXwFg3Tr44ns84xLfePqmqXr++fG6++ZPXwGNEMr4aidC9xLfePqmqXr++fG6+JLBNwetz1T0gmzS+AAAAgPMENT/zBDW/CtbXwIgQNz4aidC9AAAAgPMENT/zBDW/CtbXwHF01T0gmzS+AAAAgPMENT/zBDW/CtbXwIgQNz4aidC9AAAAgHpFdz+tjoS+m7NGwcIyRj57Mj+9AAAAgHpFdz+tjoS+CtbXwH0DUz61/pY3AAAAgHpFdz+tjoS+ehpHwX0DUz61/pY3AAAAgHpFdz+tjoS+CtbXwGNEMr76m9A9AACAPwAAAAAAAAAACtbXwFg3Tr61/pY3AACAPwAAAAAAAAAACtbXwGNEMr4aidC9AACAPwAAAAAAAAAACtbXwKHby70gmzS+AACAPwAAAAAAAAAACtbXwBssHDsVjlC+AACAPwAAAAAAAAAACtbXwHF01T0gmzS+AACAPwAAAAAAAAAACtbXwIgQNz4aidC9AACAPwAAAAAAAAAACtbXwH0DUz61/pY3AACAPwAAAAAAAAAACtbXwIgQNz76m9A9AACAPwAAAAAAAAAACtbXwHF01T3LuTQ+AACAPwAAAAAAAAAACtbXwBssHDvBrFA+AACAPwAAAAAAAAAACtbXwKHby73LuTQ+AACAPwAAAAAAAAAASLFGwZLoRT6Gq0M9AAAAgHpFdz+tjoQ+CtbXwIgQNz76m9A9AAAAgHpFdz+tjoQ+CtbXwH0DUz61/pY3AAAAgHpFdz+tjoQ+ehpHwX0DUz61/pY3AAAAgHpFdz+tjoQ+CtbXwGNEMr76m9A9AAAAAHpFd7+tjoQ+fdJGwabVQL6Wzkc9AAAAAHpFd7+tjoQ+CtbXwFg3Tr61/pY3AAAAAHpFd7+tjoQ+Lj1HwVg3Tr61/pY3AAAAAHpFd7+tjoQ+SLFGwZLoRT6Gq0M91lvkPnMgZT8AAAAAehpHwX0DUz61/pY31lvkPnMgZT8AAAAAULlaweguUT+Fl1A+1lvkPnMgZT8AAAAAULlaweguUT8VjlC+1lvkPnMgZT8AAAAAm7NGwcIyRj57Mj+91lvkPnMgZT8AAAAAULlaweguUT8VjlC+AACAvwAAAAAAAAAAULlawZD2T78VjlC+AACAvwAAAAAAAAAAULlaweguUT+Fl1A+AACAvwAAAAAAAAAAULlawZD2T7+Fl1A+AACAvwAAAAAAAAAAJLBNwXHkMb5kXNE9ECT9Pc240bhyCX4/ULlawZD2T7+Fl1A+ECT9Pc240bhyCX4/FaRNwWNEMr6AnNA9ECT9Pc240bhyCX4/JLBNwTkqNz6wyM+90v5/v76axDsAAAAAJLBNwYgQNz4aidC90v5/v76axDsAAAAAJLBNwetz1T0gmzS+0v5/v76axDsAAAAAJLBNwTkqNz6wyM+9AACAvwAAAAAAAAAAJLBNwetz1T0gmzS+AACAvwAAAAAAAAAAJLBNwRssHDsVjlC+AACAvwAAAAAAAAAAJLBNwSfcy70gmzS+AACAvwAAAAAAAAAAJLBNwWNEMr4aidC9AACAvwAAAAAAAAAAJLBNwVdeMr6wyM+9AACAvwAAAAAAAAAAfdJGwabVQL6Wzkc9ECT9PQAAAAByCX4/FaRNwWNEMr6AnNA9ECT9PQAAAAByCX4/ULlawZD2T7+Fl1A+ECT9PQAAAAByCX4/JLBNwWNEMr4aidC9AAAAAHpFd7+tjoS+JLBNwWNEMr4aidC9AAAAgDFJd7/xcoS+yNRGwU8fQb7iXEO9AAAAgDFJd7/xcoS+JLBNwVdeMr6wyM+9AAAAgDFJd7/xcoS+CtbXwGNEMr4aidC9AAAAAPMENb/zBDW/JLBNwWNEMr4aidC9AAAAAPMENb/zBDW/CtbXwKHby70gmzS+AAAAAPMENb/zBDW/JLBNwSfcy70gmzS+AAAAAPMENb/zBDW/CtbXwKHby70gmzS+AAAAgPFyhL4xSXe/JLBNwSfcy70gmzS+AAAAgPFyhL4xSXe/CtbXwBssHDsVjlC+AAAAgPFyhL4xSXe/JLBNwRssHDsVjlC+AAAAgPFyhL4xSXe/CtbXwHF01T0gmzS+AAAAgK2OhD56RXe/CtbXwBssHDsVjlC+AAAAgK2OhD56RXe/JLBNwetz1T0gmzS+AAAAgK2OhD56RXe/JLBNwRssHDsVjlC+AAAAgK2OhD56RXe/JLBNwYgQNz4aidC9AAAAgPMENT/zBDW/JLBNwRssHDvBrFA+AAAAAPFyhL4xSXc/JLBNwSfcy70PujQ+AAAAAPFyhL4xSXc/CtbXwBssHDvBrFA+AAAAAPFyhL4xSXc/CtbXwKHby73LuTQ+AAAAAPFyhL4xSXc/JLBNwYgQNz4aidC9AAAAgMBIdz84doS+JLBNwTkqNz6wyM+9AAAAgMBIdz84doS+m7NGwcIyRj57Mj+9AAAAgMBIdz84doS+JLBNwYgQNz4aidC9AAAAgHpFdz+tjoS+JLBNwSfcy70PujQ+AAAAACgfNb+66jQ/FaRNwWNEMr6AnNA9AAAAACgfNb+66jQ/CtbXwKHby73LuTQ+AAAAACgfNb+66jQ/CtbXwGNEMr76m9A9AAAAACgfNb+66jQ/FaRNwWNEMr6AnNA9mbfROCgfNb+66jQ/JLBNwSfcy70PujQ+mbfROCgfNb+66jQ/JLBNwXHkMb5kXNE9mbfROCgfNb+66jQ/FaRNwWNEMr6AnNA9AAAAAHpFd7+tjoQ+ULlawZD2T78VjlC+IPv+PQAAAAAWAn6/ULlaweguUT8VjlC+IPv+PQAAAAAWAn6/JLBNwTkqNz6wyM+9IPv+PQAAAAAWAn6/JLBNwVdeMr6wyM+9IPv+PQAAAAAWAn6/FaRNwYgQNz6AnNA9AAAAgHpFdz+tjoQ+yNRGwU8fQb7iXEO9IPv+PQAAAAAWAn6/FaRNwYgQNz6AnNA9mbfROCgfNT+66jQ/JLBNwZawNj5kXNE9mbfROCgfNT+66jQ/JLBNwetz1T0PujQ+mbfROCgfNT+66jQ/CtbXwIgQNz76m9A9AAAAgCgfNT+66jQ/FaRNwYgQNz6AnNA9AAAAgCgfNT+66jQ/CtbXwHF01T3LuTQ+AAAAgCgfNT+66jQ/JLBNwetz1T0PujQ+AAAAgCgfNT+66jQ/m7NGwcIyRj57Mj+9IPv+PQAAAAAWAn6/JLBNwRssHDvBrFA+AAAAAK2OhD56RXc/CtbXwBssHDvBrFA+AAAAAK2OhD56RXc/CtbXwHF01T3LuTQ+AAAAAK2OhD56RXc/JLBNwetz1T0PujQ+AAAAAK2OhD56RXc/JLBNwXHkMb5kXNE9AACAvwAAAAAAAAAAJLBNwSfcy70PujQ+AACAvwAAAAAAAAAAJLBNwRssHDvBrFA+AACAvwAAAAAAAAAAJLBNwetz1T0PujQ+AACAvwAAAAAAAAAAJLBNwZawNj5kXNE9AACAvwAAAAAAAAAASLFGwZLoRT6Gq0M9ECT9PQAAAAByCX4/ULlaweguUT+Fl1A+ECT9PQAAAAByCX4/FaRNwYgQNz6AnNA9ECT9PQAAAAByCX4/JLBNwXHkMb5kXNE9ECT9PQAAAAByCX4/JLBNwZawNj5kXNE9ECT9PQAAAAByCX4/FaRNwYgQNz6AnNA9ECT9Pc240ThyCX4/ULlaweguUT+Fl1A+ECT9Pc240ThyCX4/JLBNwZawNj5kXNE9ECT9Pc240ThyCX4/AAABAAIAAwAEAAUAAwAFAAYAAwAGAAcAAwAHAAgAAwAIAAkAAwAJAAoAAwAKAAsADAANAAsADgANAAwAAwALAA0ADwAQABEAEgATABQAFQAWABcAGAAZABoAGwAcAB0AHgAfACAAIQAiACMAJAAjACIAJQAmACcAKAApACoAKwAsAC0AKgAuACgALwAwADEAKQAyACoAMwA0ADUANgA3ADgAOQA6ADsAPAA9AD4APwA+AD0AQABBAEIAQABCAEMAQABDAEQAQABEAEUAQABFAEYAQABGAEcAQABHAEgAQABIAEkAQABJAEoAQABKAEsATABNAE4ATwBMAE4AUABRAFIAUwBSAFEAVABVAFYAVwBWAFUAVQBYAFcAWQBaAFsAXABbAFoAXQBeAF8AYABhAGIAYwBkAGUAYwBlAGYAYwBmAGcAYwBnAGgAaQBqAGsAbAAkACIAbQBuAG8AcABxAHIAcwByAHEAdAB1AHYAdwB2AHUAeAB5AHoAegB5AHsAOQB8ADoAfQB+AH8AgAB/AH4AgQCCAIMAhAA9ADwAhQCGAIcAiACHAIYAiQCKAIsAjABRAFAAjQCOAI8AkACNAI8AkQBNAEwAjQCQAJIAkwCUAJUAlgCXAJgAmQCYAJcAmgCPAI4AmwCcAJ0AmwCdAJ4AnwCgAKEAnwChAKIAnwCiAKMApAClAKYApwCoAGsApQBrAKgAqQCqAKsA"
+        }
+    },
+    "bufferViews": {
+        "bufferView_vertex": {
+            "buffer": "buffer_windvane",
+            "byteLength": 4128,
+            "byteOffset": 0,
+            "target": 34962
+        },
+        "bufferView_index": {
+            "buffer": "buffer_windvane",
+            "byteLength": 540,
+            "byteOffset": 4128,
+            "target": 34963
+        }
+    },
+    "extensionsUsed": [],
+    "images": {},
+    "materials": {
+        "material_None": {
+            "name": "None",
+            "extensions": {},
+            "values": {
+                "ambient": [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "diffuse": [
+                    0.8,
+                    0.3,
+                    0.3,
+                    1
+                ],
+                "emission": [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "specular": [
+                    0.8,
+                    0.3,
+                    0.3,
+                    1
+                ],
+                "shininess": 0,
+                "transparency": 1
+            },
+            "technique": "technique0"
+        }
+    },
+    "meshes": {
+        "mesh_windvane": {
+            "name": "windvane",
+            "primitives": [
+                {
+                    "attributes": {
+                        "POSITION": "accessor_position",
+                        "NORMAL": "accessor_normal"
+                    },
+                    "indices": "accessor_index_0",
+                    "material": "material_None",
+                    "mode": 4
+                }
+            ]
+        }
+    },
+    "nodes": {
+        "node_windvane": {
+            "children": [],
+            "matrix": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "meshes": [
+                "mesh_windvane"
+            ],
+            "name": "windvane"
+        }
+    },
+    "samplers": {
+        "sampler_0": {}
+    },
+    "scene": "scene_windvane",
+    "scenes": {
+        "scene_windvane": {
+            "nodes": [
+                "node_windvane"
+            ]
+        }
+    },
+    "textures": {},
+    "programs": {
+        "program0": {
+            "attributes": [
+                "a_position",
+                "a_normal"
+            ],
+            "fragmentShader": "fragmentShader0",
+            "vertexShader": "vertexShader0"
+        }
+    },
+    "shaders": {
+        "vertexShader0": {
+            "type": 35633,
+            "uri": "",
+            "extras": {
+                "source": "precision highp float;\nuniform mat4 u_modelViewMatrix;\nuniform mat3 u_normalMatrix;\nuniform mat4 u_projectionMatrix;\nattribute vec3 a_position;\nvarying vec3 v_positionEC;\nattribute vec3 a_normal;\nvarying vec3 v_normal;\nvoid main(void) {\n  vec4 pos = u_modelViewMatrix * vec4(a_position,1.0);\n  v_positionEC = pos.xyz;\n  gl_Position = u_projectionMatrix * pos;\n  v_normal = u_normalMatrix * a_normal;\n}\n"
+            }
+        },
+        "fragmentShader0": {
+            "type": 35632,
+            "uri": "",
+            "extras": {
+                "source": "precision highp float;\nuniform vec4 u_ambient;\nuniform vec4 u_diffuse;\nuniform vec4 u_emission;\nuniform vec4 u_specular;\nuniform float u_shininess;\nuniform float u_transparency;\nvarying vec3 v_positionEC;\nvarying vec3 v_normal;\nvoid main(void) {\n  vec3 normal = normalize(v_normal);\n  vec4 diffuse = u_diffuse;\n  vec3 diffuseLight = vec3(0.0, 0.0, 0.0);\n  vec3 specular = u_specular.rgb;\n  vec3 specularLight = vec3(0.0, 0.0, 0.0);\n  vec3 emission = u_emission.rgb;\n  vec3 ambient = u_ambient.rgb;\n  vec3 viewDir = -normalize(v_positionEC);\n  vec3 ambientLight = vec3(0.0, 0.0, 0.0);\n  ambientLight += vec3(0.1, 0.1, 0.1);\n  vec3 l = normalize(czm_sunDirectionEC);\n  diffuseLight += vec3(1.0, 1.0, 1.0) * max(dot(normal,l), 0.);\n  vec3 reflectDir = reflect(-l, normal);\n  float specularIntensity = max(0., pow(max(dot(reflectDir, viewDir), 0.), u_shininess));\n  specularLight += vec3(1.0, 1.0, 1.0) * specularIntensity;\n  vec3 color = vec3(0.0, 0.0, 0.0);\n  color += diffuse.rgb * diffuseLight;\n  color += specular * specularLight;\n  color += emission;\n  color += ambient * ambientLight;\n  gl_FragColor = vec4(color * diffuse.a, diffuse.a * u_transparency);\n}\n"
+            }
+        }
+    },
+    "techniques": {
+        "technique0": {
+            "attributes": {
+                "a_position": "position",
+                "a_normal": "normal"
+            },
+            "parameters": {
+                "modelViewMatrix": {
+                    "semantic": "MODELVIEW",
+                    "type": 35676
+                },
+                "normalMatrix": {
+                    "semantic": "MODELVIEWINVERSETRANSPOSE",
+                    "type": 35675
+                },
+                "projectionMatrix": {
+                    "semantic": "PROJECTION",
+                    "type": 35676
+                },
+                "ambient": {
+                    "type": 35666
+                },
+                "diffuse": {
+                    "type": 35666
+                },
+                "emission": {
+                    "type": 35666
+                },
+                "specular": {
+                    "type": 35666
+                },
+                "shininess": {
+                    "type": 5126
+                },
+                "transparency": {
+                    "type": 5126
+                },
+                "position": {
+                    "semantic": "POSITION",
+                    "type": 35665
+                },
+                "normal": {
+                    "semantic": "NORMAL",
+                    "type": 35665
+                }
+            },
+            "program": "program0",
+            "states": {
+                "enable": [
+                    2884,
+                    2929
+                ]
+            },
+            "uniforms": {
+                "u_modelViewMatrix": "modelViewMatrix",
+                "u_normalMatrix": "normalMatrix",
+                "u_projectionMatrix": "projectionMatrix",
+                "u_ambient": "ambient",
+                "u_diffuse": "diffuse",
+                "u_emission": "emission",
+                "u_specular": "specular",
+                "u_shininess": "shininess",
+                "u_transparency": "transparency"
+            }
+        }
+    }
+}

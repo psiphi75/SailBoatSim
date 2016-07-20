@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <title>INS Viewer</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="Cesium/Cesium.js"></script>
+    <script src="libs/js/socket.io-1.4.4.js"></script>
+    <script src="libs/js/web-remote-control.js"></script>
+    <script src="libs/js/www-ahrs.js"></script>
+    <script src="DataRealtime.js"></script>
+    <!-- <script src="DataJSONFile.js"></script> -->
+    <!-- <script src="Table.js"></script> -->
+    <script src="Boat.js"></script>
+    <script src="Model.js"></script>
+    <script src="Arrow.js"></script>
+    <script src="Viewer.js"></script>
+
+    <style>
+        @import url(Cesium/Widgets/widgets.css);
+        html, body, #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cesiumContainer"></div>
+</body>
+
+</html>
