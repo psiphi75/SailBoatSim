@@ -55,7 +55,8 @@ var RC = {
      *             },
      *             apparentWind: {
      *                 speed: [Number: The speed of the apparent wind in m/s]
-     *                 heading: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
+     *                 heading: [Number: The heading of the apparent wind in degrees relative to true North (-180 ... 180)]
+     *                 headingToBoat: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
      *                 // NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
      *             },
      *             servos: {

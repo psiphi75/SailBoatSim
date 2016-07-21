@@ -132,7 +132,8 @@ Boat.prototype.getActualValues = function() {
         },
         apparentWind: {
             speed: this.apparentWind.speed,
-            heading: this.apparentWind.heading
+            heading: this.apparentWind.heading,
+            headingToBoat: this.apparentWind.headingToBoat
         },
         servos: {
             rudder: this.rudder,
@@ -160,6 +161,7 @@ Boat.prototype.getValues = function() {
         apparentWind: {
             speed: jitter(this.apparentWind.speed, this.jitter.speed),
             heading: jitter(this.apparentWind.heading, this.jitter.heading),
+            headingToBoat: jitter(this.apparentWind.heading, this.jitter.heading)
         }
     };
     return result;
