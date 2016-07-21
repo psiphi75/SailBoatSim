@@ -40,22 +40,7 @@ wrc.createProxy({
     log: function() {}
 });
 
-const options = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    }
-};
 
-var staticServer = require('node-static');
-var wwwControllerFiles = new staticServer.Server('./node_modules/studious-octo-guide/controller-www/public/', options);
-
-require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-        wwwControllerFiles.serve(request, response);
-    }).resume();
-}).listen(CONTROLLER_WWW_PORT);
-
-// TODO:  This prints out "Point your mobile phone to http://[IP THIS COMPUTER]:8888" - we should lookup the IP address, but there may be a few.
-console.log(`\nPoint your mobile phone to http://[IP THIS COMPUTER]:${CONTROLLER_WWW_PORT}`);
+var WrcController = require('wrc-controller');
+var log = function () {};
+WrcController(CONTROLLER_WWW_PORT, log);
