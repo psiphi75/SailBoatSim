@@ -32,7 +32,7 @@ module.exports = {
      * @return {number}                     The estimated roll (degrees)
      */
     estimate: function(dt, apparentWindSpeed, apparentWindHeading) {
-        var estRoll = Math.sin(apparentWindHeading * Math.PI / 180) * (-Math.exp(-apparentWindSpeed * 0.09 + 4.5) + 90);
+        var estRoll = -Math.sin(apparentWindHeading * Math.PI / 180) * (-Math.exp(-apparentWindSpeed * 0.09 + 4.5) + 90);
         return estRoll;
     }
 };

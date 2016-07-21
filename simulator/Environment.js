@@ -35,6 +35,7 @@ function Environment() {
 }
 
 Environment.prototype.update = function(time) {
+    this.wind.heading = 90
     this.updateWindHeading(time);
     this.updateWindSpeed(time);
     this.updateWindSwing();
