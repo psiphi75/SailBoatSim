@@ -6,7 +6,7 @@ function Boat(source, url, readyCallback) {
 
     this.BOAT_MODEL = 'models/ship.gltf';
     this.BOAT_DATA_JSON = './lastLog.json';
-    this.SIMULATION_URL = 'localhost';
+    this.SIMULATION_URL = url;
 
     var self = this;
 
