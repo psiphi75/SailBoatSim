@@ -39,13 +39,13 @@ function write(players, env) {
     var boat1 = players[0].boat;
     var b = boat1.getActualValues();
     var position = new LatLon(b.gps.latitude, b.gps.longitude);
-    process.stdout.write(b.servos.rudder.toFixed(1) + '\t'
-                         + b.attitude.roll.toFixed(1) + '\t'
-                         + b.velocity.speed.toFixed(1) + '\t'
-                         + b.attitude.heading.toFixed(1) + '\t'
+    process.stdout.write(b.servos.rudder.toFixed(2) + ' \t'
+                         + b.attitude.roll.toFixed(1) + ' \t'
+                         + b.velocity.speed.toFixed(1) + ' \t'
+                         + b.attitude.heading.toFixed(1) + ' \t'
                          + position.lat('dms', 2) + '\t'
                          + position.lon('dms', 2) + '\t'
                          + '\t'
-                         + env.wind.speed.toFixed(2) + '\t'
+                         + env.wind.speed.toFixed(2) + ' \t'
                          + env.wind.heading.toFixed(2) + '  \r');
 }

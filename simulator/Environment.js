@@ -25,6 +25,7 @@
 'use strict';
 var util = require('../lib/util');
 
+// NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
 function Environment() {
     this.wind = {
         speed: 1.0,
@@ -66,10 +67,14 @@ Environment.prototype.updateWindSpeed = function(time) {
  */
 Environment.prototype.updateWindHeading = function(time) {
     this.wind.heading += this.wind.swing * time.deltaSec;
-    if (this.wind.heading < -180) this.wind.heading += 360;
-    if (this.wind.heading > 180) this.wind.heading -= 360;
+    this.wind.heading = util.wrapDegrees(this.wind.heading);
 };
 
+/**
+ * Return the environment variables.
+ * NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
+ * @return {object} [description]
+ */
 Environment.prototype.getValues = function() {
     return {
         wind: {

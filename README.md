@@ -26,7 +26,7 @@ node index
 
 **Note:** This has been tested and works on Linux, should work on MacOS, but your millage may vary with Windows.
 
-##### Visualising it all
+### Visualising it all
 
 Now you should see a two links, one link is for your mobile phone, this can be used to remote control the virtual
 sailboat.  The other is for the visualisation, you should see a very basic virtual sailboat sailing around in a
@@ -42,7 +42,7 @@ You will see:
 * Cesium Inspect - to inspect the object.
 * Cesium icons - change map and search for landmarks.
 
-##### Using the Controller
+### Using the Controller
 
 On the mobile phone you must enter the "Simulation" as the channel, tap "Go".  The Rudder of the boat is controlled using
 the up and down tilt of the phone. The sail is the slider.  **Pro Tip:** Lock your phone's screen orientation, rotate

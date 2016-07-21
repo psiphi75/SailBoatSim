@@ -28,7 +28,7 @@
  * as the files in the ./viewer directory.
  */
 
-const PORT = 8080;
+const PORT = 7899;
 
 var staticServer = require('node-static');
 
