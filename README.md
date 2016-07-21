@@ -11,8 +11,10 @@ I run this on a Linux machine.  I have nodejs and npm installed, the versions sh
 
 ### 1) Install SailBoatSim
 To install the simulator run the following commands.
+
 ```sh
 git clone https://github.com/psiphi75/SailBoatSim
+cd SailBoatSim
 npm install
 ```
 **You will get compile errors** during `npm install`, this is normal.
@@ -22,15 +24,37 @@ npm install
 node index
 ```
 
+**Note:** This has been tested and works on Linux, should work on MacOS, but your millage may vary with Windows.
+
+##### Visualising it all
+
 Now you should see a two links, one link is for your mobile phone, this can be used to remote control the virtual
 sailboat.  The other is for the visualisation, you should see a very basic virtual sailboat sailing around in a
 3d environment (this uses [CesiumJS](http://cesiumjs.org/)).
 
-On the mobile phone you must enter the "Simulation" as the channel, tap "Go".
+You should see something similar to the image below:
+![Visualisation](https://raw.githubusercontent.com/psiphi75/SailBoatSim/master/viewer/images/Example.png)
+
+You will see:
+* A simple model of the boat, it will lean and rotate appropriately.
+* A blue arrow - this is the direction of the actual wind.
+* A red arrow - this is the direction of the [apparent wind](https://en.wikipedia.org/wiki/Apparent_wind) (wind relative to the boat).
+* Cesium Inspect - to inspect the object.
+* Cesium icons - change map and search for landmarks.
+
+##### Using the Controller
+
+On the mobile phone you must enter the "Simulation" as the channel, tap "Go".  The Rudder of the boat is controlled using
+the up and down tilt of the phone. The sail is the slider.  **Pro Tip:** Lock your phone's screen orientation, rotate
+the phone 90 degrees and you have a controller that changes the rudder left to right when you tilt the phone left
+to right.
 
 ## Writing your own AI
 
+The `simulator/players/` folder has the `template.js` and `RadioControl.js` JavaScript files.  You can inspect these to see how the AI should behave.
 
+You need to write your code in the `ai()` function.  The `ai()` should return
+an object like:
 
 ```Text
 {
