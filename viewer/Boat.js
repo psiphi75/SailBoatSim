@@ -31,12 +31,10 @@ function Boat(source, url, readyCallback) {
 
 Boat.prototype.render = function (time) {
 
-    var status = this.dataSource.getBoatStatus(time);
-    if (!status || !status.gps || status.gps.latitude === 0) return null;
+    var status = this.dataSource.getStatus(time);
+    if (!status || !status.boat || !status.boat.gps || status.boat.gps.latitude === 0) return null;
 
-    // status.gps.latitude = 0;
-    // status.gps.longitude = 0;
-    status.gps.altitude = -0.1;   // Put it on the ground / sea level
+    status.boat.gps.altitude = -0.1;   // Put it on the ground / sea level
 
     var posOrient = this.getPositionAndOrientation(status);
     if (!this.model) {
@@ -65,14 +63,14 @@ Boat.prototype.render = function (time) {
  * @return {object}            position and attitude.
  */
 Boat.prototype.getPositionAndOrientation = function(status) {
-    var position = Cesium.Cartesian3.fromDegrees(status.gps.longitude, status.gps.latitude, status.gps.altitude);
+    var position = Cesium.Cartesian3.fromDegrees(status.boat.gps.longitude, status.boat.gps.latitude, status.boat.gps.altitude);
 
     // Cesium has different heading
-    var heading = status.attitude.heading * Math.PI / 180 - Math.PI / 2;
+    var heading = status.boat.attitude.heading * Math.PI / 180 - Math.PI / 2;
 
     // Pitch goes opposite direction in Cesium
-    var pitch = -status.attitude.pitch * Math.PI / 180;
-    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, pitch, status.attitude.roll * Math.PI / 180);
+    var pitch = -status.boat.attitude.pitch * Math.PI / 180;
+    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, pitch, status.boat.attitude.roll * Math.PI / 180);
 
     return {
         position: position,

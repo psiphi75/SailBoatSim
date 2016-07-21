@@ -40,7 +40,7 @@ function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no
 
     return {
         isRealTime: true,
-        getBoatStatus: function () {
+        getStatus: function () {
             return boatStatus;
         }
     };

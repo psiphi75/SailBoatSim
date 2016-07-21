@@ -18,7 +18,7 @@ var ArrMax = function(arr) {
 
 function DataJSONFile(jsonPath, callback) { // eslint-disable-line no-unused-vars
     'use strict';
-    
+
     var data;
     var lastTimelineTime = 0;
 
@@ -38,7 +38,7 @@ function DataJSONFile(jsonPath, callback) { // eslint-disable-line no-unused-var
             var times = data.getColumn('timestamp');
             return new Date(ArrMax(times));
         },
-        getBoatStatus: function (time) {
+        getStatus: function (time) {
             var timelineTime = time.getTime();
             var paused = (lastTimelineTime === timelineTime);
             lastTimelineTime = timelineTime;

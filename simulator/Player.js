@@ -34,7 +34,10 @@ function Player(name) {
 
     var options;
     if (this.init) {
-        options = this.init;
+        options = {
+            latitude: this.init.position.latitude,
+            longitude: this.init.position.longitude
+        };
     }
     this.boat = new Boat(options);
 }

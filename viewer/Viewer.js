@@ -73,18 +73,17 @@ function startCesium(boat, windvane, apparentWind) {
             var time = Cesium.JulianDate.toDate(clock.tick());
         }
         var status = boat.render(time);
-        if (status && status.windvane) {
+        if (status && status.environment && status.environment.wind) {
             windvane.render({
-                latitude: status.gps.latitude,
-                longitude: status.gps.longitude,
-                heading: -status.windvane.headingTrue,
+                latitude: status.boat.gps.latitude,
+                longitude: status.boat.gps.longitude,
+                heading: -status.environment.wind.heading,
             });
-        }
-        if (status && status.apparentWind) {
+
             apparentWind.render({
-                latitude: status.gps.latitude,
-                longitude: status.gps.longitude,
-                heading: status.apparentWind.heading,
+                latitude: status.boat.gps.latitude,
+                longitude: status.boat.gps.longitude,
+                heading: status.boat.apparentWind.heading
             });
         }
         Cesium.requestAnimationFrame(tick);
