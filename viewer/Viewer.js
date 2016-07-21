@@ -74,6 +74,7 @@ function startCesium(boat, windvane, apparentWind) {
         }
         var status = boat.render(time);
         if (status && status.environment && status.environment.wind) {
+            
             windvane.render({
                 latitude: status.boat.gps.latitude,
                 longitude: status.boat.gps.longitude,
