@@ -47,8 +47,8 @@ var boatSimFuncs = {
         return newSpeed;
     },
     applyHeadingChange: function(time, env, boat) {
-        var oldRudderValue = delayRudder.update(time.deltaSec, boat.servos.rudder);
-        var headingChange = deltaHeading.estimate(time.deltaSec, boat.velocity.speed, oldRudderValue);
+        // var oldRudderValue = delayRudder.update(time.deltaSec, boat.servos.rudder);
+        var headingChange = deltaHeading.estimate(time.deltaSec, boat.velocity.speed, boat.servos.rudder);
         return headingChange;
     }
 

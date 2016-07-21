@@ -33,9 +33,14 @@ function Environment() {
     };
     this.updateWindSwing();
 }
-
+var x = true;
 Environment.prototype.update = function(time) {
+
+    if (x) console.log('FIXME: Environment.update(): Remove this code')
+    x = false;
     this.wind.heading = 90
+
+
     this.updateWindHeading(time);
     this.updateWindSpeed(time);
     this.updateWindSwing();
