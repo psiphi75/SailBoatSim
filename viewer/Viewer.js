@@ -2,7 +2,7 @@
 'use strict';
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
-const REALTIME_URL = 'localhost';
+const REALTIME_URL = window.location.hostname;
 Cesium.BingMapsApi.defaultKey = BING_API_KEY;
 
 var GLOBALS = {
@@ -74,7 +74,7 @@ function startCesium(boat, windvane, apparentWind) {
         }
         var status = boat.render(time);
         if (status && status.environment && status.environment.wind) {
-            
+
             windvane.render({
                 latitude: status.boat.gps.latitude,
                 longitude: status.boat.gps.longitude,
