@@ -59,6 +59,9 @@ const DEFAULT_PROPERTIES = {
 
 };
 
+const RUDDER_SPEED = 3;   // units per second
+const SAIL_SPEED = 3;   // units per second
+
 function Boat(initialConditions) {
 
     initialConditions = initialConditions || {};
@@ -72,8 +75,12 @@ function Boat(initialConditions) {
     this.direction = util.defaultFor(initialConditions.direction, DEFAULT_PROPERTIES.direction);
     this.jitter = DEFAULT_PROPERTIES.jitter;
 
-    this.rudder = util.defaultFor(initialConditions.rudder, DEFAULT_PROPERTIES.rudder);
-    this.sail = util.defaultFor(initialConditions.sail, DEFAULT_PROPERTIES.sail);
+    this.actualRudder = util.defaultFor(initialConditions.rudder, DEFAULT_PROPERTIES.rudder);
+    this.actualSail = util.defaultFor(initialConditions.sail, DEFAULT_PROPERTIES.sail);
+
+    // Wanted rudder and wanted sail are what the Player wants, but it takes time to move to wanted.
+    this.wantedRudder = this.actualRudder;
+    this.wantedSail = this.actualSail;
 }
 
 /**
@@ -106,6 +113,9 @@ Boat.prototype.simulate = function(time, env) {
     //
     var newPosition = boatUtil.calcNextPosition(boatValues.gps.latitude, boatValues.gps.longitude, newSpeed, newHeading, drift, time);
 
+    this.actualSail = boatSimFuncs.applyLinearChange(time, this.actualSail, this.wantedSail, SAIL_SPEED);
+    this.actualRudder = boatSimFuncs.applyLinearChange(time, this.actualRudder, this.wantedRudder, RUDDER_SPEED);
+
     this.roll = newRoll;
     this.speed = newSpeed;
     this.heading = newHeading;
@@ -137,8 +147,8 @@ Boat.prototype.getActualValues = function() {
             headingToBoat: this.apparentWind.headingToBoat
         },
         servos: {
-            rudder: this.rudder,
-            sail: this.sail
+            rudder: this.actualRudder,
+            sail: this.actualSail
         }
     };
 };
@@ -186,19 +196,19 @@ Boat.prototype.setRudder = function(val) {
         console.error(`Boat.setRudder(): Value must be between -1.0 and 1.0.  Val=${val}`);
         return;
     }
-    this.rudder = val;
+    this.wantedRudder = val;
 };
 
 Boat.prototype.setSail = function(val) {
     if (!util.isNumeric(val)) {
-        console.error(`Boat.setRudder(): Value is not a number.  Val=${val}`);
+        console.error(`Boat.setSail(): Value is not a number.  Val=${val}`);
         return;
     }
     if (val < -1 && val > 1) {
-        console.error(`Boat.setRudder(): Value must be between -1.0 and 1.0.  Val=${val}`);
+        console.error(`Boat.setSail(): Value must be between -1.0 and 1.0.  Val=${val}`);
         return;
     }
-    this.sail = val;
+    this.wantedSail = val;
 };
 
 module.exports = Boat;

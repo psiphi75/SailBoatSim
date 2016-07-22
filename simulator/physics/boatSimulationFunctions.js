@@ -51,6 +51,39 @@ var boatSimFuncs = {
         // var oldRudderValue = delayRudder.update(time.deltaSec, boat.servos.rudder);
         var headingChange = deltaHeading.estimate(time.deltaSec, boat.velocity.speed, boat.servos.rudder);
         return headingChange;
+    },
+    /**
+     * Some items like the sail and rudder servos a slow... kind of.
+     * @param  {object} time         The time object
+     * @param  {number} currentValue The current value
+     * @param  {number} wantedValue  The value we are trying to move to.
+     * @param  {number} changeSpeed  How fast the value changes (units per second).
+     * @return {number}              The new actual value, it will not be greater than wanted value.
+     */
+    applyLinearChange: function(time, currentValue, wantedValue, changeSpeed) {
+        if (wantedValue === currentValue) {
+            return currentValue;
+        }
+
+        var Δt = time.deltaSec;
+        var Δvalue = Δt * changeSpeed;
+
+        //
+        // Make sure we don't overshoot the wantedValue
+        //
+        var absDiff = Math.abs(currentValue - wantedValue);
+        if (absDiff < Δvalue) {
+            Δvalue = absDiff;
+        }
+
+        //
+        // Calcualte the new value
+        //
+        if (wantedValue < currentValue) {
+            return currentValue - Δvalue;
+        } else {
+            return currentValue + Δvalue;
+        }
     }
 
 };
