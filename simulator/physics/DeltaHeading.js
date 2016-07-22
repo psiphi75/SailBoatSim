@@ -35,6 +35,6 @@ module.exports = {
      * @return {number}                     The estimated roll (degrees)
      */
     estimate: function(time, boatSpeed, rudder) {
-        return 2 * (A * boatSpeed + B * rudder);
+        return 4 * (A * boatSpeed + B * rudder);
     }
 };

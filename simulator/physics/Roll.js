@@ -23,16 +23,19 @@
 
 'use strict';
 
+var util = require('../../lib/util');
+
 module.exports = {
 
     /**
      * Estimate the roll.
-     * @param  {number} apparentWindHeading The apparent wind heading (degrees)
      * @param  {number} apparentWindSpeed   The apprent wind speed (m/s)
+     * @param  {number} apparentWindHeadingToBoat The apparent wind heading (degrees)
      * @return {number}                     The estimated roll (degrees)
      */
-    estimate: function(dt, apparentWindSpeed, apparentWindHeading) {
-        var estRoll = Math.sin(apparentWindHeading * Math.PI / 180) * (-Math.exp(-apparentWindSpeed * 0.09 + 4.5) + 90);
+    estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat) {
+        var hRad = util.toRadians(apparentWindHeadingToBoat);
+        var estRoll = Math.sin(hRad) * (90 - Math.exp(-apparentWindSpeed * 0.09 + 4.5));
         return estRoll;
     }
 };

@@ -109,6 +109,7 @@ Boat.prototype.simulate = function(time, env) {
     this.roll = newRoll;
     this.speed = newSpeed;
     this.heading = newHeading;
+    this.direction = newHeading;    // FIXME: This is the velocity vector
     this.latitude = newPosition.latitude;
     this.longitude = newPosition.longitude;
 };

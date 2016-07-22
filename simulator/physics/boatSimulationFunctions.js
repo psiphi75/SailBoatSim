@@ -37,6 +37,7 @@ var delayRudder = new Delay(RUDDER_TRAVEL_TIME);
 
 var boatSimFuncs = {
     applyRoll: function(time, env, boat) {
+        // console.log(env, boat.velocity, boat.apparentWind)
         var inertialessRoll = roll.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.headingToBoat, boat.velocity.speed);
         var newRoll = inertialessRoll * (1 - ROLL_INERTIA * time.deltaSec) + boat.attitude.roll * ROLL_INERTIA * time.deltaSec;
         return newRoll;
