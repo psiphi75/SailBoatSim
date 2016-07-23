@@ -1,4 +1,4 @@
-/* global Cesium $ Boat Arrow */
+/* global Cesium $ Boat Arrow SuplimentaryData */
 'use strict';
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
@@ -68,12 +68,29 @@ function startCesium(boat, windvane, apparentWind) {
 
     // Create a draw loop using requestAnimationFrame. The
     // tick callback function is called for every animation frame.
+    var isFirstStatusUpdate = true;
+    var suplimentaryData;
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
         }
+
+        //
+        // Render the boat.
+        //
+
         var status = boat.render(time);
+
+        //
+        // Render apparent and actual wind
+        //
+
         if (status && status.environment && status.environment.wind) {
+
+            if (isFirstStatusUpdate) {
+                suplimentaryData = new SuplimentaryData(GLOBALS.viewer, status);
+                isFirstStatusUpdate = false;
+            }
 
             windvane.render({
                 latitude: status.boat.gps.latitude,
