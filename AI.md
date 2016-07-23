@@ -15,7 +15,7 @@ The boat's attitude (orientation) is described by the:
 
 ![Boat Heading, Pitch, Roll](https://raw.githubusercontent.com/psiphi75/SailBoatSim/master/viewer/images/Boat-PitchRollHeading.png)
 
-*Source: ![Modeling, control and state-estimation
+*Source: [Modeling, control and state-estimation
 for an autonomous sailboat](https://uu.diva-portal.org/smash/get/diva2:850625/FULLTEXT01.pdf)*
 
 ## Applying AI
