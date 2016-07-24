@@ -87,6 +87,7 @@ The AI can request a contest at any time.  The object that needs to be sent is d
     action: 'request-contest',
     type: [String: one of 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance']
     location: [String: one of 'auckland', 'viana-do-castelo']
+    realtime: [Boolean: true if it is to be realtime, false to run as fast as possible]
 }
 ```
 
