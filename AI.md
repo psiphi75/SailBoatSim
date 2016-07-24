@@ -78,9 +78,15 @@ simulation step (dt) is also included.
 }
 ```
 
-### Requesting a contest
+### The Contest Manager
 
-The AI can request a contest at any time by sending the toy device a command.  The object that needs to be sent is defined below.
+The contest manager will load a contest from disk and provide it a controller and all observers.  The AI can request a
+contest at any time by sending the ContestManager device a command.  The ContestManager is will be on the
+"ContestManager" channel.
+
+#### Request Contest
+
+The request for a contest is like below.
 
 ```Text
 {
@@ -88,6 +94,14 @@ The AI can request a contest at any time by sending the toy device a command.  T
     type: [String: one of 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance']
     location: [String: one of 'auckland', 'viana-do-castelo']
     realtime: [Boolean: true if it is to be realtime, false to run as fast as possible]
+}
+```
+
+This results in a response like below:
+```Text
+{
+    request: [Object: this is just request object that was sent.  This is useful for observers like the simulator],
+    details: [Object: The details of the contest, as described in the Contests section below.]
 }
 ```
 
