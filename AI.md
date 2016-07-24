@@ -24,7 +24,7 @@ For each simulation step the AI is provided with boat, environment and course st
 it can change rudder value.  This section describes the JavaScript code, but the same applies when using the Python
 wrapper API.
 
-### Boat, Environment and Course State
+### State Data
 
 For each simulation step the AI is provided with the boat, environment and course states.  The time since the last
 simulation step (dt) is also included.
@@ -78,6 +78,21 @@ simulation step (dt) is also included.
 }
 ```
 
+### Requesting a contest
+
+The AI can request a contest at any time.  The object that needs to be sent is defined below.
+
+```Text
+{
+    action: 'request-contest',
+    type: [String: one of 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance']
+    location: [String: one of 'auckland', 'viana-do-castelo']
+}
+```
+
+Upon successful contest selection, the contest will be set and the simulation started.  The
+[state data](#state-data) will begin to be sent.
+
 ## Contests
 
 There are 4 types of contests:
@@ -119,7 +134,8 @@ following:
 {
     type: 'fleet-race',
     waypoints: [Array of waypoints, in order (first is start, last is finish)],
-    boundary: [List of points, boat must stay within boundary]
+    boundary: [List of points, boat must stay within boundary],
+    start: [Number: time (milliseconds) until the start of the race, if negative value then time since race begun]
 }
 ```
 
