@@ -1,4 +1,4 @@
-/* global Cesium $ Boat Arrow SuplimentaryData */
+/* global Cesium $ Boat Arrow RenderGrid */
 'use strict';
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
@@ -69,7 +69,7 @@ function startCesium(boat, windvane, apparentWind) {
     // Create a draw loop using requestAnimationFrame. The
     // tick callback function is called for every animation frame.
     var isFirstStatusUpdate = true;
-    var suplimentaryData;
+    var renderGrid;
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
@@ -88,7 +88,52 @@ function startCesium(boat, windvane, apparentWind) {
         if (status && status.environment && status.environment.wind) {
 
             if (isFirstStatusUpdate) {
-                suplimentaryData = new SuplimentaryData(GLOBALS.viewer, status);
+                renderGrid = new RenderGrid(status);
+                // $.get('./fleet-race.viana-do-castelo.json', function(jsonData) {
+                    new RenderCourse({
+                        "type": "fleet-race",
+                        "waypoints": [{
+                                        "latitude": 41.688933,
+                                        "longitude": -8.825358,
+                                        "achieved": false,
+                                        "type": "circle",
+                                        "radius": 10
+                                    }, {
+                                        "latitude": 41.690760,
+                                        "longitude": -8.821689,
+                                        "achieved": false,
+                                        "type": "circle",
+                                        "radius": 10
+                                    }, {
+                                        "latitude": 41.691417,
+                                        "longitude": -8.823706,
+                                        "achieved": false,
+                                        "type": "circle",
+                                        "radius": 10
+                                    }, {
+                                        "latitude": 41.689798,
+                                        "longitude": -8.827010,
+                                        "achieved": false,
+                                        "type": "circle",
+                                        "radius": 10
+                                    }],
+                        "boundary": [{
+                                        "latitude": 41.693083,
+                                        "longitude": -8.820637
+                                    }, {
+                                        "latitude": 41.690039,
+                                        "longitude": -8.827332
+                                    }, {
+                                        "latitude": 41.687876,
+                                        "longitude": -8.826002
+                                    }, {
+                                        "latitude": 41.691193,
+                                        "longitude": -8.818706,
+                                    }]
+                    }
+)
+                // });
+
                 isFirstStatusUpdate = false;
             }
 

@@ -30,8 +30,8 @@ var RC = {
     },
     init: {
         position: {
-            latitude: -36.8095,
-            longitude: 174.7505
+            latitude: 41.689590,
+            longitude: -8.824242
         }
     },
     /**
