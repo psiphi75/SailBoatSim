@@ -80,7 +80,7 @@ simulation step (dt) is also included.
 
 ### Requesting a contest
 
-The AI can request a contest at any time.  The object that needs to be sent is defined below.
+The AI can request a contest at any time by sending the toy device a command.  The object that needs to be sent is defined below.
 
 ```Text
 {
