@@ -101,7 +101,7 @@ This results in a response like below:
 ```Text
 {
     request: [Object: this is just request object that was sent.  This is useful for observers like the simulator],
-    details: [Object: The details of the contest, as described in the Contests section below.]
+    contest: [Object: The details of the contest, as described in the Contests section below.]
 }
 ```
 
