@@ -135,7 +135,7 @@ following:
     type: 'fleet-race',
     waypoints: [Array of waypoints, in order (first is start, last is finish)],
     boundary: [List of points, boat must stay within boundary],
-    start: [Number: time (milliseconds) until the start of the race, if negative value then time since race begun]
+    timeToStart: [Number: time (milliseconds) until the start of the race, if negative value then time since race begun]
 }
 ```
 
