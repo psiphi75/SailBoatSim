@@ -2,42 +2,37 @@
 
 'use strict';
 
-function RenderBoundary(points) {
-
-    var pointsArray = points.reduce(function (prev, p) {
-                              return prev.concat([p.longitude, p.latitude]);
-                          }, []);
-    // console.log(pointList);
-    // var pointsArray = flatten(pointList);
-    var polygon = new Cesium.PolygonOutlineGeometry({
-        polygonHierarchy: new Cesium.PolygonHierarchy(
-            Cesium.Cartesian3.fromDegreesArray(pointsArray)
-        ),
-        attributes: {
-            color: new Cesium.ColorGeometryInstanceAttribute(1.0, 0.0, 0.0, 0.0),
-            // lineThickness: new Cesium.Cartesian2(0.5, 0.5)
-        }
-    });
-    var geometry = Cesium.PolygonOutlineGeometry.createGeometry(polygon);
-
-    this.boundary = GLOBALS.viewer.scene.primitives.add(new Cesium.Primitive({
-        geometryInstances: geometry,
-        appearance: new Cesium.PerInstanceColorAppearance()
-    }));
+function RenderBoundary() {
 }
 
-// var primitive = new Cesium.Primitive({
-//   geometryInstances : new Cesium.GeometryInstance({
-//     geometry : new Cesium.PolylineGeometry({
-//       positions : Cesium.Cartesian3.fromDegreesArray([
-//         0.0, 0.0,
-//         5.0, 0.0
-//       ]),
-//       width : 10.0,
-//       vertexFormat : Cesium.PolylineMaterialAppearance.VERTEX_FORMAT
-//     })
-//   }),
-//   appearance : new Cesium.PolylineMaterialAppearance({
-//     material : Cesium.Material.fromType('Color')
-//   })
-// });
+RenderBoundary.prototype.set = function (points) {
+
+    this.remove();
+
+    var ALTITUDE = 0.1;
+
+    var pointsArray = points.map(function (p) {
+        return Cesium.Cartesian3.fromDegrees(p.longitude, p.latitude, ALTITUDE);
+    });
+
+    // Close the boundary box
+    pointsArray.push(pointsArray[0]);
+
+    this.boundary = GLOBALS.viewer.entities.add({
+        position: pointsArray[0],
+        polyline: {
+            positions: pointsArray,
+            width: new Cesium.ConstantProperty(5),
+            material: new Cesium.Color(0.97, 0.1, 0.1, 0.6),
+            followSurface: new Cesium.ConstantProperty(true)
+        }
+    });
+};
+
+
+RenderBoundary.prototype.remove = function () {
+    if (this.boundary) {
+        GLOBALS.viewer.entities.remove(this.boundary);
+    }
+    this.boundary = null;
+};

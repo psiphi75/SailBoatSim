@@ -3,14 +3,29 @@
 
 'use strict';
 
-function RenderWaypoints(waypoints) {  // eslint-disable-line no-unused-vars
+function RenderWaypoints() {
+    this.wpEntities = [];
+}
 
-    waypoints.forEach((p) => {
-        renderCircle(p);
+/**
+ * Remove all waypoint entities.
+ */
+RenderWaypoints.prototype.removeAll = function () {
+    this.wpEntities.forEach(function(wpEntity) {
+        GLOBALS.viewer.entities.remove(wpEntity);
     });
+    this.wpEntities = [];
+};
+
+/**
+ * Replace Waypoints
+ */
+RenderWaypoints.prototype.set = function (waypoints) {
+    this.removeAll();
+    this.wpEntities = waypoints.map((p) => renderCircle(p));
 
     function renderCircle(p) {
-        GLOBALS.viewer.entities.add({
+        return GLOBALS.viewer.entities.add({
             position: Cesium.Cartesian3.fromDegrees(p.longitude, p.latitude),
             ellipse: {
                 semiMinorAxis: p.radius,
@@ -23,5 +38,4 @@ function RenderWaypoints(waypoints) {  // eslint-disable-line no-unused-vars
             }
         });
     }
-
-}
+};

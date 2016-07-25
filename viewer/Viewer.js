@@ -62,14 +62,14 @@ function startCesium(boat, windvane, apparentWind) {
     // This adds the cescium Inspector dialog
     GLOBALS.viewer.extend(Cesium.viewerCesiumInspectorMixin);
 
-    // Wait for course updates
+    // Wait for contest updates
     var contest = new ContestObserver(REALTIME_URL, onContestChange);
 
     // Create a draw loop using requestAnimationFrame. The
     // tick callback function is called for every animation frame.
     var isFirstStatusUpdate = true;
-    var grid;
-    var course;
+    var grid = new RenderGrid();
+    var courseRenderer = new RenderCourse();
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
@@ -88,7 +88,7 @@ function startCesium(boat, windvane, apparentWind) {
         if (status && status.environment && status.environment.wind) {
 
             if (isFirstStatusUpdate) {
-                grid = new RenderGrid({
+                grid.set({
                     latitude: status.boat.gps.latitude,
                     longitude: status.boat.gps.longitude
                 });
@@ -115,16 +115,31 @@ function startCesium(boat, windvane, apparentWind) {
     tick();
 
     function onContestChange(newContest) {
-        GLOBALS.viewer.entities.removeAll();
 
         var contestDetails = newContest.contest;
         var firstWaypoint = contestDetails.waypoints[0];
 
-        grid = new RenderGrid({
+        grid.set({
             latitude: firstWaypoint.latitude,
             longitude: firstWaypoint.longitude
         });
-        course = new RenderCourse(contestDetails);
+        courseRenderer.set(contestDetails);
     }
 
+
+    //
+    // Detect mouse click events and print out the lat/long coordinate
+    //
+    var handler = new Cesium.ScreenSpaceEventHandler(GLOBALS.viewer.scene.canvas);
+    handler.setInputAction(function (action) {
+        var ray = GLOBALS.viewer.camera.getPickRay(action.position);
+        var position = GLOBALS.viewer.scene.globe.pick(ray, GLOBALS.viewer.scene);
+        if (Cesium.defined(position)) {
+            var cartographic = Cesium.Ellipsoid.WGS84.cartesianToCartographic(position);
+            console.log({
+                latitude: Cesium.Math.toDegrees(cartographic.latitude),
+                longitude: Cesium.Math.toDegrees(cartographic.longitude)
+            });
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }

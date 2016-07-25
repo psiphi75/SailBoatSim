@@ -2,20 +2,26 @@
 
 'use strict';
 
-function RenderCourse(contestObj) {   // eslint-disable-line no-unused-vars
+function RenderCourse() {   // eslint-disable-line no-unused-vars
+    this.wpRenderer = new RenderWaypoints();
+    this.boundsRenderer = new RenderBoundary();
+}
 
+RenderCourse.prototype.set = function(contestObj) {
     if (typeof contestObj !== 'object') {
         console.error('Error rendering course, contestObj is not an object: ', contestObj);
     }
+    this.boundsRenderer.remove();
+    this.wpRenderer.removeAll();
 
     switch (contestObj.type) {
         case 'fleet-race':
-            // this.boundary = new RenderBoundary(contestObj.boundary);
-            this.waypoints = new RenderWaypoints(contestObj.waypoints);
+            this.boundsRenderer.set(contestObj.boundary);
+            this.wpRenderer.set(contestObj.waypoints);
             break;
 
         case 'station-keeping':
-            this.waypoints = new RenderWaypoints([contestObj.waypoint]);
+            this.wpRenderer.set(contestObj.waypoints);
             break;
 
         case 'area-scanning':
@@ -23,6 +29,4 @@ function RenderCourse(contestObj) {   // eslint-disable-line no-unused-vars
         default:
             console.error('Error rendering course, contestObj does not have a valid contest type: ', contestObj.type);
     }
-
-
-}
+};

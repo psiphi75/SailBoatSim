@@ -1,12 +1,12 @@
 {
     "type": "station-keeping",
-    "waypoint": {
+    "waypoints": [{
         "latitude": 41.689590,
         "longitude": -8.824242,
         "achieved": false,
         "type": "circle",
         "radius": 20
-    },
+    }],
     "time": 300,
     "timeRemaing": 300
 }

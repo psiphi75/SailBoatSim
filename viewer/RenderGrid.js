@@ -1,12 +1,20 @@
 /* global Cesium GLOBALS */
 'use strict';
 
-function RenderGrid(status) { // eslint-disable-line no-unused-vars
+function RenderGrid() {
+}
 
-    this.grid = GLOBALS.viewer.entities.add({
+RenderGrid.prototype.remove = function() {
+    if (this.gridEntity) GLOBALS.viewer.entities.remove(this.gridEntity);
+};
+
+RenderGrid.prototype.set = function(position) {
+    this.remove();
+
+    this.gridEntity = GLOBALS.viewer.entities.add({
         position: Cesium.Cartesian3.fromDegrees(
-                    trunc(status.longitude, 6),
-                    trunc(status.latitude, 6)),
+                    trunc(position.longitude, 6),
+                    trunc(position.latitude, 6)),
         ellipse: {
             semiMinorAxis: 1000.0,
             semiMajorAxis: 1000.0,
@@ -24,4 +32,4 @@ function RenderGrid(status) { // eslint-disable-line no-unused-vars
         var exp = Math.exp(10, dp);
         return Math.floor(val * exp) / exp;
     }
-}
+};
