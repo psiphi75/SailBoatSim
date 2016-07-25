@@ -41,5 +41,4 @@ require('./runContestManager');
 /*
  * Run the simulation
  */
-console.log('\n\nRunning simulation:');
 require('./simulator');

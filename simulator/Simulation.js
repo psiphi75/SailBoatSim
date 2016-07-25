@@ -39,7 +39,7 @@ function Simulation(dt, realtime) {
     if (realtime) {
         var self = this;
         this.callNextStep = function (callback) {
-            setTimeout(self.step.bind(self, callback), dt);
+            self.stepTimeout = setTimeout(self.step.bind(self, callback), dt);
         };
     } else {
         this.callNextStep = this.step;
@@ -77,6 +77,14 @@ Simulation.prototype.getPlayers = function() {
 Simulation.prototype.run = function(callback) {
     callback = typeof callback === 'function' ? callback : function () {};
     this.step(callback);
+};
+
+/**
+ * Close down the simulation.
+ */
+Simulation.prototype.close = function () {
+    this.players.forEach((player) => player.close());
+    clearTimeout(this.stepTimeout);
 };
 
 module.exports = Simulation;

@@ -20,13 +20,16 @@ for an autonomous sailboat](https://uu.diva-portal.org/smash/get/diva2:850625/FU
 
 ## Applying AI
 
-For each simulation step the AI is provided with boat, environment and course state data.  The AI can then calculate it's move, once it's done
+Each time a new course is loaded the init function from the player is run. This allows the player to get the course
+information and to do other initialisation.
+
+For each simulation step the AI is provided with boat and environment data.  The AI can then calculate it's move, once it's done
 it can change rudder value.  This section describes the JavaScript code, but the same applies when using the Python
 wrapper API.
 
 ### State Data
 
-For each simulation step the AI is provided with the boat, environment and course states.  The time since the last
+For each simulation step the AI is provided with the boat and environment.  The time since the last
 simulation step (dt) is also included.
 
 ```Text
@@ -63,8 +66,7 @@ simulation step (dt) is also included.
                speed: [Number: The speed of the wind in m/s]
                heading:  [Number: The heading of the source of the wind in degrees from true north]
            }
-      },
-      course: [ The course data, see below.  It is different for each course type. ]
+      }
 }
 ```
 
@@ -120,8 +122,6 @@ There are 4 types of contests:
 Further reading on the above races:
  * [Official rules](https://web.fe.up.pt/~jca/wrsc2016.com/docs/WRSC_rules_2016_V1.0.pdf)
  * [Overview of the rules](http://blog.anemoi.nz/viana-do-castelo-hear-we-come/)
-
-
 
 ### Waypoints
 

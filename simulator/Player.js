@@ -26,19 +26,32 @@
 var Boat = require('./Boat');
 var util = require('../lib/util');
 
-function Player(name) {
+function Player(name, contest) {
     this.playerScope = require('./players/' + name);
     this.name = this.playerScope.info.name;
-    this.init = this.playerScope.init;
-    this.playerAIFunction = this.playerScope.ai;
+    this.playerAIFunction = this.playerScope.ai.bind(this.playerScope);
+    this.playerInitFunction = this.playerScope.init.bind(this.playerScope);
 
-    var options;
-    if (this.init) {
-        options = {
-            latitude: this.init.position.latitude,
-            longitude: this.init.position.longitude
+    //
+    // Provide the player with the course
+    //
+    this.playerInitFunction(util.clone(contest));
+
+    var wp1;
+    if (contest) {
+        wp1 = contest.waypoints[0];
+    } else {
+        // Set a default latitude / longitude
+        wp1 = {
+            latitude: 41.68997067878485,
+            longitude: -8.824600720709379
         };
     }
+    var options = {
+        latitude: 0.0003 + util.jitter(wp1.latitude, 0.0001),
+        longitude: 0.0003 + util.jitter(wp1.longitude, 0.0001)
+    };
+
     this.boat = new Boat(options);
 }
 
@@ -47,56 +60,13 @@ Player.prototype.runAI = function(dt, env) {
     var state = {
         dt: dt,
         boat: this.boat.getActualValues(),
-        environment: util.clone(env),
-        course: {
-            'type': 'fleet-race',
-            'waypoints': [{
-                            'latitude': 41.688933,
-                            'longitude': -8.825358,
-                            'achieved': false,
-                            'type': 'circle',
-                            'radius': 10
-                        }, {
-                            'latitude': 41.690760,
-                            'longitude': -8.821689,
-                            'achieved': false,
-                            'type': 'circle',
-                            'radius': 10
-                        }, {
-                            'latitude': 41.691417,
-                            'longitude': -8.823706,
-                            'achieved': false,
-                            'type': 'circle',
-                            'radius': 10
-                        }, {
-                            'latitude': 41.689798,
-                            'longitude': -8.827010,
-                            'achieved': false,
-                            'type': 'circle',
-                            'radius': 10
-                        }],
-            'boundary': [{
-                            'latitude': 41.693083,
-                            'longitude': -8.820637
-                        }, {
-                            'latitude': 41.690039,
-                            'longitude': -8.827332
-                        }, {
-                            'latitude': 41.687876,
-                            'longitude': -8.826002
-                        }, {
-                            'latitude': 41.691193,
-                            'longitude': -8.818706,
-                        }]
-        }
-
+        environment: util.clone(env)
     };
 
     var command;
     try {
         // Need to make sure player can't access other things
-        var aiFunc = this.playerAIFunction.bind(this.playerScope);
-        command = aiFunc(state);
+        command = this.playerAIFunction(state);
     } catch (ex) {
         console.error(`Error running AI for player ${this.name}`);
         return;
@@ -106,5 +76,9 @@ Player.prototype.runAI = function(dt, env) {
         this.boat.setSail(command.servoSail);
     }
 };
+
+Player.prototype.close = function() {
+    this.pla
+}
 
 module.exports = Player;

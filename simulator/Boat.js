@@ -170,9 +170,9 @@ Boat.prototype.getValues = function() {
             direction: jitterName('direction'),
         },
         apparentWind: {
-            speed: jitter(this.apparentWind.speed, this.jitter.speed),
-            heading: jitter(this.apparentWind.heading, this.jitter.heading),
-            headingToBoat: jitter(this.apparentWind.heading, this.jitter.heading)
+            speed: util.jitter(this.apparentWind.speed, this.jitter.speed),
+            heading: util.jitter(this.apparentWind.heading, this.jitter.heading),
+            headingToBoat: util.jitter(this.apparentWind.heading, this.jitter.heading)
         }
     };
     return result;
@@ -180,10 +180,7 @@ Boat.prototype.getValues = function() {
     function jitterName(name) {
         var val = self[name];
         var jit = self.jitter[name];
-        return jitter(val, jit);
-    }
-    function jitter(val, jit) {
-        return val + util.rand(-jit, jit);
+        return util.jitter(val, jit);
     }
 };
 

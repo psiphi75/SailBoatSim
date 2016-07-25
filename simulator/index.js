@@ -25,27 +25,48 @@
 
 var Player = require('./Player');
 var LatLon = require('mt-latlon');
+var ContestObserver = require('../viewer/ContestObserver');
+var observer = new ContestObserver('localhost', restartSim);
+
 var Simulation = new require('./Simulation');
-var sim = new Simulation(100, true, write);
+var sim;
 
-sim.addPlayer(new Player('RadioControl'));
+restartSim();
 
-console.log('Player 1\t\t\t\t\t\t\t\t\tEnvironment');
-console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
+function restartSim(newContest) {
+    newContest = newContest ? newContest : { contest: null };
 
-sim.run(write);
+    var contestDetails = newContest.contest;
 
-function write(players, env) {
-    var boat1 = players[0].boat;
-    var b = boat1.getActualValues();
-    var position = new LatLon(b.gps.latitude, b.gps.longitude);
-    process.stdout.write(b.servos.rudder.toFixed(2) + ' \t'
-                         + b.attitude.roll.toFixed(1) + ' \t'
-                         + b.velocity.speed.toFixed(1) + ' \t'
-                         + b.attitude.heading.toFixed(1) + ' \t'
-                         + position.lat('dms', 2) + '\t'
-                         + position.lon('dms', 2) + '\t'
-                         + '\t'
-                         + env.wind.speed.toFixed(2) + ' \t'
-                         + env.wind.heading.toFixed(2) + '  \r');
+    if (sim) {
+        console.log('\n\nRestarting simulation\n\n');
+        sim.close();
+    } else {
+        console.log('\n\nRunning simulation for first time:');
+    }
+    sim = new Simulation(100, true);
+
+    sim.addPlayer(new Player('RadioControl', contestDetails));
+
+    console.log('Player 1\t\t\t\t\t\t\t\t\tEnvironment');
+    console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
+
+    sim.run(write);
+
+    function write(players, env) {
+        var boat1 = players[0].boat;
+        var b = boat1.getActualValues();
+        var position = new LatLon(b.gps.latitude, b.gps.longitude);
+        process.stdout.write(b.servos.rudder.toFixed(2) + ' \t'
+                             + b.attitude.roll.toFixed(1) + ' \t'
+                             + b.velocity.speed.toFixed(1) + ' \t'
+                             + b.attitude.heading.toFixed(1) + ' \t'
+                             + position.lat('dms', 2) + '\t'
+                             + position.lon('dms', 2) + '\t'
+                             + '\t'
+                             + env.wind.speed.toFixed(2) + ' \t'
+                             + env.wind.heading.toFixed(2) + '  \r');
+    }
+
+
 }

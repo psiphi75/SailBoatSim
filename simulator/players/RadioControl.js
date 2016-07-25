@@ -28,12 +28,15 @@ var RC = {
     info: {
         name: 'RadioControl'
     },
-    init: {
-        position: {
-            latitude: 41.689590,
-            longitude: -8.824242
-        }
+
+    /**
+     * This will be run once before the simulational initalises.
+     * See this link for the contest details: https://github.com/psiphi75/SailBoatSim/blob/master/AI.md#contests
+     */
+    init: function(contest) {
+        this.contest = contest;
     },
+
     /**
      * This function is called every step.  See the AI.md file for documentation.
      * @param  {object} state
@@ -48,6 +51,10 @@ var RC = {
             servoRudder: lastRudderValue,
             servoSail: 0
         };
+    },
+
+    close: function() {
+        toy.removeAllListeners();
     }
 };
 

@@ -27,3 +27,7 @@ function ContestObserver(url, contestChangeCallback) { // eslint-disable-line no
         return false;
     }
 }
+
+if (typeof module !== 'undefined') {
+    module.exports = ContestObserver;
+}
