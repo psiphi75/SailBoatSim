@@ -65,6 +65,9 @@ function startCesium(boat, windvane, apparentWind) {
     // Wait for contest updates
     var contest = new ContestObserver(REALTIME_URL, onContestChange);
 
+    // Get the HUD
+    var hud = document.getElementById('hud');
+
     // Create a draw loop using requestAnimationFrame. The
     // tick callback function is called for every animation frame.
     var isFirstStatusUpdate = true;
@@ -86,6 +89,12 @@ function startCesium(boat, windvane, apparentWind) {
         //
 
         if (status && status.environment && status.environment.wind) {
+
+            hud.innerHTML = 'Lat, Long: ' + status.boat.gps.latitude.toFixed(6) + ',  ' + status.boat.gps.longitude.toFixed(6) + '<br/>'
+                            + 'Heading: ' + status.boat.attitude.heading.toFixed(1) + '°<br/>'
+                            + 'Roll:    ' + status.boat.attitude.roll.toFixed(1) + '°<br/>'
+                            + 'Speed:   ' + status.boat.velocity.speed.toFixed(2) + ' m/s<br/>'
+                            + 'Rudder:  ' + status.boat.servos.rudder.toFixed(3);
 
             if (isFirstStatusUpdate) {
                 grid.set({
@@ -142,4 +151,5 @@ function startCesium(boat, windvane, apparentWind) {
             });
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
 }

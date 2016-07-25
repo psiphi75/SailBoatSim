@@ -41,11 +41,27 @@
             padding: 0;
             overflow: hidden;
         }
+
+        #toolbar {
+            color: rgb(230, 230, 230);
+            font-family: "Lucida Console", Monaco, monospace;
+            padding: 2px 5px;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(42,42,42,0.9);
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div id="cesiumContainer"></div>
+
+    <div id="toolbar">
+        <div id="hud"></div>
+    </div>
+
 </body>
 
 </html>
