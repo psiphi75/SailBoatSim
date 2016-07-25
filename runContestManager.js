@@ -23,23 +23,9 @@
 
 'use strict';
 
-/*
- * Load the Webserver for the controller and serve static pages, start the proxy
+/**
+ * This will run a static webserver for the controller, and start the web-remote-control proxy.
  */
-require('./runProxy');
 
-/*
- * Load the viewer (which loads CesiumJS)
- */
-require('./runViewer');
-
-/*
-* Load the viewer (which loads CesiumJS)
-*/
-require('./runContestManager');
-
-/*
- * Run the simulation
- */
-console.log('\n\nRunning simulation:');
-require('./simulator');
+var ContestManager = require('./contests/ContestManager');
+var contestMgr = new ContestManager();

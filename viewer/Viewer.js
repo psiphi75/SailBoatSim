@@ -1,4 +1,4 @@
-/* global Cesium $ Boat Arrow RenderGrid */
+/* global Cesium $ Boat Arrow RenderGrid RenderCourse ContestObserver */
 'use strict';
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
@@ -59,17 +59,17 @@ function startCesium(boat, windvane, apparentWind) {
     // The size of the terrain tile cache, expressed as a number of tiles.
     GLOBALS.viewer.scene.globe.tileCacheSize = 1000;
 
-    //
-    // Set up the timeline
-    //
-
     // This adds the cescium Inspector dialog
     GLOBALS.viewer.extend(Cesium.viewerCesiumInspectorMixin);
+
+    // Wait for course updates
+    var contest = new ContestObserver(REALTIME_URL, onContestChange);
 
     // Create a draw loop using requestAnimationFrame. The
     // tick callback function is called for every animation frame.
     var isFirstStatusUpdate = true;
-    var renderGrid;
+    var grid;
+    var course;
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
@@ -88,52 +88,10 @@ function startCesium(boat, windvane, apparentWind) {
         if (status && status.environment && status.environment.wind) {
 
             if (isFirstStatusUpdate) {
-                renderGrid = new RenderGrid(status);
-                // $.get('./fleet-race.viana-do-castelo.json', function(jsonData) {
-                    new RenderCourse({
-                        "type": "fleet-race",
-                        "waypoints": [{
-                                        "latitude": 41.688933,
-                                        "longitude": -8.825358,
-                                        "achieved": false,
-                                        "type": "circle",
-                                        "radius": 10
-                                    }, {
-                                        "latitude": 41.690760,
-                                        "longitude": -8.821689,
-                                        "achieved": false,
-                                        "type": "circle",
-                                        "radius": 10
-                                    }, {
-                                        "latitude": 41.691417,
-                                        "longitude": -8.823706,
-                                        "achieved": false,
-                                        "type": "circle",
-                                        "radius": 10
-                                    }, {
-                                        "latitude": 41.689798,
-                                        "longitude": -8.827010,
-                                        "achieved": false,
-                                        "type": "circle",
-                                        "radius": 10
-                                    }],
-                        "boundary": [{
-                                        "latitude": 41.693083,
-                                        "longitude": -8.820637
-                                    }, {
-                                        "latitude": 41.690039,
-                                        "longitude": -8.827332
-                                    }, {
-                                        "latitude": 41.687876,
-                                        "longitude": -8.826002
-                                    }, {
-                                        "latitude": 41.691193,
-                                        "longitude": -8.818706,
-                                    }]
-                    }
-)
-                // });
-
+                grid = new RenderGrid({
+                    latitude: status.boat.gps.latitude,
+                    longitude: status.boat.gps.longitude
+                });
                 isFirstStatusUpdate = false;
             }
 
@@ -155,5 +113,18 @@ function startCesium(boat, windvane, apparentWind) {
         Cesium.requestAnimationFrame(tick);
     }
     tick();
+
+    function onContestChange(newContest) {
+        GLOBALS.viewer.entities.removeAll();
+
+        var contestDetails = newContest.contest;
+        var firstWaypoint = contestDetails.waypoints[0];
+
+        grid = new RenderGrid({
+            latitude: firstWaypoint.latitude,
+            longitude: firstWaypoint.longitude
+        });
+        course = new RenderCourse(contestDetails);
+    }
 
 }

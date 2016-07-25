@@ -5,8 +5,8 @@ function RenderGrid(status) { // eslint-disable-line no-unused-vars
 
     this.grid = GLOBALS.viewer.entities.add({
         position: Cesium.Cartesian3.fromDegrees(
-                    trunc(status.boat.gps.longitude, 6),
-                    trunc(status.boat.gps.latitude, 6)),
+                    trunc(status.longitude, 6),
+                    trunc(status.latitude, 6)),
         ellipse: {
             semiMinorAxis: 1000.0,
             semiMajorAxis: 1000.0,

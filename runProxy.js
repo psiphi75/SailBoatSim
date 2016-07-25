@@ -30,7 +30,7 @@
 const CONTROLLER_WWW_PORT = 8888;
 
 var wrc = require('web-remote-control');
-wrc.createProxy({
+var proxy = wrc.createProxy({
     udp4: true,
     tcp: true,
     socketio: true,
@@ -40,7 +40,9 @@ wrc.createProxy({
     log: function() {}
 });
 
-
+//
+// This loads the web view for the controller
+//
 var WrcController = require('wrc-controller');
 var log = function () {};
 WrcController(CONTROLLER_WWW_PORT, log);

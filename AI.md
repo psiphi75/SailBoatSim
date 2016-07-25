@@ -100,6 +100,7 @@ The request for a contest is like below.
 This results in a response like below:
 ```Text
 {
+    status: 'new-contest',
     request: [Object: this is just request object that was sent.  This is useful for observers like the simulator],
     contest: [Object: The details of the contest, as described in the Contests section below.]
 }
@@ -161,7 +162,7 @@ The station keeping contest requires the boat to remain within the radius of a g
 ```Text
 {
     type: 'station-keeping',
-    waypoint: waypoint,
+    waypoints: [waypoint],
     time: [Number: total time the boat is required to remain in the circle]
     timeRemaing: [Number: the time remaining]
 }
