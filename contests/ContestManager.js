@@ -75,7 +75,7 @@ ContestManager.prototype.handleCommand = function(cmdObj) {
             return;
         }
         self.cm.status({
-            status: 'new-contest',
+            type: 'new-contest',
             request: cmdObj,
             contest: contestDetails
         });

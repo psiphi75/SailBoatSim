@@ -66,7 +66,8 @@ simulation step (dt) is also included.
                speed: [Number: The speed of the wind in m/s]
                heading:  [Number: The heading of the source of the wind in degrees from true north]
            }
-      }
+      },
+      isSimulation: [Boolean: true if it's a simulation, false if it's the real deal]
 }
 ```
 
@@ -102,7 +103,7 @@ The request for a contest is like below.
 This results in a response like below:
 ```Text
 {
-    status: 'new-contest',
+    type: 'new-contest',
     request: [Object: this is just request object that was sent.  This is useful for observers like the simulator],
     contest: [Object: The details of the contest, as described in the Contests section below.]
 }
