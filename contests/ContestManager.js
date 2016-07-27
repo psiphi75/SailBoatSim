@@ -42,7 +42,8 @@ function ContestManager() {
     this.cm = wrc.createToy({
         udp4: false,
         tcp: true,
-        channel: CHANNEL
+        channel: CHANNEL,
+        log: function () {}
     });
 
     this.cm.on('error', console.error);

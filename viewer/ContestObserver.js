@@ -16,6 +16,7 @@ function ContestObserver(url, contestChangeCallback) { // eslint-disable-line no
     var observer = wrc.createObserver({
         proxyUrl: url,
         channel: 'ContestManager',
+        log: function() {}
     });
     observer.on('status', function(obj) {
         if (isNewContest(obj)) contestChangeCallback(obj);
