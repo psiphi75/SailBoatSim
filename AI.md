@@ -11,7 +11,12 @@ the right (around 45 degrees), and it can be any value in between.  The only con
 The boat's attitude (orientation) is described by the:
  * Roll - Rotation around the x-axis.  How much the boat leans from side to side.  Positive values are to the right.
  * Pitch - Rotation around the y-axis.  How much the boat rotates forward and back.  Positive values are forward.
- * Heading/Yaw - Rotation around the z-axis. How the boat points relative to true north. Positive values are anti-clockwise.
+ * Heading/Yaw - Rotation around the z-axis. How the boat points relative to true north. Positive values are clockwise.
+
+ **NOTE on yaw / heading:** The mathematical direction to the yaw / heading value is counter clockwise.  This makes sense
+ if  you a use the right hand rule for axis and rotation.  However, the yaw is the heading, and heading on a compass is
+ clockwise.  All the geospatial libraries use heading as clockwise.  This is a time I will break the mathematical rule
+ and all heading/yaw values will be clockwise.  See here too: https://en.wikipedia.org/wiki/Clockwise#Mathematics
 
 ![Boat Heading, Pitch, Roll](https://raw.githubusercontent.com/psiphi75/SailBoatSim/master/viewer/images/Boat-PitchRollHeading.png)
 
