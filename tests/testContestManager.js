@@ -9,7 +9,7 @@ var controller = wrc.createController({
 controller.once('register', function() {
     controller.command({
         action: 'request-contest',
-        type: 'area-scanning',
+        type: 'fleet-race',
         location: 'viana-do-castelo',
         realtime: true,
 //        latitude: 1,
