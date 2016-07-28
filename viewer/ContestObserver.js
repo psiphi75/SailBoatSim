@@ -20,11 +20,12 @@ function ContestObserver(url, contestChangeCallback) { // eslint-disable-line no
     });
     observer.on('status', function(obj) {
         if (isNewContest(obj)) contestChangeCallback(obj);
+        console.log('Refreshed contest');
     });
 
     function isNewContest(obj) {
         if (typeof obj !== 'object') return false;
-        if (obj.status === 'new-contest') return true;
+        if (obj.type === 'new-contest') return true;
         return false;
     }
 }

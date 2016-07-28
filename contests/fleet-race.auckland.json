@@ -1,0 +1,44 @@
+{
+    "type": "fleet-race",
+    "waypoints": [{
+                    "latitude": -36.80959066043442,
+                    "longitude": 174.75014324799585,
+                    "achieved": false,
+                    "type": "circle",
+                    "radius": 2
+                }, {
+                    "latitude": -36.809652622064256,
+                    "longitude": 174.75040789651675 "achieved": false,
+                    "type": "circle",
+                    "radius": 2
+                }, {
+                    "latitude": -36.80939040235937,
+                    "longitude": 174.75067226842907 "achieved": false,
+                    "type": "circle",
+                    "radius": 2
+                }, {
+                    "latitude": -36.809207348409274,
+                    "longitude": 174.75055658390866 "achieved": false,
+                    "type": "circle",
+                    "radius": 2
+            }],
+    "boundary": [{
+                    "latitude": -36.80957540048437,
+                    "longitude": 174.75001176014726
+                }, {
+                    "latitude": -36.809762860028876,
+                    "longitude": 174.75018295777787
+                }, {
+                    "latitude": -36.8094703631464,
+                    "longitude": 174.7507929162204
+                }, {
+                    "latitude": -36.80908740212271,
+                    "longitude": 174.75076607298328
+                }, {
+                    "latitude": -36.80904470958664,
+                    "longitude": 174.75047924287037
+                }, {
+                    "latitude": -36.80934073326363,
+                    "longitude": 174.7503904507406
+            }]
+}

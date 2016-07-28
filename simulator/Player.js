@@ -26,33 +26,14 @@
 var Boat = require('./Boat');
 var util = require('../lib/util');
 
-function Player(name, contest) {
+function Player(name, contest, request) {
     this.playerScope = require('./players/' + name);
     this.name = this.playerScope.info.name;
     this.playerAIFunction = this.playerScope.ai.bind(this.playerScope);
     this.playerInitFunction = this.playerScope.init.bind(this.playerScope);
+    this.playerCloseFunction = this.playerScope.close.bind(this.playerScope);
 
-    //
-    // Provide the player with the course
-    //
-    this.playerInitFunction(util.clone(contest));
-
-    var wp1;
-    if (contest) {
-        wp1 = contest.waypoints[0];
-    } else {
-        // Set a default latitude / longitude
-        wp1 = {
-            latitude: 41.68997067878485,
-            longitude: -8.824600720709379
-        };
-    }
-    var options = {
-        latitude: 0.0003 + util.jitter(wp1.latitude, 0.0001),
-        longitude: 0.0003 + util.jitter(wp1.longitude, 0.0001)
-    };
-
-    this.boat = new Boat(options);
+    this.start(contest, request);
 }
 
 Player.prototype.runAI = function(dt, env) {
@@ -78,7 +59,44 @@ Player.prototype.runAI = function(dt, env) {
 };
 
 Player.prototype.close = function() {
-    this.pla
-}
+    this.playerCloseFunction();
+};
+
+Player.prototype.setBoat = function (contest, request) {
+
+    var options;
+    var isCustomLatLong = request && request.latitude && request.longitude && true;
+    if (isCustomLatLong) {
+        options = {
+            latitude: request.latitude,
+            longitude: request.longitude
+        };
+    } else {
+        if (contest) {
+            options = contest.waypoints[0];
+        } else {
+            // Set a default latitude / longitude
+            options = {
+                latitude: 41.68997067878485,
+                longitude: -8.824600720709379
+            };
+        }
+        options.latitude = 0.0003 + util.jitter(options.latitude, 0.0001);
+        options.longitude = 0.0003 + util.jitter(options.longitude, 0.0001);
+    }
+
+    this.boat = new Boat(options);
+};
+
+Player.prototype.start = function(contest, request) {
+    // Provide the player with the course
+    this.playerInitFunction(util.clone(contest));
+    this.setBoat(contest, request);
+};
+
+Player.prototype.restart = function(contest, request) {
+    this.playerCloseFunction();
+    this.start(contest, request);
+};
 
 module.exports = Player;

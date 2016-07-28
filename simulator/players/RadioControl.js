@@ -1,5 +1,7 @@
-var util = require('../../lib/util.js');
+var util = require('../../lib/util.js'); // eslint-disable-line no-unused-vars
 var lastRudderValue = 0;
+
+var PLAYER_NAME = 'Simulation';
 
 //
 // Set up the toy (a.k.a boat) be controlled by the controller (can be a mobile phone or some remote AI).
@@ -7,10 +9,10 @@ var lastRudderValue = 0;
 var wrc = require('web-remote-control');
 var toy = wrc.createToy({
     proxyUrl: 'localhost',
-    udp4: true,
-    tcp: false,
+    udp4: false,
+    tcp: true,
     socketio: false,
-    channel: 'Simulation',
+    channel: PLAYER_NAME,
     log: function() {}
 });
 
@@ -26,7 +28,7 @@ toy.on('error', console.error);
 
 var RC = {
     info: {
-        name: 'RadioControl'
+        name: PLAYER_NAME
     },
 
     /**
@@ -54,7 +56,6 @@ var RC = {
     },
 
     close: function() {
-        toy.removeAllListeners();
     }
 };
 

@@ -32,7 +32,7 @@ const DEFAULT_SPEED = 100;
  * @param {Number} dt   Time between steps, in milliseconds.
  * @param {Boolean} realtime   In real-time mode (realtime=true) we wait `dt` milliseconds before running next simulation step.  Otherwise don't wait to run next simualtion step.
  */
-function Simulation(dt, realtime) {
+function Simulation(dt, realtime, options) {
     dt = dt || DEFAULT_SPEED;
 
     realtime = typeof realtime === 'undefined' ? realtime : true;
@@ -50,7 +50,7 @@ function Simulation(dt, realtime) {
         deltaSec: dt / 1000,       // The change in time (seconds)
         now: new Date().getTime()  // The current time
     };
-    this.environment = new Environment();
+    this.environment = new Environment(options);
     this.players = [];
 }
 
@@ -79,12 +79,11 @@ Simulation.prototype.run = function(callback) {
     this.step(callback);
 };
 
-/**
- * Close down the simulation.
- */
-Simulation.prototype.close = function () {
-    this.players.forEach((player) => player.close());
-    clearTimeout(this.stepTimeout);
+Simulation.prototype.reset = function(contest, request) {
+    this.environment = new Environment(request);
+    // FIXME: This only works for one player
+    this.players.forEach((player) => { player.restart(contest, request); });
 };
+
 
 module.exports = Simulation;

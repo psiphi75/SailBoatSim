@@ -24,24 +24,33 @@ function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no
     });
     var lasttime;
 
-    //
-    // Timeout after X seconds
-    //
-    setTimeout(function() {
-        callCallback(false);
-    }, 5000);
+    // //
+    // // Timeout after X seconds
+    // //
+    // var h = setTimeout(function() {
+    //     callCallback(false);
+    // }, 5000);
 
-    observer.on('register', function () {
-        console.log('Registered on channel: ' + observer.channel + ' with UID: ' + observer.uid);
-        callCallback(true);
-        observer.on('status', handleBoatStatusUpdate);
-    });
-    observer.on('error', handleError);
+    startObserver();
+
+    function startObserver() {
+        observer.on('register', function () {
+            console.log('Registered on channel: ' + observer.channel + ' with UID: ' + observer.uid);
+            callCallback(true);
+            // clearTimeout(h);
+            observer.on('status', handleBoatStatusUpdate);
+        });
+        observer.on('error', handleError);
+    }
 
     return {
         isRealTime: true,
         getStatus: function () {
             return boatStatus;
+        },
+        restart: function() {
+            observer.close();
+            startObserver();
         }
     };
 

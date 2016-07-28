@@ -97,6 +97,10 @@ The request for a contest is like below.
     type: [String: one of 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance']
     location: [String: one of 'auckland', 'viana-do-castelo']
     realtime: [Boolean: true if it is to be realtime, false to run as fast as possible]
+    latitude: [(optional) Number: degrees. Initial value for the GPS]
+    longitude: [(optional) Number: degrees.  Initial value for the GPS]
+    windSpeed: [(optional) Number: m/s.  If provided, the wind will be fixed at this speed, otherwise a random wind will be set set.]    
+    windHeading: [(optional) Number: degrees. NOTE: Wind heading is defined as the source of the wind, not where it's going]    
 }
 ```
 
@@ -177,6 +181,7 @@ The boat must scan an area.  I like to think of visiting many square waypoints.
 {
     type: 'area-scanning',
     waypoints: [Array of waypoints, in any order],
+    boundary: [List of points, boat must stay within boundary]
 }
 ```
 

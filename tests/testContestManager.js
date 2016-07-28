@@ -9,9 +9,16 @@ var controller = wrc.createController({
 controller.once('register', function() {
     controller.command({
         action: 'request-contest',
-        type: 'fleet-race',
+        type: 'area-scanning',
         location: 'viana-do-castelo',
-        realtime: true
+        realtime: true,
+//        latitude: 1,
+//        longitude: 2,
+        windSpeed: 5,
+        windHeading: 45
     });
 });
-controller.once('status', console.log);
+controller.once('status', function(obj) {
+    console.log(JSON.stringify(obj));
+    controller.close();
+});

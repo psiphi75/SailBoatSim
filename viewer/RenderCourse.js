@@ -14,17 +14,19 @@ RenderCourse.prototype.set = function(contestObj) {
     this.boundsRenderer.remove();
     this.wpRenderer.removeAll();
 
+    var renderWaypointLine = false;
     switch (contestObj.type) {
         case 'fleet-race':
+            renderWaypointLine = true;
+        case 'area-scanning':               // eslint-disable-line no-fallthrough
             this.boundsRenderer.set(contestObj.boundary);
-            this.wpRenderer.set(contestObj.waypoints);
+            this.wpRenderer.set(contestObj.waypoints, renderWaypointLine);
             break;
 
         case 'station-keeping':
             this.wpRenderer.set(contestObj.waypoints);
             break;
 
-        case 'area-scanning':
         case 'obstacle-avoidance':
         default:
             console.error('Error rendering course, contestObj does not have a valid contest type: ', contestObj.type);

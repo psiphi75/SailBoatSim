@@ -31,6 +31,8 @@ const VALID_CONTEST_LOCATIONS = ['auckland', 'viana-do-castelo'];
 
 var wrc = require('web-remote-control');
 var fs = require('fs');
+var areaScan = require('./GenerateAreaScan');
+var util = require('../lib/util');
 
 /**
  * The ContestManager will load a contest from a request from the controller.
@@ -75,6 +77,11 @@ ContestManager.prototype.handleCommand = function(cmdObj) {
             console.error('ERROR: ContestManager: invalid JSON: ', ex);
             return;
         }
+
+        if (cmdObj.type === 'area-scanning') {
+            contestDetails = areaScan.generate(contestDetails);
+        }
+
         self.cm.status({
             type: 'new-contest',
             request: cmdObj,
@@ -107,7 +114,20 @@ ContestManager.prototype.isValidCommand = function(cmdObj) {
         console.error('ERROR: ContestManager: realtime is not boolean: ', cmdObj.realtime);
         return false;
     }
+    if (!isUndefinedOrNumber('latitude')) return false;
+    if (!isUndefinedOrNumber('longitude')) return false;
+    if (!isUndefinedOrNumber('windSpeed')) return false;
+    if (!isUndefinedOrNumber('windHeading')) return false;
+
     return true;
+
+    function isUndefinedOrNumber(name) {
+        var val = cmdObj[name];
+        if (val === undefined) return true;
+        if (util.isNumeric(val)) return true;
+        console.error('ERROR: ContestManager: ' + name + ' is not valid: ', val);
+        return false;
+    }
 };
 
 /**
