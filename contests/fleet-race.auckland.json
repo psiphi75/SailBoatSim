@@ -8,17 +8,20 @@
                     "radius": 2
                 }, {
                     "latitude": -36.809652622064256,
-                    "longitude": 174.75040789651675 "achieved": false,
+                    "longitude": 174.75040789651675,
+                    "achieved": false,
                     "type": "circle",
                     "radius": 2
                 }, {
                     "latitude": -36.80939040235937,
-                    "longitude": 174.75067226842907 "achieved": false,
+                    "longitude": 174.75067226842907,
+                    "achieved": false,
                     "type": "circle",
                     "radius": 2
                 }, {
                     "latitude": -36.809207348409274,
-                    "longitude": 174.75055658390866 "achieved": false,
+                    "longitude": 174.75055658390866,
+                    "achieved": false,
                     "type": "circle",
                     "radius": 2
             }],
