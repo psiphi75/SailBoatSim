@@ -23,21 +23,46 @@
 
 'use strict';
 
+const DEFAULT_PLAYER = 'RadioControl';
+
 var Player = require('./Player');
 var LatLon = require('mt-latlon');
 var ContestObserver = require('../viewer/ContestObserver');
-var observer = new ContestObserver('localhost', restartSim); // eslint-disable-line no-unused-vars
+var observer = new ContestObserver('localhost', handleNewContest); // eslint-disable-line no-unused-vars
 
-function restartSim(newContest) {
-    console.log('\n\nRestarting simulation\n\n');
-    sim.reset(newContest.contest, newContest.request);
+var sim;
+function handleNewContest(newContest) {
+    if (!sim) {
+        //
+        // Start the simulation
+        //
+        var Simulation = require('./Simulation');
+        console.log('\n\nRunning simulation for first time:');
+        writeHeaders();
+        sim = new Simulation(100, true);
+
+        // Add players, then start the simulator
+        var playerName = process.env.PLAYER || DEFAULT_PLAYER; // Get the player's name
+        sim.addPlayer(new Player(playerName, newContest.contest, newContest.request));
+        sim.run(write);
+
+    } else {
+        //
+        // RE-Start the simulation
+        //
+        console.log('\n\nRestarting simulation\n\n');
+        writeHeaders();
+        sim.reset(newContest.contest, newContest.request);
+    }
 }
 
 //
 // Display the output
 //
-console.log('Player 1\t\t\t\t\t\t\t\t\tEnvironment');
-console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
+function writeHeaders() {
+    console.log('\n\nPlayer 1\t\t\t\t\t\t\t\t\tEnvironment');
+    console.log('rudder\troll\tspeed\theading\tposition\t\t\t\tspeed\theading');
+}
 
 function write(players, env) {
     var boat1 = players[0].boat;
@@ -53,12 +78,3 @@ function write(players, env) {
                          + env.wind.speed.toFixed(2) + ' \t'
                          + env.wind.heading.toFixed(2) + '  \r');
 }
-
-//
-// Start the simulation
-//
-var Simulation = require('./Simulation');
-console.log('\n\nRunning simulation for first time:');
-var sim = new Simulation(100, true);
-sim.addPlayer(new Player('RadioControl'));
-sim.run(write);

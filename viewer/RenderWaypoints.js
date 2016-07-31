@@ -1,5 +1,5 @@
 
-/* global Cesium GLOBALS */
+/* global Cesium GLOBALS RenderBoundary */
 
 'use strict';
 

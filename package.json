@@ -25,7 +25,7 @@
     "geographiclib": "^1.46.0",
     "mt-latlon": "^0.1.0",
     "node-static": "^0.7.7",
-    "web-remote-control": "^1.9.1",
+    "web-remote-control": "^1.9.2",
     "wrc-controller": "^0.0.8"
   }
 }

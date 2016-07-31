@@ -18,7 +18,7 @@ RenderGrid.prototype.set = function(position) {
         ellipse: {
             semiMinorAxis: 1000.0,
             semiMajorAxis: 1000.0,
-            height: 0.1,
+            height: 0.01,
             material: new Cesium.GridMaterialProperty({
                 color: new Cesium.Color(1, 1, 1, 0.5),
                 cellAlpha: 0.0,

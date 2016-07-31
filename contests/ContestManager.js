@@ -29,6 +29,13 @@ const VALID_ACTIONS = ['request-contest'];
 const VALID_CONTEST_TYPES = ['none', 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance'];
 const VALID_CONTEST_LOCATIONS = ['auckland', 'viana-do-castelo'];
 
+const DEFAULT_CONTEST_REQUEST = {
+    action: 'request-contest',
+    type: 'fleet-race',
+    location: 'auckland',
+    realtime: true
+};
+
 var wrc = require('web-remote-control');
 var fs = require('fs');
 var areaScan = require('./GenerateAreaScan');
@@ -49,20 +56,37 @@ function ContestManager() {
     });
 
     this.cm.on('error', console.error);
-    this.cm.on('command', this.handleCommand.bind(this));
+    this.cm.on('command', function (cmdObj) {
+        switch (cmdObj.action) {
+            case 'request-contest':
+                this.sendContest.bind(this);
+                break;
+            case 'get-current-contest':
+                this.sendCurrentContest.bind(this);
+                break;
+            default:
+                console.error('ContestManager(): unknown action: ', cmdObj.action);
+        }
+    });
+
+    // Load the default contest
+    var self = this;
+    this.cm.on('register', function() {
+        self.sendContest(DEFAULT_CONTEST_REQUEST);
+    });
 
 }
 
 /**
  * Handle a command from the controller.
- * @param  {object} cmdObj    The command object
+ * @param  {object} contestRequest    The contest request
  */
-ContestManager.prototype.handleCommand = function(cmdObj) {
+ContestManager.prototype.sendContest = function(contestRequest) {
 
-    if (!this.isValidCommand(cmdObj)) return;
-    if (cmdObj.type === 'none') return;
+    if (!this.isValidContestRequest(contestRequest)) return;
+    if (contestRequest.type === 'none') return;
 
-    const jsonFilename = __dirname + '/' + createJSONfilename(cmdObj);
+    const jsonFilename = __dirname + '/' + createJSONfilename(contestRequest);
 
     var self = this;
     fs.readFile(jsonFilename, 'utf8', function (err, data) {
@@ -78,40 +102,43 @@ ContestManager.prototype.handleCommand = function(cmdObj) {
             return;
         }
 
-        if (cmdObj.type === 'area-scanning') {
+        if (contestRequest.type === 'area-scanning') {
             contestDetails = areaScan.generate(contestDetails);
         }
 
-        self.cm.status({
+        self.currentContest = {
             type: 'new-contest',
-            request: cmdObj,
+            request: contestRequest,
             contest: contestDetails
-        });
+        };
+        
+        // Send the contest details and make the proxy hold it.
+        self.cm.stickyStatus(self.currentContest);
     });
 };
 
 /**
  * Check a given command is valid.
  */
-ContestManager.prototype.isValidCommand = function(cmdObj) {
-    if (typeof cmdObj !== 'object') {
+ContestManager.prototype.isValidContestRequest = function(contestRequest) {
+    if (typeof contestRequest !== 'object') {
         console.error('ERROR: ContestManager: not a valid command.');
         return false;
     }
-    if (VALID_ACTIONS.indexOf(cmdObj.action) < 0) {
-        console.error('ERROR: ContestManager: not a valid action: ', cmdObj.action);
+    if (VALID_ACTIONS.indexOf(contestRequest.action) < 0) {
+        console.error('ERROR: ContestManager: not a valid action: ', contestRequest.action);
         return false;
     }
-    if (VALID_CONTEST_TYPES.indexOf(cmdObj.type) < 0) {
-        console.error('ERROR: ContestManager: not a valid contest type: ', cmdObj.type);
+    if (VALID_CONTEST_TYPES.indexOf(contestRequest.type) < 0) {
+        console.error('ERROR: ContestManager: not a valid contest type: ', contestRequest.type);
         return false;
     }
-    if (VALID_CONTEST_LOCATIONS.indexOf(cmdObj.location) < 0) {
-        console.error('ERROR: ContestManager: not a valid contest location: ', cmdObj.location);
+    if (VALID_CONTEST_LOCATIONS.indexOf(contestRequest.location) < 0) {
+        console.error('ERROR: ContestManager: not a valid contest location: ', contestRequest.location);
         return false;
     }
-    if (typeof cmdObj.realtime !== 'boolean') {
-        console.error('ERROR: ContestManager: realtime is not boolean: ', cmdObj.realtime);
+    if (typeof contestRequest.realtime !== 'boolean') {
+        console.error('ERROR: ContestManager: realtime is not boolean: ', contestRequest.realtime);
         return false;
     }
     if (!isUndefinedOrNumber('latitude')) return false;
@@ -122,13 +149,14 @@ ContestManager.prototype.isValidCommand = function(cmdObj) {
     return true;
 
     function isUndefinedOrNumber(name) {
-        var val = cmdObj[name];
+        var val = contestRequest[name];
         if (val === undefined) return true;
         if (util.isNumeric(val)) return true;
         console.error('ERROR: ContestManager: ' + name + ' is not valid: ', val);
         return false;
     }
 };
+
 
 /**
  * Convert a string from 'Viana do Castelo' to 'viana-do-castelo'

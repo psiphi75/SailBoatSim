@@ -34,19 +34,21 @@ Boat.prototype.render = function (time) {
     var status = this.dataSource.getStatus(time);
     if (!status || !status.boat || !status.boat.gps || status.boat.gps.latitude === 0) return null;
 
-    status.boat.gps.altitude = -0.1;   // Put it on the ground / sea level
+    status.boat.gps.altitude = -0.05;   // Put it on the ground / sea level
 
     var posOrient = this.getPositionAndOrientation(status);
     if (!this.model) {
         // Called only once.
-        this.model = new Model('Boat', this.BOAT_MODEL, posOrient, true, {
-            minimumPixelSize: 100,
-            maximumScale: 1000,
-            scale: 0.33,
+        var modelOptions = {
+            // minimumPixelSize: 100,
+            // Change value to make the model scale as you zoom out
+            maximumScale: 0.123,
+            scale: 0.123,
             castShadows: true,
             receiveShadows: true,
             runAnimations: false
-        });
+        };
+        this.model = new Model('Boat', this.BOAT_MODEL, posOrient, true, modelOptions);
     } else {
         this.model.setPositionOrientation(posOrient);
     }
