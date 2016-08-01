@@ -48,6 +48,7 @@ var util = require('../lib/util');
  */
 function ContestManager() {
 
+    var self = this;
     this.cm = wrc.createToy({
         udp4: false,
         tcp: true,
@@ -59,10 +60,10 @@ function ContestManager() {
     this.cm.on('command', function (cmdObj) {
         switch (cmdObj.action) {
             case 'request-contest':
-                this.sendContest.bind(this);
+                self.sendContest.bind(self);
                 break;
             case 'get-current-contest':
-                this.sendCurrentContest.bind(this);
+                self.sendCurrentContest.bind(self);
                 break;
             default:
                 console.error('ContestManager(): unknown action: ', cmdObj.action);
@@ -70,7 +71,6 @@ function ContestManager() {
     });
 
     // Load the default contest
-    var self = this;
     this.cm.on('register', function() {
         self.sendContest(DEFAULT_CONTEST_REQUEST);
     });
@@ -111,7 +111,7 @@ ContestManager.prototype.sendContest = function(contestRequest) {
             request: contestRequest,
             contest: contestDetails
         };
-        
+
         // Send the contest details and make the proxy hold it.
         self.cm.stickyStatus(self.currentContest);
     });
