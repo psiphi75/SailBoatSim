@@ -7,6 +7,6 @@
         "type": "circle",
         "radius": 20
     }],
-    "time": 300,
-    "timeRemaing": 300
+    "timeLimit": 300,
+    "timeToStart": -300000
 }

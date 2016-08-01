@@ -58,12 +58,10 @@ function ContestManager() {
 
     this.cm.on('error', console.error);
     this.cm.on('command', function (cmdObj) {
+        // console.log(cmdObj)
         switch (cmdObj.action) {
             case 'request-contest':
-                self.sendContest.bind(self);
-                break;
-            case 'get-current-contest':
-                self.sendCurrentContest.bind(self);
+                self.sendContest.bind(self)(cmdObj);
                 break;
             default:
                 console.error('ContestManager(): unknown action: ', cmdObj.action);

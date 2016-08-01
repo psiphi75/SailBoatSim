@@ -161,6 +161,7 @@ following:
     type: 'fleet-race',
     waypoints: [Array of waypoints, in order (first is start, last is finish)],
     boundary: [List of points, boat must stay within boundary],
+    timeLimit: [Number: seconds]
     timeToStart: [Number: time (milliseconds) until the start of the race, if negative value then time since race begun]
 }
 ```
@@ -173,8 +174,8 @@ The station keeping contest requires the boat to remain within the radius of a g
 {
     type: 'station-keeping',
     waypoints: [waypoint],
-    time: [Number: total time the boat is required to remain in the circle]
-    timeRemaing: [Number: the time remaining]
+    timeLimit: [Number: total time the boat is required to remain in the circle]
+    timeToStart: [Number: the time remaining]
 }
 ```
 
@@ -186,7 +187,9 @@ The boat must scan an area.  I like to think of visiting many square waypoints.
 {
     type: 'area-scanning',
     waypoints: [Array of waypoints, in any order],
-    boundary: [List of points, boat must stay within boundary]
+    boundary: [List of points, boat must stay within boundary],
+    timeLimit: [Number: seconds]
+    timeToStart: [Number: the time remaining]
 }
 ```
 

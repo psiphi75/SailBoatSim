@@ -37,5 +37,7 @@
                 }, {
                     "latitude": 41.691193,
                     "longitude": -8.818706
-                }]
+                }],
+    "timeLimit": 300,
+    "timeToStart": -300000
 }

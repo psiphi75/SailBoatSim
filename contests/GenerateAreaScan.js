@@ -39,7 +39,7 @@ exports.generate = function generateAreaScan(obj) {
     var squareRadius = obj.width / 10 / 2;
 
     // p1 is top left corner of grid
-    var p1 = new Position(obj.latitude, obj.longitude);
+    var p1 = new Position(obj);
 
     // p1c is the center of the top left square
     var p1c = p1.gotoHeading(perpendicularWindDirection + 45, Math.sqrt(2) * squareRadius);
@@ -76,7 +76,9 @@ exports.generate = function generateAreaScan(obj) {
     return {
         'type': 'area-scanning',
         'waypoints': waypoints,
-        'boundary': boundary
+        'boundary': boundary,
+        'timeLimit': obj.timeLimit,
+        'timeToStart': obj.timeToStart,
     };
 
     function createWaypoint(pos) {
