@@ -32,23 +32,39 @@ var util = require('../../lib/util.js');
 var Position = require('../../lib/Position.js');
 var WaypointManager = require('../../lib/WaypointManager.js');
 
-var π = Math.PI;
+var PLAYER_NAME = 'Simulation';
 
-// γ > 0 is a tuning parameter, i.e. a larger value for γ gives a
-// trajectory of the boat that converges faster to the desired line. [MELIN]
-var γ = π / 4;
+//
+// Set up the toy (a.k.a boat) be controlled by the controller (can be a mobile phone or some remote AI).
+//
+var wrc = require('web-remote-control');
+var toy = wrc.createToy({
+    proxyUrl: 'localhost',
+    udp4: false,
+    tcp: true,
+    socketio: false,
+    channel: PLAYER_NAME,
+    log: function() {}
+});
+toy.on('error', console.error);
 
 // Can be 'nominal' or 'tack';
-var mode = 'nominal';
+var mode = 'tack';
 
 // Tacking mode -1 or 1
 var q = 1;
 
+const π = Math.PI;
+
+// γ > 0 is a tuning parameter, i.e. a larger value for γ gives a
+// trajectory of the boat that converges faster to the desired line. [MELIN]
+const γ = π / 4;
+
 // Tacking angle - TODO: Needs to be optimised
-var θt = util.toRadians(45);
+const θt = util.toRadians(45);
 
 // The no-go zone.  See: https://en.wikipedia.org/wiki/Point_of_sail TODO: Needs to be optimised
-var θnogo = util.toRadians(30);
+const θnogo = util.toRadians(30);
 
 var JM = {
     info: {
@@ -69,9 +85,11 @@ var JM = {
      */
     ai: function (state) {
 
+        state.isSimulation = true;
+        toy.status(state);
+
         // TODO: Change all angles to use degrees
         // TODO: This needs all some testing
-
 
         var myPosition = new Position(state.boat.gps);
         var wpStatus = this.waypoints.getStatus(myPosition);
@@ -96,7 +114,7 @@ var JM = {
         if (mode !== 'nominal') {
             // d, determines how close the sailboat will keep to the desired trajectory during tacking
             // TODO: This is a strategical value, this can be optimised based on water drift, etc.
-            var d = wpStatus.distance * 2;
+            var d = wpStatus.radius * 2;
             var wpCurrent = this.waypoints.getCurrent();
             var wpPrev = this.waypoints.getPrevious();
             var distantToWaypointLine = myPosition.distanceToLine(wpCurrent, wpPrev);
