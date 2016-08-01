@@ -15,12 +15,14 @@ RenderCourse.prototype.set = function(contestObj) {
     this.wpRenderer.removeAll();
 
     var renderWaypointLine = false;
+    var renderWaypointLabels = false;
     switch (contestObj.type) {
         case 'fleet-race':
             renderWaypointLine = true;
+            renderWaypointLabels = true;
         case 'area-scanning':               // eslint-disable-line no-fallthrough
             this.boundsRenderer.set(contestObj.boundary);
-            this.wpRenderer.set(contestObj.waypoints, renderWaypointLine);
+            this.wpRenderer.set(contestObj.waypoints, renderWaypointLine, renderWaypointLabels);
             break;
 
         case 'station-keeping':
