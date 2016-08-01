@@ -111,7 +111,11 @@ ContestManager.prototype.sendContest = function(contestRequest) {
         };
 
         // Send the contest details and make the proxy hold it.
-        self.cm.stickyStatus(self.currentContest);
+        if (process.env.COURSE_ON_REGISTER) {
+            self.cm.stickyStatus(self.currentContest);
+        } else {
+            self.cm.status(self.currentContest);
+        }
     });
 };
 

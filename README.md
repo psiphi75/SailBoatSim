@@ -26,6 +26,13 @@ node index
 
 **Note:** This has been tested and works on Linux, should work on MacOS, but your millage may vary with Windows.
 
+**Starting with a course**
+If you want to load a course when the simulator starts, you can run the following command:
+```sh
+COURSE_ON_REGISTER=true node index.js
+```
+
+
 ### Visualising it all
 
 Now you should see a two links, one link is for your mobile phone, this can be used to remote control the virtual
