@@ -14,12 +14,12 @@ controller.once('register', function() {
     controller.command({
         action: 'request-contest',
         type: 'fleet-race',
-        location: 'viana-do-castelo',
+        location: 'auckland',
         realtime: true,
 //        latitude: 1,
 //        longitude: 2,
         windSpeed: 5,
-        windHeading: 45
+        windHeading: 180
     });
     controller.once('status', function(obj) {
         console.log(JSON.stringify(obj));

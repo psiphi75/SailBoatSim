@@ -54,17 +54,17 @@ var mode = 'tack';
 // Tacking mode -1 or 1
 var q = 1;
 
-const π = Math.PI;
+const pi = Math.PI;
 
-// γ > 0 is a tuning parameter, i.e. a larger value for γ gives a
+// gamma > 0 is a tuning parameter, i.e. a larger value for gamma gives a
 // trajectory of the boat that converges faster to the desired line. [MELIN]
-const γ = π / 4;
+const gamma = 180 / 4;
 
 // Tacking angle - TODO: Needs to be optimised
-const θt = util.toRadians(45);
+const thetaT = 45;
 
 // The no-go zone.  See: https://en.wikipedia.org/wiki/Point_of_sail TODO: Needs to be optimised
-const θnogo = util.toRadians(30);
+const thetaNoGo = 30;
 
 var JM = {
     info: {
@@ -88,7 +88,6 @@ var JM = {
         state.isSimulation = true;
         toy.status(state);
 
-        // TODO: Change all angles to use degrees
         // TODO: This needs all some testing
 
         var myPosition = new Position(state.boat.gps);
@@ -99,37 +98,36 @@ var JM = {
             wpStatus = this.waypoints.next(myPosition);
         }
 
-        // 2. Calculate the desired heading, θr.
-        var l = wpStatus.distance;
+        // 2. Calculate the desired heading, thetaR.
+        var wpCurrent = this.waypoints.getCurrent();
+        var wpPrev = this.waypoints.getPrevious();
+        var l = myPosition.distanceToLine(wpCurrent, wpPrev);       // Distance to the desired trajectory
         var r = wpStatus.radius;
-        var β = -util.toRadians(wpStatus.heading);  // TODO: Test this - [MELIN] has different Yaw value
-        var θr = β - 2 * γ / π * Math.atan(l / r);
-        var θ = util.toRadians(state.boat.attitude.heading);
-        // console.log(util.toDegrees(θr));
+        var beta = wpPrev.distanceHeadingTo(wpCurrent).heading;     // Desired trajectory, the angle from the last waypoint to the next
+        var thetaR = beta - 2 * gamma / pi * Math.atan(l / r);
+        var theta = state.boat.attitude.heading;
 
         // 3. Determine mode of sailing, nominal or tack.
         var trueWind = state.environment.wind;
-        var ψtw = util.wrapDegrees(trueWind.heading + 180);
+        var trueWindHeading = util.wrapDegrees(trueWind.heading + 180);
 
         if (mode !== 'nominal') {
             // d, determines how close the sailboat will keep to the desired trajectory during tacking
             // TODO: This is a strategical value, this can be optimised based on water drift, etc.
             var d = wpStatus.radius * 2;
-            var wpCurrent = this.waypoints.getCurrent();
-            var wpPrev = this.waypoints.getPrevious();
             var distantToWaypointLine = myPosition.distanceToLine(wpCurrent, wpPrev);
 
             if (distantToWaypointLine >= d) {
                 q = myPosition.calcSideOfLine(wpCurrent, wpPrev);
             }
-            // FIXME: θr is already calculated above, we should only have to calculate once
-            θr = ψtw + q * θt;
+            // FIXME: thetaR is already calculated above, we should only have to calculate once
+            thetaR = trueWindHeading + q * thetaT;
         }
 
         // 4. Calculate rudder angle.
-        var e = θ - θr;
-        var δrmax = 1;
-        var rudder = Math.sin(e) * δrmax;
+        var e = theta - thetaR;
+        var sigmaRMax = 1;
+        var rudder = Math.sin(util.toDegrees(e)) * sigmaRMax;
 
         // 5. Calculate sail angle - Not currently implemented
 

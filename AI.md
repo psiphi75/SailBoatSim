@@ -56,8 +56,7 @@ simulation step (dt) is also included.
             },
             apparentWind: {
                 speed: [Number: The speed of the apparent wind in m/s]
-                // NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
-                heading: [Number: The heading of the apparent wind in degrees relative to true North (-180 ... 180)]
+                heading: [Number: Where the apparent wind is going to, in degrees relative to true North (-180 ... 180)]
                 // But when calculated relative to the boat, the headingToBoat is the direction of the wind (not source)
                 headingToBoat: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
             },
@@ -69,12 +68,19 @@ simulation step (dt) is also included.
       environment: {
            wind: {
                speed: [Number: The speed of the wind in m/s]
-               heading:  [Number: The heading of the source of the wind in degrees from true north]
+               heading: [Number: Where the wind is going to, in degrees from true north]
            }
       },
       isSimulation: [Boolean: true if it's a simulation, false if it's the real deal]
 }
 ```
+
+#### Wind direction vs wind heading
+
+This place explains it concisely, in a nutshell:
+ * Wind direction -> Where the wind is coming from.
+ * Wind heading -> Where the wind is going to.  **We use wind heading**.
+
 
 ### Moving the rudder
 
@@ -105,7 +111,7 @@ The request for a contest is like below.
     latitude: [(optional) Number: degrees. Initial value for the GPS]
     longitude: [(optional) Number: degrees.  Initial value for the GPS]
     windSpeed: [(optional) Number: m/s.  If provided, the wind will be fixed at this speed, otherwise a random wind will be set set.]    
-    windHeading: [(optional) Number: degrees. NOTE: Wind heading is defined as the source of the wind, not where it's going]    
+    windHeading: [(optional) Number: degrees. NOTE: Where the wind is going to, in degrees from true north]    
 }
 ```
 

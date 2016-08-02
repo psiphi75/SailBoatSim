@@ -107,10 +107,7 @@ function startCesium(boat, windvane, apparentWind) {
             windvane.render({
                 latitude: status.boat.gps.latitude,
                 longitude: status.boat.gps.longitude,
-
-                // NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
-                //       But we turn this around for the arrow.
-                heading: 180 + status.environment.wind.heading,
+                heading: status.environment.wind.heading,
             });
 
             apparentWind.render({

@@ -25,7 +25,7 @@
 'use strict';
 var util = require('../lib/util');
 
-// NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
+// NOTE: Wind heading is the direction is the wind is going to: http://www.windspeed.co.uk/ws/index.php?option=faq&task=viewfaq&Itemid=5&artid=17
 function Environment(options) {
     this.wind = new Wind(options);
 }
@@ -37,7 +37,10 @@ Environment.prototype.update = function(time) {
 
 /**
  * Return the environment variables.
- * NOTE: Wind direction is reported by the direction from which it originates. https://en.wikipedia.org/wiki/Wind_direction
+ * NOTE: windDirection -> the direction where the wind is coming from.
+ *       windHeading -> the direction where the wind is going to.
+ * http://www.windspeed.co.uk/ws/index.php?option=faq&task=viewfaq&Itemid=5&artid=17
+ *
  * @return {object} [description]
  */
 Environment.prototype.getValues = function() {
@@ -68,7 +71,8 @@ Wind.prototype.update = function(time) {
 Wind.prototype.getValues = function() {
     return {
         speed: this.speed,
-        heading: this.heading
+        heading: this.heading,
+        direction: util.wrapDegrees(this.heading + 180)
     };
 };
 

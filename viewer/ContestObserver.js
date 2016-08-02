@@ -20,7 +20,7 @@ function ContestObserver(url, contestChangeCallback) { // eslint-disable-line no
     });
     observer.on('status', function(obj) {
         if (isNewContest(obj)) contestChangeCallback(obj);
-        console.log('Refreshed contest');
+        console.log('Refreshed contest: ', obj.request.location, obj.request.type);
     });
 
     function isNewContest(obj) {

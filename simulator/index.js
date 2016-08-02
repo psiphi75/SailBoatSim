@@ -39,7 +39,7 @@ function handleNewContest(newContest) {
         var Simulation = require('./Simulation');
         console.log('\n\nRunning simulation for first time:');
         writeHeaders();
-        sim = new Simulation(100, true);
+        sim = new Simulation(100, true, newContest.request);
 
         // Add players, then start the simulator
         var playerName = process.env.PLAYER || DEFAULT_PLAYER; // Get the player's name
