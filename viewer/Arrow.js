@@ -42,7 +42,7 @@ Arrow.prototype.getPositionAndOrientation = function(status) {
     heading *= Math.PI / 180;               // to radians
     while (heading > Math.PI) heading -= 2 * Math.PI;
     while (heading < -Math.PI) heading += 2 * Math.PI;
-    heading += Math.PI / 2;                 // to Cesium coordinates
+    heading -= Math.PI / 2;                 // to Cesium coordinates
     // console.log(`${status.timestamp}: Boat Direction: ${status.attitude.heading.toFixed(1)}\tSpeed:${status.velocity.speed.toFixed(1)}\tWind Direction: ${status.windvane.headingTrue.toFixed(1)},\tSpeed: ${(status.windvane.speed).toFixed(1)}`);
 
     // Pitch goes opposite direction in Cesium

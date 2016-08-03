@@ -36,16 +36,8 @@ module.exports = {
      * @param  {number} apparentWindHeadingToBoat The apparent wind heading (degrees)
      * @return {number}                     The estimated roll (degrees)
      */
-    // estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat) {
-    //     var hRad = util.toRadians(apparentWindHeadingToBoat);
-    //     var estRoll = Math.sin(hRad) * (90 - Math.exp(-apparentWindSpeed * 0.09 + 4.5));
-    //     return estRoll;
-    // }
-
     estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat, roll) {
-        // var sign = apparentWindHeading < 0 ? -1 : 1;
         var estRoll = C * apparentWindSpeed * Math.sin(apparentWindHeadingToBoat * Math.PI / 180);
-        // console.log(apparentWindSpeed, apparentWindHeadingToBoat, roll, estRoll, B, C)
         return estRoll;
     }
 };

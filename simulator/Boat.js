@@ -104,7 +104,7 @@ Boat.prototype.simulate = function(time, env) {
     var headingChange = boatSimFuncs.applyHeadingChange(time, env, boatValues);
     var newHeading = util.wrapDegrees(this.heading + headingChange);
     var drift = {
-        heading: this.apparentWind.heading,
+        heading: this.apparentWind.headingToNorth,
         speed: 0// FIXME: need to implement this: boatSimFuncs.applyDrift(time, env, boatValues, apparentWind)
     };
 
@@ -144,7 +144,7 @@ Boat.prototype.getActualValues = function() {
         apparentWind: {
             speed: this.apparentWind.speed,
             heading: this.apparentWind.heading,
-            headingToBoat: this.apparentWind.headingToBoat
+            headingToNorth: this.apparentWind.headingToNorth
         },
         servos: {
             rudder: this.actualRudder,
@@ -172,7 +172,7 @@ Boat.prototype.getValues = function() {
         apparentWind: {
             speed: util.jitter(this.apparentWind.speed, this.jitter.speed),
             heading: util.jitter(this.apparentWind.heading, this.jitter.heading),
-            headingToBoat: util.jitter(this.apparentWind.heading, this.jitter.heading)
+            headingToNorth: util.jitter(this.apparentWind.headingToNorth, this.jitter.heading)
         }
     };
     return result;

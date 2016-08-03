@@ -113,7 +113,7 @@ function startCesium(boat, windvane, apparentWind) {
             apparentWind.render({
                 latitude: status.boat.gps.latitude,
                 longitude: status.boat.gps.longitude,
-                heading: status.boat.apparentWind.heading
+                heading: status.boat.apparentWind.headingToNorth
             });
         }
         Cesium.requestAnimationFrame(tick);

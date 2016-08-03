@@ -38,12 +38,12 @@ var delayRudder = new Delay(RUDDER_TRAVEL_TIME);
 var boatSimFuncs = {
     applyRoll: function(time, env, boat) {
         // console.log(env, boat.velocity, boat.apparentWind)
-        var inertialessRoll = roll.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.headingToBoat, boat.attitude.roll);
+        var inertialessRoll = roll.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll);
         var newRoll = inertialessRoll * (1 - ROLL_INERTIA * time.deltaSec) + boat.attitude.roll * ROLL_INERTIA * time.deltaSec;
         return newRoll;
     },
     applySpeed: function(time, env, boat) {
-        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.headingToBoat, boat.attitude.roll);
+        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll);
         var newSpeed = inertialessSpeed * (1 - SPEED_INERTIA * time.deltaSec) + boat.velocity.speed * SPEED_INERTIA * time.deltaSec;
         return newSpeed;
     },

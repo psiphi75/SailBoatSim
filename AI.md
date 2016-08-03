@@ -56,9 +56,9 @@ simulation step (dt) is also included.
             },
             apparentWind: {
                 speed: [Number: The speed of the apparent wind in m/s]
-                heading: [Number: Where the apparent wind is going to, in degrees relative to true North (-180 ... 180)]
                 // But when calculated relative to the boat, the headingToBoat is the direction of the wind (not source)
-                headingToBoat: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
+                heading: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
+                headingToNorth: [Number: Where the apparent wind is going to, in degrees relative to true North (-180 ... 180)]
             },
             servos: {
                 rudder: [Number: The last value of the rudder servo (-1.0 ... 1.0)]
