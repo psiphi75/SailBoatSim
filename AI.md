@@ -215,3 +215,24 @@ two locations) and avoiding all obstacles.
 ```
 
 Note: The each 2nd waypoint will be at the same point.
+
+### Debugging
+
+You can send debug messages to the viewer using the `Simulation` channel.  For example:
+
+```js
+{
+    render: 'point',
+    details: {
+        id: '##1',
+        label: 'Hello World',
+        latitude: -36.809119122287484,
+        longitude: 174.75057466678572,
+        color: {
+            red: 1.0,
+            green: 0.5,
+            blue: 0.333
+        }        
+    }
+}
+```

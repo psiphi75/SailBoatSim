@@ -1,4 +1,4 @@
-/* global Cesium $ Boat Arrow RenderGrid RenderCourse ContestObserver */
+/* global Cesium $ Boat Arrow RenderPoint RenderGrid RenderCourse ContestObserver */
 'use strict';
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
@@ -7,6 +7,7 @@ Cesium.BingMapsApi.defaultKey = BING_API_KEY;
 
 var GLOBALS = {
     viewer: null,
+    renderer: null
 };
 
 $( document ).ready(function() {
@@ -29,6 +30,20 @@ $( document ).ready(function() {
         startCesium(boat, windvane, apparentWind);
     });
 
+    //
+    // Configure the renderer listener
+    //
+    var wrc = require('web-remote-control');
+    GLOBALS.renderer = wrc.createObserver({
+        channel: 'Renderer',
+        // log: function() {}
+    });
+    GLOBALS.renderer.on('status', function(status) {
+        if (status.render === 'point') {
+            RenderPoint(status.details);
+        }
+    });
+    GLOBALS.renderer.on('error', console.error);
 
 });
 

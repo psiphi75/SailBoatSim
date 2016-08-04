@@ -47,8 +47,20 @@ toy.on('command', function handleCommand(command) {
     if (command.action === 'move') {
         lastRudderValue = command.servoRudder;
     }
+    if (command.action === 'render') {
+        renderer.status(command);
+    }
 });
 toy.on('error', console.error);
+
+var renderer = wrc.createToy({
+    proxyUrl: 'localhost',
+    udp4: false,
+    tcp: true,
+    socketio: false,
+    channel: 'Renderer',
+    log: function() {}
+});
 
 var RC = {
     info: {
@@ -75,7 +87,7 @@ var RC = {
         return {
             action: 'move',
             servoRudder: lastRudderValue,
-            servoSail: 0
+            servoSail: 0,
         };
     },
 
