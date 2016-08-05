@@ -7,7 +7,7 @@ Viana do Castelo, Portugal.
 
 ## Getting started
 
-I run this on a Linux machine.  I have nodejs and npm installed, the versions shouldn't matter.
+I run this on a Linux machine.  I have nodejs and npm installed, you should use nodejs v4.0 or greater.
 
 ### 1) Install SailBoatSim
 To install the simulator run the following commands.
@@ -30,6 +30,12 @@ node index
 If you want to load a course when the simulator starts, you can run the following command:
 ```sh
 COURSE_ON_REGISTER=true node index.js
+```
+
+**Starting with a course with AI**
+If you want to load a course when the simulator starts as well has have AI, you can run the following command:
+```sh
+COURSE_ON_REGISTER=true PLAYER=psiphi node index.js
 ```
 
 
@@ -58,7 +64,12 @@ to right.
 
 ## Writing your own AI
 
-The `simulator/players/` folder has the `template.js` and `RadioControl.js` JavaScript files.  You can inspect these to see how the AI should behave.
+In the `simulator/players/` folder you will find different AI bots.  You can inspect these to see how the AI should behave. These are:
+
+* psiphi.js: This a very basic JavaScript based AI bot.  It has flaws, but **this is a good starting point.**
+* RadioControl.js: This is not AI per say, but you can hook a remote control into it, or you can connect Python to it as well.  See the
+* Jon.Melin.js: This is based on [this paper](https://uu.diva-portal.org/smash/get/diva2:850625/FULLTEXT01.pdf) and does not work.
+* template.js: This is just how an empty AI player would look like.
 
 You need to write your code in the `ai()` function.  The `ai()` should return
 an object like:
@@ -71,6 +82,7 @@ an object like:
 }
 ```
 
+
 ## Reading Material
 
 * The [World Robotic Sailboat Championships](http://wrsc2016.com/) rules.
@@ -79,9 +91,10 @@ an object like:
 ## Todo & bugs
 
 * I will create more documentation on how to get started.
-* The simulator is not actually working, this will take a day or two fix.  It
-should be fixed by 22 July 2016.
-* Create an issue to report more bugs/todos/questions/etc.
+* *Improve physics model:* A physics model for the simulation exist, but it's primitive and has some flaws.
+* *Route planning and AI:*  Route planning is primitive, but it works.  It's currently in JavaScript, but it's possible to write some in Python.
+* *Onboard wind sensing:* This is low priority, but it could be an interesting project for someone.  You can use the roll and heading to estimate the wind direction.
+* *Camera for obstacle avoidance:* This is the lowest priority.  At first we will focus on getting the boat sailing properly.
 
 ## License
 
