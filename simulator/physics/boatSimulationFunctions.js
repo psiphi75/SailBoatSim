@@ -43,7 +43,7 @@ var boatSimFuncs = {
         return newRoll;
     },
     applySpeed: function(time, env, boat) {
-        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll);
+        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll, boat.servos.rudder);
         var newSpeed = inertialessSpeed * (1 - SPEED_INERTIA * time.deltaSec) + boat.velocity.speed * SPEED_INERTIA * time.deltaSec;
         return newSpeed;
     },

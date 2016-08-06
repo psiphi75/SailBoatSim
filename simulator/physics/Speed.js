@@ -31,11 +31,11 @@ module.exports = {
      * @param  {number} apparentWindHeadingToBoat   The apparent wind heading (degrees)
      * @return {number}                             The estimated roll (degrees)
      */
-    estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat, roll) {
-        var B = -1.113;
-        var C = 0.0151;
+    estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat, roll, rudder) {
+        var B = 0.5;
+        // var C = 0.0151;
         // TODO: The speed will change based on a function of the heading of the wind, a wind from back may make the boat go quicker.
-        var estSpeed = Math.abs(Math.sin(apparentWindHeadingToBoat * Math.PI / 180) * (B * apparentWindSpeed + C) * Math.cos(roll * Math.PI / 180));
+        var estSpeed = Math.abs(Math.sin(apparentWindHeadingToBoat * Math.PI / 180) * (B * apparentWindSpeed) * Math.cos(roll * Math.PI / 180)) * (0.25 * (1 - Math.abs(rudder)) + 0.75);
         return estSpeed;
     }
 };
