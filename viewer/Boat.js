@@ -5,26 +5,22 @@
 function Boat(source, url, readyCallback) {
 
     this.BOAT_MODEL = 'models/ship.gltf';
-    this.BOAT_DATA_JSON = './lastLog.json';
-    this.SIMULATION_URL = url;
-
-    var self = this;
 
     //
     // Try to load the realtime connection, if that fails load the JSON file
     //
 
-    var channel = 'Honestly Round Down Quark';
+    var channel = 'Perfectly Yummy Antitau';
     switch (source) {
-        case 1:   // Actual: Load from disk
-            self.dataSource = new DataJSONFile(this.BOAT_DATA_JSON, channel, readyCallback);
+        case 'file':
+            this.dataSource = new DataJSONFile(url, readyCallback);
             break;
-        case 2:
+        case 'simulation':
             channel = 'Simulation';
-            self.dataSource = new Realtime(url, channel, readyCallback);
+            this.dataSource = new Realtime(url, channel, readyCallback);
             break;
         default:
-            console.error('Invalid source');
+            console.error('Invalid source: ', source);
     }
 
 }

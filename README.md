@@ -38,6 +38,13 @@ If you want to load a course when the simulator starts as well has have AI, you 
 COURSE_ON_REGISTER=true PLAYER=psiphi node index.js
 ```
 
+**Loading actual course recording**
+The `viewer/recordings` folder contains a set of actual data points taken from the boat.
+
+```sh
+LOAD_RECORDING=016.json node index.js
+```
+
 
 ### Visualising it all
 

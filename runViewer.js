@@ -57,3 +57,60 @@ require('http').createServer(function (request, response) {
 }).listen(PORT);
 
 console.log(`Point your desktop web browser to http://localhost:${PORT}`);
+
+
+//
+// Make the recordings availble in the /recordings folder, and make a default one.
+//
+
+var fs = require('fs');
+var RECORDING_LIST_FILE = 'recordings.json';
+var RECORDING_PATH = './viewer/recordings/';
+var recordingToLoad = process.env.LOAD_RECORDING;
+if (recordingToLoad) {
+
+    // Load a recording on boot
+
+    fs.readdir('./viewer/recordings', function(err, fsList) {
+        if (err) {
+            console.error('Error loading recordings: ', err);
+            return;
+        }
+
+        // Match the default recording
+        var defaultRecording = null;
+        fsList.forEach((recordingName) => {
+            if (recordingName === recordingToLoad) {
+                defaultRecording = recordingToLoad;
+            }
+        });
+        if (defaultRecording === null) {
+            defaultRecording = fsList[0];
+        }
+
+        // Ignore the recordings file
+        var i = fsList.indexOf(RECORDING_LIST_FILE);
+        if (i !== -1) {
+            fsList.splice(i, 1);
+        }
+
+        var recordings = {
+            default: defaultRecording,
+            list: fsList
+        };
+        fs.writeFile(RECORDING_PATH + RECORDING_LIST_FILE, JSON.stringify(recordings), function (err2) {
+            if (err2) {
+                console.error('Error creating recording list file: ', err2);
+                return;
+            }
+        });
+    });
+
+} else {
+    // Don't load the recoring (remove the recording list file)
+    fs.unlink(RECORDING_PATH + RECORDING_LIST_FILE, function(err) {
+        if (err && err.errno !== -2) {
+            console.error('err');
+        }
+    });
+}

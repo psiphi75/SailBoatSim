@@ -23,8 +23,11 @@ function DataJSONFile(jsonPath, callback) { // eslint-disable-line no-unused-var
     var lastTimelineTime = 0;
 
     // Start the data - but wait, we may connect to realtime connection
-    $.get(jsonPath, function(jsonData) {
+    $.getJSON(jsonPath, function(jsonData) {
         data = new Table(jsonData);
+        callback();
+    }).fail(function(err) {
+        console.error(err);
         callback();
     });
 

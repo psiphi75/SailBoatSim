@@ -3,6 +3,7 @@
 
 const BING_API_KEY = 'AnaBMah6dkmpEMQuI-p16Ge_Lmkmf3C0OOqqLb5nvFZ_G3sKhL4rmlkGePsmLah7';
 const REALTIME_URL = window.location.hostname;
+const RECORDING_INFO_URL = 'recordings/recordings.json';
 Cesium.BingMapsApi.defaultKey = BING_API_KEY;
 
 var GLOBALS = {
@@ -12,38 +13,59 @@ var GLOBALS = {
 
 $( document ).ready(function() {
 
-    //
-    // Ask user what they want to do. FIXME: Bad hack
-    //
-    var source = 2;
-    // do {
-    //     var question = 'What source data do you want to use:\n';
-    //     question += '  1) Actual: Load from disk\n';
-    //     question += '  2) Actual/Simulation: Live via URL\n';
-    //     var defaultOption = '2';
-    //     source = parseInt(window.prompt(question, defaultOption));   // eslint-disable-line no-alert
-    // } while (!(source >= 1 && source <= 2));
 
-    var windvane = new Arrow('Windvane', 'blue');
-    var apparentWind = new Arrow('ApparentWind', 'red');
-    var boat = new Boat(source, REALTIME_URL, function() {
-        startCesium(boat, windvane, apparentWind);
-    });
+    checkAndLoadRecording(loadViewer);
 
-    //
-    // Configure the renderer listener
-    //
-    var wrc = require('web-remote-control');
-    GLOBALS.renderer = wrc.createObserver({
-        channel: 'Renderer',
-        // log: function() {}
-    });
-    GLOBALS.renderer.on('status', function(status) {
-        if (status.render === 'point') {
-            RenderPoint(status.details);
+    /**
+     * Check if the recoding exists.  If not then we don't load the recording.
+     * @param  {Function} callback [description]
+     * @return {[type]}            [description]
+     */
+    function checkAndLoadRecording(callback) {
+        $.getJSON(RECORDING_INFO_URL, function (data) {
+            callback('recordings/' + data.default);
+        }).fail(function() {
+            callback(null);
+        });
+    }
+
+    /**
+     * The Main load function.  Everything starts here.
+     * @param  {[type]} recordingInfo [description]
+     * @return {[type]}               [description]
+     */
+    function loadViewer(recordingInfo) {
+
+        // FIXME: This would be all better in the boat loader.
+        var source;
+        var url;
+        if (recordingInfo) {
+            url = recordingInfo;
+            source = 'file';
+        } else {
+            url = REALTIME_URL;
+            source = 'simulation';
         }
-    });
-    GLOBALS.renderer.on('error', console.error);
+        var windvane = new Arrow('Windvane', 'blue');
+        var apparentWind = new Arrow('ApparentWind', 'red');
+        var boat = new Boat(source, url, function() {
+            startCesium(boat, windvane, apparentWind);
+        });
+
+        //
+        // Configure the renderer listener
+        //
+        var wrc = require('web-remote-control');
+        GLOBALS.renderer = wrc.createObserver({
+            channel: 'Renderer'
+        });
+        GLOBALS.renderer.on('status', function(status) {
+            if (status.render === 'point') {
+                RenderPoint(status.details);
+            }
+        });
+        GLOBALS.renderer.on('error', console.error);
+    }
 
 });
 
@@ -78,7 +100,7 @@ function startCesium(boat, windvane, apparentWind) {
     GLOBALS.viewer.extend(Cesium.viewerCesiumInspectorMixin);
 
     // Wait for contest updates
-    var contest = new ContestObserver(REALTIME_URL, onContestChange);
+    var contest = new ContestObserver(REALTIME_URL, onContestChange); // eslint-disable-line no-unused-vars
 
     // Get the HUD
     var hud = document.getElementById('hud');
