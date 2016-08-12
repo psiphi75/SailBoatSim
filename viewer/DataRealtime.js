@@ -24,13 +24,6 @@ function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no
     });
     var lasttime;
 
-    // //
-    // // Timeout after X seconds
-    // //
-    // var h = setTimeout(function() {
-    //     callCallback(false);
-    // }, 5000);
-
     startObserver();
 
     function startObserver() {
