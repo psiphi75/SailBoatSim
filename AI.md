@@ -60,6 +60,10 @@ simulation step (dt) is also included.
                 heading: [Number: The heading of the apparent wind in degrees relative to the boat (-180 ... 180)]
                 headingToNorth: [Number: Where the apparent wind is going to, in degrees relative to true North (-180 ... 180)]
             },
+            trueWind: {
+                speed: [Number: the same as the actual wind speed m/s]
+                heading: [Number: The heading of the true wind in degrees relative to the boat (-180 ... 180)]
+            },
             servos: {
                 rudder: [Number: The last value of the rudder servo (-1.0 ... 1.0)]
                 sail:  [Number: The last value of the sail servo (-1.0 ... 1.0)]

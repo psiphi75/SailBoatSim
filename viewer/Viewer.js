@@ -24,7 +24,7 @@ $( document ).ready(function() {
     function checkAndLoadRecording(callback) {
         $.getJSON(RECORDING_INFO_URL, function (data) {
             callback('recordings/' + data.default);
-        }).fail(function() {
+        }).error(function() {
             callback(null);
         });
     }

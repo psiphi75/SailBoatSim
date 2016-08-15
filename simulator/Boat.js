@@ -94,6 +94,7 @@ Boat.prototype.simulate = function(time, env) {
     // Do helper calculations
     //
     this.apparentWind = boatUtil.calcApparentWind(env.wind.speed, env.wind.heading, this.speed, this.direction);
+    this.trueWind = boatUtil.calcTrueWind(env.wind.speed, env.wind.heading, this.speed, this.direction);
     var boatValues = this.getActualValues();
 
     //
@@ -145,6 +146,10 @@ Boat.prototype.getActualValues = function() {
             speed: this.apparentWind.speed,
             heading: this.apparentWind.heading,
             headingToNorth: this.apparentWind.headingToNorth
+        },
+        trueWind: {
+            speed: this.trueWind.speed,
+            heading: this.trueWind.heading
         },
         servos: {
             rudder: this.actualRudder,

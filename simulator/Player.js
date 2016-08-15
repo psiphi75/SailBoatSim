@@ -49,7 +49,8 @@ Player.prototype.runAI = function(dt, env) {
         // Need to make sure player can't access other things
         command = this.playerAIFunction(state);
     } catch (ex) {
-        console.error(`Error running AI for player ${this.name}: `, ex);
+        console.error(`Error running AI for player ${this.name}:`);
+        console.error(ex.stack);
         return;
     }
     if (command && command.action === 'move') {

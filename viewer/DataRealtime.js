@@ -1,8 +1,8 @@
 
 function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no-unused-vars
     'use strict';
-url = '192.168.43.18'
-channel = 'Perfectly Yummy Antitau'
+// url = '192.168.43.18'
+// channel = 'Perfectly Yummy Antitau'
     //
     // Connection stuff
     //

@@ -85,7 +85,7 @@ an object like:
 {
     action: 'move',
     servoSail: [Number: -1.0 to 1.0],
-    servoRudder: [Number: -1.0 to 1.0] -- not currently enabled
+    servoRudder: [Number: -1.0 to 1.0]
 }
 ```
 

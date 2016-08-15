@@ -26,7 +26,7 @@
 var util = require('../../lib/util');
 
 // const B = -7.32624240;
-const C = 8.365469590752099;
+const C = -8.365469590752099;
 
 module.exports = {
 
