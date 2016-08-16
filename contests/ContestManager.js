@@ -34,8 +34,8 @@ const DEFAULT_CONTEST_REQUEST = {
     type: 'fleet-race',
     location: 'auckland',
     realtime: true,
-    windSpeed: 2,
-    windHeading: 120
+    windSpeed: 4,
+    windHeading: -130
 };
 
 var wrc = require('web-remote-control');

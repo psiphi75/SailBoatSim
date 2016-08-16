@@ -72,7 +72,7 @@ Wind.prototype.getValues = function() {
     return {
         speed: this.speed,
         heading: this.heading,
-        direction: util.wrapDegrees(this.heading + 180)
+        // direction: util.wrapDegrees(this.heading + 180)
     };
 };
 
