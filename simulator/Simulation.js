@@ -24,6 +24,7 @@
 'use strict';
 
 var Environment = require('./Environment');
+var wrc = require('web-remote-control');
 
 const DEFAULT_SPEED = 100;
 
@@ -34,12 +35,19 @@ const DEFAULT_SPEED = 100;
  */
 function Simulation(dt, realtime, options) {
     dt = dt || DEFAULT_SPEED;
+    var simSpeed = 1;
 
     realtime = typeof realtime === 'undefined' ? realtime : true;
     if (realtime) {
         var self = this;
         this.callNextStep = function (callback) {
-            self.stepTimeout = setTimeout(self.step.bind(self, callback), dt);
+            var delay;
+            if (simSpeed <= 0) {
+                delay = 1;
+            } else {
+                delay = dt / simSpeed;
+            }
+            self.stepTimeout = setTimeout(self.step.bind(self, callback), delay);
         };
     } else {
         this.callNextStep = this.step;
@@ -52,6 +60,21 @@ function Simulation(dt, realtime, options) {
     };
     this.environment = new Environment(options);
     this.players = [];
+
+
+    //
+    // This is how we control our simulation speed
+    //
+    var simSpeedToy = wrc.createToy({
+        channel: 'simulation-speed'
+    });
+    simSpeedToy.on('command', function(cmd) {
+        if (typeof cmd.setSpeed === 'number') {
+            simSpeed = cmd.setSpeed;
+        }
+    });
+    simSpeedToy.on('error', console.error);
+
 }
 
 Simulation.prototype.addPlayer = function(player) {

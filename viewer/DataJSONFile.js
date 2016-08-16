@@ -32,7 +32,7 @@ function DataJSONFile(jsonPath, callback) { // eslint-disable-line no-unused-var
     });
 
     return {
-        isRealTime: false,
+        dataType: 'recording',
         getMinTime: function() {
             var times = data.getColumn('timestamp');
             return new Date(ArrMin(times));

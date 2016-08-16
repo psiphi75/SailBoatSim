@@ -13,17 +13,6 @@ function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no
     });
     var boatStatus = {};
 
-    //
-    // For AHRS code
-    //
-    var AHRS = require('ahrs');
-    var madgwick = new AHRS({
-        sampleInterval: 5,
-        algorithm: 'Madgwick',
-        beta: 0.2
-    });
-    var lasttime;
-
     startObserver();
 
     function startObserver() {
@@ -35,8 +24,31 @@ function Realtime(url, channel, connectionCallback) {  // eslint-disable-line no
         observer.on('error', handleError);
     }
 
+    //
+    // Set up a controller so we can controll the simulation speed
+    //
+    var dataType;
+    var simSpeedController;
+    if (channel === 'Simulation') {
+        dataType = 'simulation';
+        simSpeedController = wrc.createController({
+            proxyUrl: url,
+            channel: 'simulation-speed'
+        });
+        simSpeedController.on('error', handleError);
+    } else {
+        dataType = 'realtime';
+    }
+
+    var lastSimSpeed = -999;
     return {
-        isRealTime: true,
+        dataType: dataType,
+        setSimSpeed: function(simSpeed) {
+            if (simSpeed === lastSimSpeed) return;
+            lastSimSpeed = simSpeed;
+
+            simSpeedController.command({setSpeed: simSpeed});
+        },
         getStatus: function () {
             return boatStatus;
         },

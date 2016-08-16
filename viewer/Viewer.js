@@ -72,15 +72,21 @@ $( document ).ready(function() {
 
 function startCesium(boat, windvane, apparentWind) {
 
-    if (!boat.dataSource.isRealTime) {
+    var clock;
+    if (boat.dataSource.dataType === 'recording') {
         var startTime = Cesium.JulianDate.fromDate(boat.dataSource.getMinTime());
         var endTime = Cesium.JulianDate.fromDate(boat.dataSource.getMaxTime());
-        var clock = new Cesium.Clock({
+        clock = new Cesium.Clock({
             startTime: startTime,
             currentTime: startTime,
             stopTime: endTime,
             clockRange: Cesium.ClockRange.LOOP_STOP,
             multiplier: 5,
+            shouldAnimate: true
+        });
+    } else if (boat.dataSource.dataType === 'simulation') {
+        clock = new Cesium.Clock({
+            multiplier: 1,
             shouldAnimate: true
         });
     }
@@ -113,6 +119,9 @@ function startCesium(boat, windvane, apparentWind) {
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
+            if (boat.dataSource.dataType === 'simulation') {
+                boat.dataSource.setSimSpeed(clock.multiplier);
+            }
         }
 
         //
