@@ -96,7 +96,7 @@ This place explains it concisely, in a nutshell:
 {
     action: 'move',
     servoRudder: [Number: The value of the rudder (-1.0 to 1.0) - where 1.0 is rudder is pointing 45 degrees to the right (boat will turn right)],
-    servoSail: [Number: The value of the sail - CURRENTLY DISABLED]
+    servoSail: [Number: The value of the sail - where 1 the sail is fully out and -1 the sail is fully in.]
 }
 ```
 

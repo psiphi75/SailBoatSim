@@ -91,7 +91,7 @@ var fn = {
         return data;
     },
 
-    findOptimalApparentAftWindAngle: function() {
+    findOptimalApparentForeWindAngle: function() {
         var maxSpeedAngle = 0;
         for (var twAngle in POLAR_CHART) {
             var data = POLAR_CHART[twAngle];
@@ -99,10 +99,10 @@ var fn = {
                 maxSpeedAngle = twAngle;
             }
         }
-        return maxSpeedAngle;
+        return parseFloat(maxSpeedAngle);
     },
 
-    findOptimalApparentForeWindAngle: function() {
+    findOptimalApparentAftWindAngle: function() {
         var minSpeedAngle = 0;
         for (var twAngle in POLAR_CHART) {
             var data = POLAR_CHART[twAngle];
@@ -110,7 +110,7 @@ var fn = {
                 minSpeedAngle = twAngle;
             }
         }
-        return minSpeedAngle;
+        return parseFloat(minSpeedAngle);
     },
 
     getSpeed: function(twSpeed, twAngle, sail) {

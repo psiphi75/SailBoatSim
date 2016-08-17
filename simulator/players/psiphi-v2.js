@@ -158,7 +158,7 @@ function getNextMode(waypoints, myPosition, wind) {
  * @return {string}                     The mode to be in.
  */
 function calcSideWind(myPosition, wpStatus, waypoints, boat) {
-    var optimalHeading = wpStatus.heading - boat.attitude.heading;
+    var optimalHeading = util.wrapDegrees(wpStatus.heading - boat.attitude.heading);
     return optimalHeading;
 }
 
@@ -243,13 +243,14 @@ function calcOptimalForeHeading(q, boat) {
 
 function calcRudder(optimalHeading) {
 
+    optimalHeading = util.wrapDegrees(optimalHeading);
+
     var turnRateScalar = 2;
     var turnRateValue = turnRateScalar * optimalHeading;
     if (turnRateValue > 90) turnRateValue = 90;
     if (turnRateValue < -90) turnRateValue = -90;
 
-    var sigmaRMax = 1;
-    var rudder = Math.sin(util.toRadians(turnRateValue)) * sigmaRMax;
+    var rudder = Math.sin(util.toRadians(turnRateValue));
     return rudder;
 }
 

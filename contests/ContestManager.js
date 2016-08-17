@@ -34,7 +34,7 @@ const DEFAULT_CONTEST_REQUEST = {
     type: 'fleet-race',
     location: 'auckland',
     realtime: true,
-    windSpeed: 4,
+    windSpeed: 1.5,
     windHeading: -130
 };
 
