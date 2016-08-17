@@ -73,6 +73,10 @@ simulation step (dt) is also included.
            wind: {
                speed: [Number: The speed of the wind in m/s]
                heading: [Number: Where the wind is going to, in degrees from true north]
+           },
+           water: {
+               speed: [Number: The speed of the water current in m/s]
+               heading: [Number: Where the water current is going to, in degrees from true north]
            }
       },
       isSimulation: [Boolean: true if it's a simulation, false if it's the real deal]

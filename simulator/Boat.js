@@ -104,10 +104,7 @@ Boat.prototype.simulate = function(time, env) {
     var newSpeed = boatSimFuncs.applySpeed(time, env, boatValues);
     var headingChange = boatSimFuncs.applyHeadingChange(time, env, boatValues);
     var newHeading = util.wrapDegrees(this.heading + headingChange);
-    var drift = {
-        heading: this.apparentWind.headingToNorth,
-        speed: 0// FIXME: need to implement this: boatSimFuncs.applyDrift(time, env, boatValues, apparentWind)
-    };
+    var drift = boatSimFuncs.applyDrift(time, env, boatValues);
 
     //
     // Apply the calculations to the boat attitude and position

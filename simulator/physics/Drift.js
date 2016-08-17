@@ -23,18 +23,37 @@
 
 'use strict';
 
-const C = -8.365469590752099;
+var util = require('../../lib/util');
 
 module.exports = {
 
     /**
-     * Estimate the roll.
-     * @param  {number} apparentWindSpeed   The apprent wind speed (m/s)
-     * @param  {number} apparentWindHeadingToBoat The apparent wind heading (degrees)
-     * @return {number}                     The estimated roll (degrees)
+     * Estimate the drift due to wind.
+     * @param  {number} dt              Change in time in ms
+     * @param  {object} environment     Environmental details
+     * @param  {object} boat            Boat details
+     * @return {object}                 The drift {headingToNorth, speed}
      */
-    estimate: function(dt, apparentWindSpeed, apparentWindHeadingToBoat, roll) {
-        var estRoll = C * apparentWindSpeed * Math.sin(apparentWindHeadingToBoat * Math.PI / 180);
-        return estRoll;
+    estimateWind: function(dt, environment, boat) {
+        var WIND_DRIFT_COEFFICIENT = 0.05;
+        var windHeadingToNorth = util.wrapDegrees(boat.attitude.heading + boat.trueWind.heading);
+        return {
+            headingToNorth: windHeadingToNorth,
+            speed: WIND_DRIFT_COEFFICIENT * boat.trueWind.speed     // Apparent wind may be better
+        };
+    },
+
+    /**
+     * Estimate the drift due to water current.
+     * @param  {number} dt              Change in time in ms
+     * @param  {object} environment     Environmental details
+     * @return {object}                 The drift {headingToNorth, speed}
+     */
+    estimateWater: function(dt, environment) {
+        var WATER_DRIFT_COEFFICIENT = 0.5;
+        return {
+            headingToNorth: environment.water.heading,
+            speed: WATER_DRIFT_COEFFICIENT * environment.water.speed
+        };
     }
 };

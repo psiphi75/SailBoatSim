@@ -26,11 +26,12 @@
 var roll = require('./Roll');
 var speed = require('./Speed');
 var deltaHeading = require('./DeltaHeading');
+var drift = require('./Drift');
 
 // These factors slow the rate of change. Smaller factors have faster rates of change.
 var ROLL_INERTIA = 0.1;
 var SPEED_INERTIA = 0.3;
-var MOMENTUM = 0.7;
+var SPEED_MOMENTUM = 0.7;
 
 var boatSimFuncs = {
     applyRoll: function(time, env, boat) {
@@ -49,7 +50,7 @@ var boatSimFuncs = {
             scaleFactor = SPEED_INERTIA;
         } else {
             // We are slowing down, momentum lets us glide here
-            scaleFactor = MOMENTUM;
+            scaleFactor = SPEED_MOMENTUM;
         }
         var newSpeed = inertialessSpeed * (1 - scaleFactor) + boat.velocity.speed * scaleFactor;
         return newSpeed;
@@ -90,6 +91,12 @@ var boatSimFuncs = {
         } else {
             return currentValue + dValue;
         }
+    },
+    applyDrift: function(time, env, boat) {
+        return {
+            wind: drift.estimateWind(time.deltaSec, env, boat),
+            water: drift.estimateWater(time.deltaSec, env)
+        };
     }
 
 };
