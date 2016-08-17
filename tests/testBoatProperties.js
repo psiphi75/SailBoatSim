@@ -23,35 +23,29 @@
 
 'use strict';
 
-var boatProperties = require('./BoatProperties');
+var test = require('tape');
+var boatProperties = require('../simulator/physics/BoatProperties');
 
-module.exports = {
+test('Boat Properties', function(t) {
 
-    /**
-     * Estimate the roll.
-     * @param  {number} dt              The change in speed
-     * @param  {number} environment
-     * @param  {object} boat            The old boat state (we don't change this)
-     * @return {number}                 The estimated roll (degrees)
-     */
-    estimate: function(dt, environment, boat) {
-        // var B = 0.5;
-        // // TODO: The speed will change based on a function of the heading of the wind, a wind from back may make the boat go quicker.
-        // var estSpeed = Math.abs(Math.sin(apparentWindHeadingToBoat * Math.PI / 180) * (B * apparentWindSpeed) * Math.cos(roll * Math.PI / 180)) * (0.25 * (1 - Math.abs(rudder)) + 0.75);
-        // return estSpeed;
+    t.plan(5);
 
-        // Calc the base speed
-        var twSpeed = boat.trueWind.speed;
-        var twHeading = boat.trueWind.heading;
-        var sail = boat.servos.sail;
-        var baseSpeed = boatProperties.getSpeed(twSpeed, twHeading, sail);
+    var speed = 1;
+    var twAngle = 0;
+    var sail = 1;
 
-        // Use the rudder position to slow it down
-        const RUDDER_SLOWING_FACTOR = 0.2;
-        var rudderImpact = RUDDER_SLOWING_FACTOR * Math.abs(boat.servos.rudder) * baseSpeed;
+    t.equal(boatProperties.getSpeed(speed, twAngle, sail), 0, 'Upwind is zero');
 
-        var finalSpeed = baseSpeed - rudderImpact;
-        return finalSpeed;
+    twAngle = 70;
+    t.equal(boatProperties.getSpeed(speed, twAngle, sail), 0.23185499999999995, 'Speed gets reduced');
 
-    }
-};
+    twAngle = 105;
+    t.equal(boatProperties.getSpeed(speed, twAngle, sail), 0.5 * 0.894, 'Speed is half when sail is out (1)');
+    t.equal(boatProperties.getSpeed(speed, twAngle, -sail), 0.5 * 0.894, 'Speed is half when sail is out (-1)');
+
+    sail = 0;
+    t.equal(boatProperties.getSpeed(speed, twAngle, sail), 0.894, 'Speed is full');
+
+    t.end();
+
+});

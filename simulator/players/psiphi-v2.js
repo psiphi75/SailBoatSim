@@ -28,9 +28,10 @@
 
 'use strict';
 
-var util = require('../../lib/util.js');
-var Position = require('../../lib/Position.js');
-var WaypointManager = require('../../lib/WaypointManager.js');
+var util = require('../../lib/util');
+var Position = require('../../lib/Position');
+var WaypointManager = require('../../lib/WaypointManager');
+var boatProperties = require('../physics/BoatProperties');
 
 var PLAYER_NAME = 'Simulation';
 
@@ -53,6 +54,9 @@ var mode;       // Can be 'aft-wind', 'side-wind', 'fore-wind';
 const SIDE_WIND_THRESH = 60;
 const AFT_WIND_THRESH = 120;
 
+var optimalApparentAftWindAngle;
+var optimalApparentForeWindAngle;
+
 var psiphi = {
     info: {
         name: 'psiphi-v2',
@@ -64,6 +68,12 @@ var psiphi = {
     init: function(contest) {
         this.contest = contest;
         this.waypoints = new WaypointManager(contest.waypoints);
+
+        optimalApparentAftWindAngle = boatProperties.findOptimalApparentAftWindAngle();
+        optimalApparentForeWindAngle = boatProperties.findOptimalApparentForeWindAngle();
+        console.log('optimalApparentAftWindAngle: ', optimalApparentAftWindAngle);
+        console.log('optimalApparentForeWindAngle: ', optimalApparentForeWindAngle);
+
     },
     /**
      * This function is called every step.  See the AI.md file for documentation.
@@ -97,13 +107,13 @@ var psiphi = {
                 optimalHeading = calcSideWind(myPosition, wpStatus, this.waypoints, state.boat);
                 break;
             case 'fore-wind':
-                optimalHeading = calcOptimalSailingAngle(myPosition, wpStatus, this.waypoints, state.boat, state.environment.wind);
+                optimalHeading = calcOptimalSailingAngle(myPosition, wpStatus, this.waypoints, state.boat);
                 break;
             default:
                 console.log('oops, shouldn\'t get here');
         }
         var rudder = calcRudder(optimalHeading);
-        var sail = calcSail(state.boat.apparentWind.heading);
+        var sail = calcSail(state.boat.trueWind.heading);
 
         return {
             action: 'move',
@@ -194,7 +204,7 @@ function calcAftWind(myPosition, wpStatus, waypoints, boat) {
  * @return {string}                     The mode to be in.
  */
 var foreQ;
-function calcOptimalSailingAngle(myPosition, wpStatus, waypoints, boat, wind) {
+function calcOptimalSailingAngle(myPosition, wpStatus, waypoints, boat) {
 
     var wpCurrent = waypoints.getCurrent();
     var wpPrev = waypoints.getPrevious();
@@ -216,19 +226,17 @@ function calcOptimalSailingAngle(myPosition, wpStatus, waypoints, boat, wind) {
     //      return -lastQ;
     //  }
 
-    var optimalHeading = calcOptimalForeHeading(foreQ, boat, wind);
+    var optimalHeading = calcOptimalForeHeading(foreQ, boat);
 
     return optimalHeading;
 }
 
-function calcOptimalAftHeading(q, boat, wind) {
-    const optimalApparentAftWindAngle = 145;  // TODO: Optimise based on wind & boat speed.
+function calcOptimalAftHeading(q, boat) {
     var optimalRelativeHeading = -util.wrapDegrees(q * optimalApparentAftWindAngle - boat.trueWind.heading);
     return optimalRelativeHeading;
 }
 
-function calcOptimalForeHeading(q, boat, wind) {
-    const optimalApparentForeWindAngle = 45;  // TODO: Optimise based on wind & boat speed.
+function calcOptimalForeHeading(q, boat) {
     var optimalRelativeHeading = -util.wrapDegrees(q * optimalApparentForeWindAngle - boat.trueWind.heading);
     return optimalRelativeHeading;
 }
@@ -247,11 +255,12 @@ function calcRudder(optimalHeading) {
 
 /**
  * The sail angle is a function of the actual current heading.
- * @param  {number} apparentWindHeading     The angle in degrees of the apparent wind (in degrees)
+ * @param  {number} trueWindHeading     The angle in degrees of the apparent wind (in degrees)
  * @return {[type]}                [description]
  */
-function calcSail(apparentWindHeading) {
-    return -Math.sin(util.toRadians(apparentWindHeading));
+function calcSail(trueWindHeading) {
+    var data = boatProperties.getPolarData(trueWindHeading);
+    return data.sail;
 }
 
 module.exports = psiphi;

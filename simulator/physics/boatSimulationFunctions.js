@@ -21,22 +21,16 @@
  *                                                                   *
  *********************************************************************/
 
-
 'use strict';
 
 var roll = require('./Roll');
 var speed = require('./Speed');
 var deltaHeading = require('./DeltaHeading');
-// var util = require('../../lib/util');
 
 // These factors slow the rate of change. Smaller factors have faster rates of change.
 var ROLL_INERTIA = 0.1;
 var SPEED_INERTIA = 0.3;
 var MOMENTUM = 0.7;
-
-// var RUDDER_TRAVEL_TIME = 0.250; // seconds
-//
-// var delayRudder = new Delay(RUDDER_TRAVEL_TIME);
 
 var boatSimFuncs = {
     applyRoll: function(time, env, boat) {
@@ -46,7 +40,8 @@ var boatSimFuncs = {
         return newRoll;
     },
     applySpeed: function(time, env, boat) {
-        var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll, boat.servos.rudder);
+        // var inertialessSpeed = speed.estimate(time.deltaSec, boat.apparentWind.speed, boat.apparentWind.heading, boat.attitude.roll, boat.servos.rudder);
+        var inertialessSpeed = speed.estimate(time.deltaSec, env, boat);
 
         var scaleFactor;
         if (inertialessSpeed > boat.velocity.speed) {
@@ -60,7 +55,6 @@ var boatSimFuncs = {
         return newSpeed;
     },
     applyHeadingChange: function(time, env, boat) {
-        // var oldRudderValue = delayRudder.update(time.deltaSec, boat.servos.rudder);
         var headingChange = deltaHeading.estimate(time.deltaSec, boat.velocity.speed, boat.servos.rudder);
         return headingChange;
     },
@@ -99,32 +93,5 @@ var boatSimFuncs = {
     }
 
 };
-
-// function Delay(delay, defaultValue) {
-//     this.delayedValues = [];
-//     this.delay = delay;
-//     this.defaultValue = util.isNumeric(defaultValue) ? defaultValue : null;
-// }
-// Delay.prototype.update = function(time, value) {
-//     this.delayedValues.push({
-//         time: time,
-//         value: value
-//     });
-//     return this.getAndPop(time);
-// };
-// Delay.prototype.getAndPop = function(now) {
-//     var foundIt = this.defaultValue;
-//     var self = this;
-//     this.delayedValues = this.delayedValues.filter(function (obj) {
-//         if (obj.time + self.delay >= now) {
-//             return true;
-//         } else {
-//             foundIt = obj;
-//             return false;
-//         }
-//     });
-//     return foundIt;
-// };
-
 
 module.exports = boatSimFuncs;
