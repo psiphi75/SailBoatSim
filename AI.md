@@ -226,7 +226,7 @@ Note: The each 2nd waypoint will be at the same point.
 
 ### Debugging
 
-You can send debug messages to the viewer using the `Simulation` channel.  For example:
+You can send debug messages to the viewer sending a `status` message over the `Renderer` channel.  For example:
 
 ```js
 {
