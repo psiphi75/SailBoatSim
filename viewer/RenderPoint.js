@@ -40,6 +40,7 @@ function RenderPoint(options) {
         position: position,
         point: {
             color: color,
+            outlineColor: color,
             pixelSize: 5
         }
     });

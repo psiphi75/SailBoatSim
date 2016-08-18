@@ -49,13 +49,12 @@ var toy = wrc.createToy({
 });
 toy.on('error', console.error);
 
-
-var mode;       // Can be 'aft-wind', 'side-wind', 'fore-wind';
 const SIDE_WIND_THRESH = 60;
 const AFT_WIND_THRESH = 120;
 
 var aftWindTacker;
 var foreWindTacker;
+var renderer;
 
 var psiphi = {
     info: {
@@ -69,12 +68,9 @@ var psiphi = {
         this.contest = contest;
         this.waypoints = new WaypointManager(contest.waypoints);
 
-        var optimalApparentAftWindAngle = boatProperties.findOptimalApparentAftWindAngle();
-        var optimalApparentForeWindAngle = boatProperties.findOptimalApparentForeWindAngle();
-
-        aftWindTacker = TackKeeper(optimalApparentAftWindAngle, 4);
-        foreWindTacker = TackKeeper(optimalApparentForeWindAngle, 2);
-
+        aftWindTacker = TackKeeper(boatProperties.findOptimalApparentAftWindAngle(), 4, 'aft-wind');
+        foreWindTacker = TackKeeper(boatProperties.findOptimalApparentForeWindAngle(), 2, 'fore-wind');
+        renderer = new (require('./Renderer'))();
     },
     /**
      * This function is called every step.  See the AI.md file for documentation.
@@ -97,19 +93,22 @@ var psiphi = {
             foreWindTacker.reset();
         }
 
-        mode = getNextMode(this.waypoints, myPosition, state.environment.wind);
+        var mode = getNextMode(this.waypoints, myPosition, state.environment.wind);
 
         // 2. Calculate the rudder
         var optimalRelativeHeading;
         switch (mode) {
             case 'aft-wind':
-                optimalRelativeHeading = aftWindTacker.calcOptimalSailingAngle(myPosition, wpStatus, this.waypoints, state.boat);
+                renderer.drawTrail(myPosition, {red: 0.9, green: 0.7, blue: 0.2});
+                optimalRelativeHeading = aftWindTacker.calcOptimalSailingAngle(myPosition, this.waypoints, state.boat, state.environment.wind);
                 break;
             case 'side-wind':
-                optimalRelativeHeading = calcSideWind(myPosition, wpStatus, this.waypoints, state.boat);
+                renderer.drawTrail(myPosition, {red: 0.75, green: 0.6, blue: 0.2});
+                optimalRelativeHeading = calcSideWind(wpStatus, state.boat);
                 break;
             case 'fore-wind':
-                optimalRelativeHeading = foreWindTacker.calcOptimalSailingAngle(myPosition, wpStatus, this.waypoints, state.boat);
+                renderer.drawTrail(myPosition, {red: 0.6, green: 0.5, blue: 0.2});
+                optimalRelativeHeading = foreWindTacker.calcOptimalSailingAngle(myPosition, this.waypoints, state.boat, state.environment.wind);
                 break;
             default:
                 console.log('oops, shouldn\'t get here');
@@ -154,12 +153,11 @@ function getNextMode(waypoints, myPosition, wind) {
 
 /**
  * Calculate the new rudder value based on a side wind.
- * @param  {Position} myPosition        The boat's position.
  * @param  {WaypointManager} waypoints  The waypoints.
  * @param  {object} boat                Get the boat details.
  * @return {string}                     The mode to be in.
  */
-function calcSideWind(myPosition, wpStatus, waypoints, boat) {
+function calcSideWind(wpStatus, boat) {
     var optimalRelativeHeading = util.wrapDegrees(wpStatus.heading - boat.attitude.heading);
     return optimalRelativeHeading;
 }
@@ -188,9 +186,10 @@ function calcSail(trueWindHeading) {
     return data.sail;
 }
 
-function TackKeeper(optimalWindAngle, maxDistanceFromWaypointLine) {
+function TackKeeper(optimalWindAngle, maxDistanceFromWaypointLine, mode) {
 
     var q;  // Determines the tack mode -1 is left, +1 is right
+    var headingForLayLine = false;
 
     return {
 
@@ -201,23 +200,23 @@ function TackKeeper(optimalWindAngle, maxDistanceFromWaypointLine) {
          * @param  {object} boat                Get the boat details.
          * @return {number}                     The optimal angle to head to (relative to boat).
          */
-        calcOptimalSailingAngle: function(myPosition, wpStatus, waypoints, boat) {
+        calcOptimalSailingAngle: function(myPosition, waypoints, boat, wind) {
 
             var wpCurrent = waypoints.getCurrent();
             var wpPrev = waypoints.getPrevious();
             var sideOfLine = myPosition.calcSideOfLine(wpCurrent, wpPrev);
-            var distantToWaypointLine = myPosition.distanceToLine(wpCurrent, wpPrev);
-
-            // Check if we need to change direction
-            if (!q) q = -sideOfLine;
-            if (q === sideOfLine && distantToWaypointLine >= maxDistanceFromWaypointLine) {
+            if (!q) {
                 q = -sideOfLine;
+                renderer.drawLayline(wpCurrent, wind, optimalWindAngle);
             }
 
-            // if (reachedLayline === false && hasReachedLayline(myPosition, wpCurrent, trueWind)) {
-            //      reachedLayline = true;
-            //      return -lastQ;
-            //  }
+            if (hasReachedLayline(myPosition, wpCurrent, wind)) {
+                renderer.drawTrail(myPosition, 'GREEN', true);
+                this.tack();
+            } else if (hasReachedMaxDistFromWaypointLine(myPosition, sideOfLine, wpCurrent, wpPrev)) {
+                this.tack();
+                renderer.drawTrail(myPosition, 'RED', true);
+            }
 
             var optimalRelativeHeading = calcOptimalRelativeHeading(boat);
             return optimalRelativeHeading;
@@ -225,14 +224,61 @@ function TackKeeper(optimalWindAngle, maxDistanceFromWaypointLine) {
 
         reset: function() {
             q = undefined;
+            headingForLayLine = false;
+        },
+
+        tack: function() {
+            q = -q;
         }
 
     };
+
+    function hasReachedMaxDistFromWaypointLine(myPosition, sideOfLine, wpCurrent, wpPrev) {
+
+        if (headingForLayLine) return false;
+
+        var distantToWaypointLine = myPosition.distanceToLine(wpCurrent, wpPrev);
+        var onExpectedSideOfLine = q === sideOfLine;
+        var hasReachedMax = distantToWaypointLine >= maxDistanceFromWaypointLine;
+
+        return onExpectedSideOfLine && hasReachedMax;
+    }
+
+    function hasReachedLayline(myPosition, wpCurrent, wind) {
+
+        if (headingForLayLine) return false;
+        if (hasReachedLL(1) || hasReachedLL(-1)) {
+            headingForLayLine = true;
+            return true;
+        } else {
+            return false;
+        }
+
+        function hasReachedLL(sign) {
+            var LLHeading = wind.heading + sign * optimalWindAngle;
+            var mySideOfLL = myPosition.calcSideOfLineByAngle(wpCurrent, LLHeading);
+            if (mySideOfLL === 0) return true;  // 0 means on the lay line
+            var heading;
+            if (mode === 'aft-wind') {
+                heading = wind.heading;
+            } else {
+                heading = util.wrapDegrees(wind.heading + 180);
+            }
+            var pointOnTheOtherSide = new Position(wpCurrent).gotoHeading(heading, 10);
+            var theOtherSideOfLL = pointOnTheOtherSide.calcSideOfLineByAngle(wpCurrent, LLHeading);
+            var reachedLL = (mySideOfLL === theOtherSideOfLL);
+            return reachedLL;
+        }
+    }
+
 
     function calcOptimalRelativeHeading(boat) {
         var optimalRelativeHeading = -util.wrapDegrees(q * optimalWindAngle - boat.trueWind.heading);
         return optimalRelativeHeading;
     }
+
+
 }
+
 
 module.exports = psiphi;

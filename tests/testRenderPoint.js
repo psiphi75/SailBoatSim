@@ -18,8 +18,8 @@ renderer.on('register', function() {
         details: {
             id: '##1',
             label: 'Hello World',
-            latitude: -36.809119122287484,
-            longitude: 174.75057466678572,
+            latitude: -36.80964858272395,
+            longitude: 174.75005740039697,
             color: {
                 red: 1.0,
                 green: 0.5,
