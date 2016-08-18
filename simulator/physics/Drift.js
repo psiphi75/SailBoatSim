@@ -36,7 +36,7 @@ module.exports = {
      */
     estimateWind: function(dt, environment, boat) {
         var WIND_DRIFT_COEFFICIENT = 0.05;
-        var windHeadingToNorth = util.wrapDegrees(boat.attitude.heading + boat.trueWind.heading);
+        var windHeadingToNorth = util.wrapDegrees(boat.attitude.heading + boat.trueWind.heading + 180);
         return {
             headingToNorth: windHeadingToNorth,
             speed: WIND_DRIFT_COEFFICIENT * boat.trueWind.speed     // Apparent wind may be better

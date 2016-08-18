@@ -37,7 +37,7 @@ function Simulation(dt, realtime, options) {
     dt = dt || DEFAULT_SPEED;
     var simSpeed = 1;
 
-    realtime = typeof realtime === 'undefined' ? realtime : true;
+    realtime = (typeof realtime === 'undefined') ? realtime : true;
     if (realtime) {
         var self = this;
         this.callNextStep = function (callback) {
