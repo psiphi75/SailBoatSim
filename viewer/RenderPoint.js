@@ -13,7 +13,7 @@ function RenderPoint(options) {
     if (typeof options !== 'object') return;
 
     if (options.latitude === undefined || options.longitude === undefined) return;
-    var position = Cesium.Cartesian3.fromDegrees(options.longitude, options.latitude);
+    var position = Cesium.Cartesian3.fromDegrees(options.longitude, options.latitude, 0.2);
 
     var color;
     if (options.color) {
@@ -32,6 +32,9 @@ function RenderPoint(options) {
         });
     }
 
+    if (GLOBALS.viewer.entities.getById(options.id)) {
+        GLOBALS.viewer.entities.removeById(options.id);
+    }
     GLOBALS.viewer.entities.add({
         id: options.id,
         position: position,
