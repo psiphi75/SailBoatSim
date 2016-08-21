@@ -41,7 +41,7 @@ const DEFAULT_CONTEST_REQUEST = {
 var wrc = require('web-remote-control');
 var fs = require('fs');
 var areaScan = require('./GenerateAreaScan');
-var util = require('../lib/util');
+var util = require('sailboat-utils/util');
 
 /**
  * The ContestManager will load a contest from a request from the controller.

@@ -30,8 +30,8 @@
 //     "width": 100
 // }
 
-var Position = require('../lib/Position');
-var util = require('../lib/util');
+var Position = require('sailboat-utils/Position');
+var util = require('sailboat-utils/util');
 
 exports.generate = function generateAreaScan(obj) {
     var perpendicularWindHeading = util.wrapDegrees(obj.windHeading - 90);

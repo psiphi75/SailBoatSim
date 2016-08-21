@@ -23,7 +23,7 @@
 
 'use strict';
 
-var util = require('../../lib/util');
+var util = require('sailboat-utils/util');
 
 module.exports = {
 

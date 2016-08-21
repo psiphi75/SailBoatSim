@@ -23,7 +23,7 @@
 
 'use strict';
 
-var util = require('../../lib/util');
+var util = require('sailboat-utils/util');
 
 //
 // This polar chart describes the optimal 'speed' for a given true wind angle.  It also describes the position of the sail.

@@ -23,7 +23,7 @@
 
 
 'use strict';
-var util = require('../lib/util');
+var util = require('sailboat-utils/util');
 
 // NOTE: Wind heading is the direction is the wind is going to: http://www.windspeed.co.uk/ws/index.php?option=faq&task=viewfaq&Itemid=5&artid=17
 function Environment(options) {

@@ -22,7 +22,6 @@
  *********************************************************************/
 
 
-var util = require('../../lib/util.js'); // eslint-disable-line no-unused-vars
 var lastRudderValue = 0;
 
 var PLAYER_NAME = 'Simulation';

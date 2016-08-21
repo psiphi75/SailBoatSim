@@ -24,7 +24,7 @@
 'use strict';
 
 var Boat = require('./Boat');
-var util = require('../lib/util');
+var util = require('sailboat-utils/util');
 
 function Player(name, contest, request) {
     this.playerScope = require('./players/' + name);

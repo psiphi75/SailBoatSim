@@ -25,6 +25,7 @@
     "geographiclib": "^1.46.0",
     "mt-latlon": "^0.1.0",
     "node-static": "^0.7.8",
+    "sailboat-utils": "git+https://github.com/psiphi75/sailboat-utils.git",
     "tape": "^4.6.0",
     "web-remote-control": "^1.9.4",
     "wrc-controller": "^0.0.9"

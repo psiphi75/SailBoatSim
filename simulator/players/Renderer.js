@@ -23,9 +23,9 @@
 
 'use strict';
 
-var util = require('../../lib/util');
+var util = require('sailboat-utils/util');
+var Position = require('sailboat-utils/Position');
 var wrc = require('web-remote-control');
-var Position = require('../../lib/Position');
 
 function Renderer() {
     this.renderer = wrc.createToy({

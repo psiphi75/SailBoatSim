@@ -28,9 +28,9 @@
 
 'use strict';
 
-var util = require('../../lib/util.js');
-var Position = require('../../lib/Position.js');
-var WaypointManager = require('../../lib/WaypointManager.js');
+var util = require('sailboat-utils/util');
+var Position = require('sailboat-utils/Position');
+var WaypointManager = require('sailboat-utils/WaypointManager');
 
 var PLAYER_NAME = 'Simulation';
 
