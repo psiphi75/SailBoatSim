@@ -79,7 +79,6 @@ var psiphi = {
      */
     ai: function (state) {
 
-        state.isSimulation = true;
         toy.status(state);
 
         var myPosition = new Position(state.boat.gps);

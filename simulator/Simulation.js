@@ -86,7 +86,7 @@ Simulation.prototype.step = function(callback) {
     var env = this.environment.update(this.time);
     this.players.forEach((player) => {
         player.boat.simulate(this.time, env);
-        player.runAI(this.time.delta, env);
+        player.runAI(this.time.delta, env, true);
     });
     this.time.now += this.time.delta;
     callback(this.players, env);

@@ -36,10 +36,11 @@ function Player(name, contest, request) {
     this.start(contest, request);
 }
 
-Player.prototype.runAI = function(dt, env) {
+Player.prototype.runAI = function(dt, env, isSimulation) {
 
     var state = {
         dt: dt,
+        isSimulation: isSimulation,
         boat: this.boat.getActualValues(),
         environment: util.clone(env)
     };
