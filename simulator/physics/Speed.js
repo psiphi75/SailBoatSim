@@ -23,7 +23,7 @@
 
 'use strict';
 
-var boatProperties = require('./BoatProperties');
+var boatProperties = require('sailboat-utils/boatProperties');
 
 module.exports = {
 
