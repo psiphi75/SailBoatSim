@@ -25,25 +25,12 @@
                     "type": "circle",
                     "radius": 2
             }],
-    "boundary": [{
-                    "latitude": -36.80957540048437,
-                    "longitude": 174.75001176014726
-                }, {
-                    "latitude": -36.809762860028876,
-                    "longitude": 174.75018295777787
-                }, {
-                    "latitude": -36.8094703631464,
-                    "longitude": 174.7507929162204
-                }, {
-                    "latitude": -36.80908740212271,
-                    "longitude": 174.75076607298328
-                }, {
-                    "latitude": -36.80904470958664,
-                    "longitude": 174.75047924287037
-                }, {
-                    "latitude": -36.80934073326363,
-                    "longitude": 174.7503904507406
-            }],
+    "boundary": [{ "latitude": -36.80957695, "longitude": 174.75005930},
+                 { "latitude": -36.80972644, "longitude": 174.75022131},
+                 { "latitude": -36.80947036, "longitude": 174.75079291},
+                 { "latitude": -36.80908740, "longitude": 174.75076607},
+                 { "latitude": -36.80910334, "longitude": 174.75055488},
+                 { "latitude": -36.80935610, "longitude": 174.75043135}],
     "timeLimit": 300,
     "timeToStart": -300000
 }
