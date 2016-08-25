@@ -116,6 +116,8 @@ function startCesium(boat, windvane, apparentWind) {
     var isFirstStatusUpdate = true;
     var grid = new RenderGrid();
     var courseRenderer = new RenderCourse();
+    var lastHeading = 0;
+    var deltaHeading;
     function tick() {
         if (clock) {
             var time = Cesium.JulianDate.toDate(clock.tick());
@@ -136,8 +138,13 @@ function startCesium(boat, windvane, apparentWind) {
 
         if (status && status.environment && status.environment.wind) {
 
+            if (lastHeading !== status.boat.attitude.heading) {
+                deltaHeading = status.boat.attitude.heading - lastHeading;
+                lastHeading = status.boat.attitude.heading;
+            }
             hud.innerHTML = 'Lat, Long: ' + status.boat.gps.latitude.toFixed(6) + ',  ' + status.boat.gps.longitude.toFixed(6) + '<br/>'
-                            + 'Heading: ' + status.boat.attitude.heading.toFixed(1) + '°<br/>'
+                            + 'Heading: ' + status.boat.attitude.heading.toFixed(1) + '° (delta: '
+                            + deltaHeading.toFixed(2) + '°)<br/>'
                             + 'Roll:    ' + status.boat.attitude.roll.toFixed(1) + '°<br/>'
                             + 'Speed:   ' + status.boat.velocity.speed.toFixed(2) + ' m/s<br/>'
                             + 'Rudder:  ' + status.boat.servos.rudder.toFixed(3) + '<br/>'
