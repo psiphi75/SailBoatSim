@@ -35,7 +35,7 @@ const DEFAULT_CONTEST_REQUEST = {
     location: 'auckland',
     realtime: true,
     windSpeed: 0.8,
-    windHeading: -20
+    windHeading: 50
 };
 
 var wrc = require('web-remote-control');

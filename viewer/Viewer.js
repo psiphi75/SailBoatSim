@@ -149,9 +149,10 @@ function startCesium(boat, windvane, apparentWind) {
                             + 'Speed:   ' + status.boat.velocity.speed.toFixed(2) + ' m/s<br/>'
                             + 'Rudder:  ' + status.boat.servos.rudder.toFixed(3) + '<br/>'
                             + 'Sail:    ' + status.boat.servos.sail.toFixed(3) + '<br/>'
-                            + '<br/>Wind<br/>'
+                            + '<br/>Actual Wind<br/>'
                             + 'Speed:    ' + status.environment.wind.speed.toFixed(2) + ' m/s<br/>'
-                            + 'Heading:   ' + status.environment.wind.heading.toFixed(1) + '°<br/>';
+                            + 'Heading:   ' + status.environment.wind.heading.toFixed(1) + '°<br/>'
+                            + 'Heading to boat:   ' + status.boat.trueWind.heading.toFixed(1) + '°<br/>';
 
             if (isFirstStatusUpdate) {
                 grid.set({
