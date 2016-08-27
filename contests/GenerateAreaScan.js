@@ -144,7 +144,7 @@ exports.generate = function generateAreaScan(obj) {
         'type': 'area-scanning',
         'waypoints': waypoints,
         'boundary': boundary,
-        'timeLimit': obj.timeLimit,
+        'timeLimitSec': obj.timeLimitSec,
         'timeToStart': obj.timeToStart,
     };
 

@@ -2,9 +2,9 @@
     "type": "area-scanning",
     "latitude": -36.80942954921846,
     "longitude": 174.75048008880535,
-    "width": 20,
+    "width": 160,
     "numGridPoints": 8,
     "windHeading": 40,
-    "timeLimitSec": 300,
+    "timeLimitSec": 1800,
     "timeToStart": -300000
 }

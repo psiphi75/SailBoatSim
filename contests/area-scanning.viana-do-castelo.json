@@ -5,6 +5,6 @@
     "width": 160,
     "numGridPoints": 8,
     "windHeading": -135,
-    "timeLimitSec": 300,
+    "timeLimitSec": 1800,
     "timeToStart": -300000
 }
