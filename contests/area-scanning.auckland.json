@@ -3,7 +3,8 @@
     "latitude": -36.80942954921846,
     "longitude": 174.75048008880535,
     "width": 20,
+    "numGridPoints": 8,
     "windHeading": 40,
-    "timeLimit": 300,
+    "timeLimitSec": 300,
     "timeToStart": -300000
 }
