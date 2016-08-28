@@ -91,6 +91,25 @@ Player.prototype.setBoat = function (contest, request) {
 };
 
 Player.prototype.start = function(contest, request) {
+    var wrc = require('web-remote-control');
+    var contestManager = wrc.createController({
+        proxyUrl: 'localhost',
+        channel: 'ContestManager',
+        udp4: false,
+        tcp: true
+    });
+
+    contestManager.once('register', function() {
+        console.log('Registered with proxy: ContestManager');
+    });
+
+    contest.saveState = function(wpState) {
+        contestManager.command({
+            action: 'update-waypoint-state',
+            state: wpState
+        });
+    };
+
     // Provide the player with the course
     this.playerInitFunction(util.clone(contest));
     this.setBoat(contest, request);

@@ -34,9 +34,9 @@ require('./runProxy');
 require('./runViewer');
 
 /*
-* Load the viewer (which loads CesiumJS)
+* Load the contest manager to load and save contests
 */
-require('./runContestManager');
+require('sailboat-utils/contests/runContestManager');
 
 /*
  * Run the simulation
