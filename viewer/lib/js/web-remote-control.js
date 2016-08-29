@@ -3288,7 +3288,7 @@ function Device(settings, ClientConnection) {
     this.deviceType = settings.deviceType || 'controller';
     this.log = settings.log || function() {};
 
-    this.pingManager = new PingManager();
+    this.pingManager = new PingManager(settings);
     this.connection = new ClientConnection(settings);
     this.uid = undefined;
 
@@ -3325,7 +3325,7 @@ function Device(settings, ClientConnection) {
             self.uid = responseMsgObj.uid;
         }
 
-        clearTimeout(self.recheckRegisteryTimeout);
+        self.clearRegisterTimeout();
         reEmit(responseMsgObj);
     }
 
@@ -3360,9 +3360,11 @@ util.inherits(Device, EventEmitter);
  */
 Device.prototype.register = function () {
 
-    this.clearRegisterTimeout();
-
-    this.send('register', {
+    // Don't try to re-register if we are already trying
+    if (this.recheckRegisteryTimeout) {
+        return;
+    }
+    this._send('register', {
         deviceType: this.deviceType,
         channel: this.channel
     });
@@ -3370,9 +3372,9 @@ Device.prototype.register = function () {
     // Check the registery again in RECHECK_REGISTER seconds if we do not get a response
     var self = this;
     this.recheckRegisteryTimeout = setTimeout(function checkRegistery() {
-        self.log(self.deviceType + ': unable to register with proxy, trying again.');
+        self.log(self.deviceType + ': unable to register with proxy (timeout), trying again. (' + self.proxyUrl + ' on "' + self.channel + '")');
+        self.clearRegisterTimeout();
         self.register();
-
     }, NET_TIMEOUT);
 
 };
@@ -3382,6 +3384,7 @@ Device.prototype.clearRegisterTimeout = function () {
         return;
     }
     clearTimeout(this.recheckRegisteryTimeout);
+    this.recheckRegisteryTimeout = undefined;
 };
 
 
@@ -3400,7 +3403,7 @@ Device.prototype.ping = function(callback) {
     this.pingManager.add(this.mySeqNum, callback);
 
     var timeStr = (new Date().getTime()).toString();
-    this.send('ping', timeStr);
+    this._send('ping', timeStr);
 
 };
 
@@ -3412,7 +3415,19 @@ Device.prototype.ping = function(callback) {
  * @param  {string} data The data, it must be a string.
  */
 Device.prototype.status = function (msgString) {
-    this.send('status', msgString);
+    this._send('status', msgString);
+};
+
+
+/**
+ * Send a status to the remote proxy that is sticky - which gets forwarded to the
+ * receiver(s).  A sticky status will be held on the proxy on the given channel until
+ * the next message comes through.
+ * @param  {string} type The sticky type we are sending.
+ * @param  {string} data The data, it must be a string.
+ */
+Device.prototype.stickyStatus = function (msgString) {
+    this._send('status', msgString, {sticky: true});
 };
 
 
@@ -3428,7 +3443,24 @@ Device.prototype.command = function (msgString) {
         throw new Error('Only controllers can send commands.');
     }
 
-    this.send('command', msgString);
+    this._send('command', msgString);
+};
+
+/**
+ * Send a command to the remote proxy that is sticky - which gets forwarded to the
+ * receiver(s).  A sticky command will be held on the proxy on the given channel until
+ * the next message comes through.
+ * @param  {string} type The command type we are sending.
+ * @param  {string} data The data, it must be a string.
+ * @param  {object} options Additional options - read the code.
+ */
+Device.prototype.stickyCommand = function (msgString) {
+
+    if (this.deviceType !== 'controller') {
+        throw new Error('Only controllers can send commands.');
+    }
+
+    this._send('command', msgString, {sticky: true});
 };
 
 
@@ -3437,10 +3469,10 @@ Device.prototype.command = function (msgString) {
  * @param  {string} type The message type we are sending.
  * @param  {string} data The data, it must be a string.
  */
-Device.prototype.send = function(type, data) {
+Device.prototype._send = function(type, data, options) {
 
     if (!this.uid && type !== 'register') {
-        this.log('Device.send(): Not yet registered.');
+        this.log('Device._send(): Not yet registered.');
         return;
     }
 
@@ -3451,8 +3483,12 @@ Device.prototype.send = function(type, data) {
         data: data
     };
 
+    if ((type === 'status' || type === 'command') && options && options.sticky === true) {
+        msgObj.sticky = true;
+    }
+
     // Send the message to the proxy.  Use the IP have we have determined it.
-    this.connection.send(msgObj);
+    this.connection._send(msgObj);
     this.mySeqNum += 1;
 };
 
@@ -3512,9 +3548,10 @@ module.exports = Device;
  * PingManager ensures all pings are matched to a response.  Lost pings are
  * forgotten over time.
  */
-function PingManager() {
+function PingManager(settings) {
     this.pingList = {};
     this.MAX_PING_WAIT_TIME = 60 * 1000;
+    this.log = settings.log;
 }
 
 /**
@@ -3525,10 +3562,12 @@ function PingManager() {
 PingManager.prototype.add = function(pingId, callback) {
 
     if (typeof pingId !== 'number') {
-        throw new Error('PingManager.add(): pingId must be a number.');
+        this.log('PingManager.add(): pingId must be a number.');
+        return;
     }
     if (this.pingList[pingId]) {
-        throw new Error('PingManager.add(): pingId has already been supplied.');
+        this.log('PingManager.add(): pingId has already been supplied.');
+        return;
     }
 
     // Create the ping, and make it self destruct.
@@ -3554,7 +3593,8 @@ PingManager.prototype.add = function(pingId, callback) {
 PingManager.prototype.handleIncomingPing = function(pingId, time) {
     var ping = this.pingList[pingId];
     if (!ping) {
-        throw new Error('PingManager.respond(): pingId not found.');
+        this.log('PingManager.respond(): pingId not found.');
+        return;
     }
 
     clearTimeout(ping.timeoutHandle);
@@ -3566,7 +3606,7 @@ PingManager.prototype.handleIncomingPing = function(pingId, time) {
     try {
         delete this.pingList[pingId];
     } catch (ex) {
-        console.error('Did not expect this.');
+        this.log('Did not expect this.');
     }
 
 };
@@ -3675,14 +3715,14 @@ function handleMessage(message) {
  * @param  {string} address The remote address.
  * @param  {number} remote The remote port.
  */
-WebClientConnection.prototype.send = function(msgObj) {
+WebClientConnection.prototype._send = function(msgObj) {
 
     var sendBuffer = messageHandler.packOutgoingMessage(msgObj);
 
     try {
         this.socket.emit('event', sendBuffer);
     } catch (ex) {
-        console.error('WebClientConnection.send(): ', ex);
+        console.error('WebClientConnection._send(): ', ex);
     }
 
 };
@@ -3753,9 +3793,10 @@ exports.parseIncomingMessage = function(message, enable_compression) {
         case 'register':
             requiresList = ['type', 'seq', 'data'];
             break;
-        case 'ping':
+
         case 'status':
         case 'command':
+        case 'ping':
         case 'error':
             requiresList = ['type', 'seq', 'data', 'uid'];
             break;
@@ -3764,15 +3805,11 @@ exports.parseIncomingMessage = function(message, enable_compression) {
     }
 
     /* Check the properties are all valid */
-    var count = 0;
-    for (var key in msgObj) {
-        if (msgObj.hasOwnProperty(key) && requiresList.indexOf(key) >= 0) {
-            count += 1;
+    requiresList.forEach(function(req) {
+        if (!msgObj.hasOwnProperty(req)) {
+            throw new Error('The message that arrived is not valid, it does not contain a property: ' + req);
         }
-    }
-    if (count !== requiresList.length) {
-        throw new Error('The message that arrived is not valid, it has too many or two few properties: ' + msgObj.toString());
-    }
+    });
 
     return msgObj;
 };
@@ -3792,6 +3829,10 @@ exports.packOutgoingMessage = function(msgObj, enable_compression) {
     if (msgObj.hasOwnProperty('uid')) {
         cleanMsgObj.uid = msgObj.uid;
     }
+    if (msgObj.hasOwnProperty('sticky') && msgObj.sticky === true) {
+        cleanMsgObj.sticky = true;
+    }
+
     return compress(cleanMsgObj, enable_compression);
 
 };
