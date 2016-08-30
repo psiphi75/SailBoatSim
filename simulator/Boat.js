@@ -117,7 +117,7 @@ Boat.prototype.simulate = function(time, env) {
     this.roll = newRoll;
     this.speed = newSpeed;
     this.heading = newHeading;
-    this.direction = newHeading;    // FIXME: This is the velocity vector
+    this.direction = newPosition.direction;
     this.latitude = newPosition.latitude;
     this.longitude = newPosition.longitude;
 };
@@ -164,17 +164,25 @@ Boat.prototype.getValues = function() {
             heading: jitterName('heading')
         },
         gps: {
-            latitude: jitterName('latitude'),
-            longitude: jitterName('longitude'),
+            latitude: util.jitterLatLong(self.latitude),
+            longitude: util.jitterLatLong(self.longitude),
         },
-        velocity: {
-            speed: jitterName('speed'),
-            direction: jitterName('direction'),
-        },
-        apparentWind: {
-            speed: util.jitter(this.apparentWind.speed, this.jitter.speed),
-            heading: util.jitter(this.apparentWind.heading, this.jitter.heading),
-            headingToNorth: util.jitter(this.apparentWind.headingToNorth, this.jitter.heading)
+        // velocity: {
+        //     speed: jitterName('speed'),
+        //     direction: jitterName('direction'),
+        // },
+        // apparentWind: {
+        //     speed: util.jitter(this.apparentWind.speed, this.jitter.speed),
+        //     heading: util.jitter(this.apparentWind.heading, this.jitter.heading),
+        //     headingToNorth: util.jitter(this.apparentWind.headingToNorth, this.jitter.heading)
+        // },
+        // trueWind: {
+        //     speed: util.jitter(this.trueWind.speed, this.jitter.speed),
+        //     heading: util.jitter(this.trueWind.heading, this.jitter.heading),
+        // },
+        servos: {
+            rudder: this.actualRudder,
+            sail: this.actualSail
         }
     };
     return result;

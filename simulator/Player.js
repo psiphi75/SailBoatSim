@@ -41,7 +41,7 @@ Player.prototype.runAI = function(dt, env, isSimulation) {
     var state = {
         dt: dt,
         isSimulation: isSimulation,
-        boat: this.boat.getActualValues(),
+        boat: this.boat.getValues(),
         environment: util.clone(env)
     };
 
