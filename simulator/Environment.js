@@ -48,7 +48,7 @@ Environment.prototype.getValues = function() {
         wind: this.wind.getValues(),
         water: {
             heading: -135,   // FIXME: Make this dynamic
-            speed: 0.15    
+            speed: 0.25    
         }
     };
 };
