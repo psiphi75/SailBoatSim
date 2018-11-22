@@ -21,14 +21,14 @@
   },
   "homepage": "https://github.com/psiphi75/SailBoatSim#readme",
   "dependencies": {
-    "cesium": "^1.24.0",
-    "geographiclib": "^1.46.0",
-    "mt-latlon": "^0.1.0",
-    "node-static": "^0.7.8",
+    "cesium": "1.24.0",
+    "geographiclib": "1.46.0",
+    "mt-latlon": "0.1.0",
+    "node-static": "0.7.8",
     "sailboat-utils": "git+https://github.com/psiphi75/sailboat-utils.git",
     "sailboat-ai-psiphi75": "git+https://github.com/psiphi75/sailboat-ai-psiphi75.git",
-    "tape": "^4.6.0",
-    "web-remote-control": "^1.9.6",
-    "wrc-controller": "^0.0.12"
+    "tape": "4.6.0",
+    "web-remote-control": "1.9.6",
+    "wrc-controller": "0.0.12"
   }
 }
